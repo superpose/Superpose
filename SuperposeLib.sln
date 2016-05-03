@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib", "SuperposeLib\SuperposeLib.csproj", "{80CC5468-7675-4FB4-9D4A-E69D60E95252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib.Tests", "SuperposeLib.Tests\SuperposeLib.Tests.csproj", "{12944F0D-BD62-41C9-ACA4-407DC19367BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80CC5468-7675-4FB4-9D4A-E69D60E95252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80CC5468-7675-4FB4-9D4A-E69D60E95252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80CC5468-7675-4FB4-9D4A-E69D60E95252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80CC5468-7675-4FB4-9D4A-E69D60E95252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
