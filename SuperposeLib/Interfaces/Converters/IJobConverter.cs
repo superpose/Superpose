@@ -1,4 +1,5 @@
-﻿using SuperposeLib.Models;
+﻿using SuperposeLib.Interfaces.JobThings;
+using SuperposeLib.Models;
 
 namespace SuperposeLib.Interfaces.Converters
 {
@@ -7,8 +8,8 @@ namespace SuperposeLib.Interfaces.Converters
         IJobParser JobParser { set; get; }
         IJobSerializer JobSerializer { set; get; }
 
-        string Serialize<TJob>(TJob jobLoad) where TJob : JobLoad, new();
+        string Serialize(IJobLoad jobLoad);
 
-        TJob Parse<TJob>(string data) where TJob : JobLoad, new();
+        IJobLoad Parse(string data);
     }
 }

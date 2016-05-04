@@ -2,40 +2,42 @@ using SuperposeLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SuperposeLib.Interfaces;
+using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Core
 {
     public class JobStateTransitionFactory
     {
-        public JobState GetNextState(JobState currentState, SuperVisionDecision superVisionDecision)
+        public IJobLoad GetNextState(IJobLoad jobLoad, SuperVisionDecision superVisionDecision)
         {
-            var nextState = new JobState
+            IJobState nextState = new JobState
             {
                 Started = DateTime.Now,
-                PreviousJobStatus = new List<JobStatus>()
+                PreviousJobExecutionStatusList = new List<JobExecutionStatus>()
             };
-            if (currentState == null)
+            if (jobLoad == null)
             {
-                nextState = new JobState { JobStateType = JobStateType.Unknown, PreviousJobStatus = new List<JobStatus>() };
+                nextState = new JobState { JobStateType = JobStateType.Unknown, PreviousJobExecutionStatusList = new List<JobExecutionStatus>() };
             }
 
-            if (currentState != null)
+            if (jobLoad != null)
             {
-                currentState.PreviousJobStatus = currentState.PreviousJobStatus ?? new List<JobStatus>();
-                nextState.PreviousJobStatus.AddRange(currentState.PreviousJobStatus);
+                jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList ?? new List<JobExecutionStatus>();
+                nextState.PreviousJobExecutionStatusList.AddRange(jobLoad.PreviousJobExecutionStatusList);
 
                 {
-                    if (currentState.JobStateType == JobStateType.Deleted)
+                    if (jobLoad.JobStateType == JobStateType.Deleted)
                     {
-                        nextState = currentState;
+                        nextState = jobLoad;
                     }
 
-                    if (currentState.JobStateType == JobStateType.Unknown)
+                    if (jobLoad.JobStateType == JobStateType.Unknown)
                     {
                         nextState.JobStateType = JobStateType.Queued;
                     }
 
-                    if (currentState.JobStateType == JobStateType.Queued)
+                    if (jobLoad.JobStateType == JobStateType.Queued)
                     {
                         if (superVisionDecision == SuperVisionDecision.Fail)
                         {
@@ -48,17 +50,17 @@ namespace SuperposeLib.Core
                         }
                     }
 
-                    if (currentState.JobStateType == JobStateType.Processing)
+                    if (jobLoad.JobStateType == JobStateType.Processing)
                     {
-                        if (currentState.PreviousJobStatus.LastOrDefault() == JobStatus.Unknown)
+                        if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Unknown)
                         {
                             nextState.JobStateType = JobStateType.Queued;
                         }
-                        if (currentState.PreviousJobStatus.LastOrDefault() == JobStatus.Passed)
+                        if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Passed)
                         {
                             nextState.JobStateType = JobStateType.Successfull;
                         }
-                        if (currentState.PreviousJobStatus.LastOrDefault() == JobStatus.Failed)
+                        if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Failed)
                         {
                             if (superVisionDecision == SuperVisionDecision.Fail)
                             {
@@ -76,7 +78,19 @@ namespace SuperposeLib.Core
                     }
                 }
             }
-            return nextState;
+            jobLoad = UpdateJobLoadState(jobLoad, nextState);
+
+            return jobLoad;
+        }
+
+        private static IJobLoad UpdateJobLoadState(IJobLoad jobLoad, IJobState nextState)
+        {
+            jobLoad = jobLoad ?? new JobLoad();
+            jobLoad.PreviousJobExecutionStatusList = nextState.PreviousJobExecutionStatusList;
+            jobLoad.Started = nextState.Started;
+            jobLoad.Ended = nextState.Ended;
+            jobLoad.JobStateType = nextState.JobStateType;
+            return jobLoad;
         }
     }
 }

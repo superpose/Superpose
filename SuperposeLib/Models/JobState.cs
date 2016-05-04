@@ -1,27 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using SuperposeLib.Interfaces;
+using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Models
 {
-    public class JobState
+    public class JobState: IJobState
     {
-        public JobState()
-        {
-        }
-
-        public JobStateType JobStateType { set; get; }
-        public DateTime? Started { set; get; }
-        public DateTime? Ended { set; get; }
-
-        /// <summary>
-        /// updated in process
-        /// </summary>
-        public List<JobStatus> PreviousJobStatus { set; get; }
-            
-        public int HistoricFailureCount()
-        {
-            return PreviousJobStatus.Count(x => x == JobStatus.Failed);
-        }
+        public JobStateType JobStateType { get; set; }
+        public DateTime? Started { get; set; }  
+        public DateTime? Ended { get; set; }
+        public List<JobExecutionStatus> PreviousJobExecutionStatusList { get; set; }
     }
 }

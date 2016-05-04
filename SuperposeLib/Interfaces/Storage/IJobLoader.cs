@@ -1,9 +1,20 @@
 using System;
+using System.Collections.Generic;
+using SuperposeLib.Models;
 
 namespace SuperposeLib.Interfaces.Storage
 {
     public interface IJobLoader : IDisposable
     {
-        string Load(string jobId);
+        string LoadJobById(string jobId);
+        JobStatistics GetJobStatistics();
+        List<string> LoadJobsByJobType(Type jobType,int take,int skip);
+        List<string> LoadJobsByJobStateType(JobStateType stateType, int take, int skip);
+        List<string> LoadJobsByTimeToRun(DateTime from, DateTime to, int take, int skip);
+
+        List<string> LoadJobsByJobStateTypeAndTimeToRun(JobStateType stateType, DateTime from, DateTime to, int take, int skip);
+
+        List<string> LoadJobsByIds(List<string> ids);
     }
+   
 }

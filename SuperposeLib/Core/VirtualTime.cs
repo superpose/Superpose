@@ -5,6 +5,7 @@ namespace SuperposeLib.Core
 {
     public class VirtualTime : ITime
     {
+        public DateTime MinValue => DateTime.UtcNow.AddYears(-100);
         public DateTime NowTime { private set; get; }
         public int SizeOfMilliSecond { private set; get; }
         private DateTime InitialTime { set; get; }

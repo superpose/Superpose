@@ -1,6 +1,8 @@
 ﻿using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Models;
 using System;
+using SuperposeLib.Interfaces;
+using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Services.DefaultConverter
 {
@@ -17,14 +19,14 @@ namespace SuperposeLib.Services.DefaultConverter
         public IJobParser JobParser { get; set; }
         public IJobSerializer JobSerializer { get; set; }
 
-        public string Serialize<TJob>(TJob jobLoad) where TJob : JobLoad, new()
+        public string Serialize(IJobLoad jobLoad) 
         {
             return JobSerializer.Execute(jobLoad);
         }
 
-        public TJob Parse<TJob>(string data) where TJob : JobLoad, new()
+        public IJobLoad Parse(string data) 
         {
-            return JobParser.Execute<TJob>(data);
+            return JobParser.Execute(data);
         }
     }
 }

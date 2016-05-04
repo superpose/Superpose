@@ -1,5 +1,8 @@
 using SuperposeLib.Interfaces.Storage;
 using System.Collections.Concurrent;
+using Newtonsoft.Json;
+using SuperposeLib.Extensions;
+using SuperposeLib.Models;
 
 namespace SuperposeLib.Services.InMemoryStorage
 {
@@ -7,20 +10,17 @@ namespace SuperposeLib.Services.InMemoryStorage
     {
         public void SaveNew(string data, string Id)
         {
-            InMemoryJobStorageMemoryStore.MemoryStore.GetOrAdd(Id, data);
+            InMemoryJobStorageMemoryStore.MemoryStore.GetOrAdd(Id, JsonConvert.DeserializeObject<JobLoad>(data));
         }
 
         public void Update(string data, string Id)
         {
-              InMemoryJobStorageMemoryStore.MemoryStore.AddOrUpdate(Id,  data);
-
-           // InMemoryJobStorageMemoryStore.MemoryStore[Id] = data;
-          //  InMemoryJobStorageMemoryStore.MemoryStore.GetOrAdd(Id, data);
-        }
+           InMemoryJobStorageMemoryStore.MemoryStore.AddOrUpdate(Id, JsonConvert.DeserializeObject<JobLoad>(data));
+  }
 
         public void Dispose()
         {
-            InMemoryJobStorageMemoryStore.MemoryStore = new ConcurrentDictionary<string, string>();
+            InMemoryJobStorageMemoryStore.MemoryStore = new ConcurrentDictionary<string, JobLoad>();
         }
     }
 }

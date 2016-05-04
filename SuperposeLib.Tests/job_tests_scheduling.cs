@@ -9,6 +9,8 @@ using SuperposeLib.Services.DefaultConverter;
 using SuperposeLib.Services.InMemoryStorage;
 using SuperposeLib.Tests.Jobs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SuperposeLib.Extensions;
+using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Tests
 {
@@ -31,11 +33,11 @@ namespace SuperposeLib.Tests
 
                 Assert.AreEqual(result.JobType, typeof(TestJob));
                 Assert.AreEqual(result.JobId, jobId);
-                Assert.IsNotNull(result.State);
-                Assert.AreEqual(result.State.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.State.PreviousJobStatus.Count, 1);
-                Assert.AreEqual(result.State.PreviousJobStatus.First(), JobStatus.Passed);
-                Assert.AreEqual(result.State.JobStateType, JobStateType.Successfull);
+                Assert.IsNotNull(result);
+                Assert.AreEqual(result.HistoricFailureCount(), 0);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
+                Assert.AreEqual(result.JobStateType, JobStateType.Successfull);
             }
 
         }
@@ -56,10 +58,10 @@ namespace SuperposeLib.Tests
                 result = factory.GetJobLoad(jobId);
                 Assert.AreEqual(result.JobType, typeof(TestJob));
                 Assert.AreEqual(result.JobId, jobId);
-                Assert.IsNotNull(result.State);
-                Assert.AreEqual(result.State.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.State.PreviousJobStatus.Count, 0);
-                Assert.AreEqual(result.State.JobStateType, JobStateType.Queued);
+                Assert.IsNotNull(result);
+                Assert.AreEqual(result.HistoricFailureCount(), 0);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 0);
+                Assert.AreEqual(result.JobStateType, JobStateType.Queued);
             }
 
         }
@@ -80,11 +82,11 @@ namespace SuperposeLib.Tests
 
                 Assert.AreEqual(result.JobType, typeof(TestJob));
                 Assert.AreEqual(result.JobId, jobId);
-                Assert.IsNotNull(result.State);
-                Assert.AreEqual(result.State.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.State.PreviousJobStatus.Count, 1);
-                Assert.AreEqual(result.State.PreviousJobStatus.First(), JobStatus.Passed);
-                Assert.AreEqual(result.State.JobStateType, JobStateType.Successfull);
+                Assert.IsNotNull(result);
+                Assert.AreEqual(result.HistoricFailureCount(), 0);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
+                Assert.AreEqual(result.JobStateType, JobStateType.Successfull);
             }
         }
 
@@ -104,11 +106,11 @@ namespace SuperposeLib.Tests
 
                 Assert.AreEqual(result.JobType, typeof(TestJob));
                 Assert.AreEqual(result.JobId, jobId);
-                Assert.IsNotNull(result.State);
-                Assert.AreEqual(result.State.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.State.PreviousJobStatus.Count, 1);
-                Assert.AreEqual(result.State.PreviousJobStatus.First(), JobStatus.Passed);
-                Assert.AreEqual(result.State.JobStateType, JobStateType.Successfull);
+                Assert.IsNotNull(result);
+                Assert.AreEqual(result.HistoricFailureCount(), 0);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
+                Assert.AreEqual(result.JobStateType, JobStateType.Successfull);
             }
         }
     }
