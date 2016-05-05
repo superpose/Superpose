@@ -7,6 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib", "SuperposeLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib.Tests", "SuperposeLib.Tests\SuperposeLib.Tests.csproj", "{12944F0D-BD62-41C9-ACA4-407DC19367BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib.Client", "SuperposeLib.Client\SuperposeLib.Client.csproj", "{3B3CDF16-D6E1-4D11-B270-1762BAF809B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib.Owin", "SuperposeLib.Owin\SuperposeLib.Owin.csproj", "{AE64D619-D969-46BF-ABD3-0CFBE772C46C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperposeLib.UI", "SuperposeLib.UI\SuperposeLib.UI.csproj", "{5259BB47-2D4D-4A1F-B4B7-92EDA67E7B9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Storage.LiteDB", "Superpose.Storage.LiteDB\Superpose.Storage.LiteDB.csproj", "{8F209BDC-3879-4812-B074-801E417C8957}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Storage.InMemory", "Superpose.Storage.InMemory\Superpose.Storage.InMemory.csproj", "{F5125D06-954A-4875-A7C8-D67CA7ABFF65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +31,26 @@ Global
 		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12944F0D-BD62-41C9-ACA4-407DC19367BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B3CDF16-D6E1-4D11-B270-1762BAF809B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B3CDF16-D6E1-4D11-B270-1762BAF809B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B3CDF16-D6E1-4D11-B270-1762BAF809B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B3CDF16-D6E1-4D11-B270-1762BAF809B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE64D619-D969-46BF-ABD3-0CFBE772C46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE64D619-D969-46BF-ABD3-0CFBE772C46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE64D619-D969-46BF-ABD3-0CFBE772C46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE64D619-D969-46BF-ABD3-0CFBE772C46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5259BB47-2D4D-4A1F-B4B7-92EDA67E7B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5259BB47-2D4D-4A1F-B4B7-92EDA67E7B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5259BB47-2D4D-4A1F-B4B7-92EDA67E7B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5259BB47-2D4D-4A1F-B4B7-92EDA67E7B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F209BDC-3879-4812-B074-801E417C8957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F209BDC-3879-4812-B074-801E417C8957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F209BDC-3879-4812-B074-801E417C8957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F209BDC-3879-4812-B074-801E417C8957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

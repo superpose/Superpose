@@ -75,6 +75,7 @@
     <Compile Include="Core\VirtualTime.cs" />
     <Compile Include="Interfaces\JobThings\IJobLoad.cs" />
     <Compile Include="Interfaces\JobThings\IJobState.cs" />
+    <Compile Include="Interfaces\Storage\IJobStorageReseter.cs" />
     <Compile Include="Interfaces\Storage\JobStatistics.cs" />
     <Compile Include="Models\JobPartOfJobLoad.cs" />
     <Compile Include="Models\JobResult.cs" />
@@ -96,12 +97,6 @@
     <Compile Include="Interfaces\Converters\IJobSerializer.cs" />
     <Compile Include="Interfaces\Storage\IJobStorage.cs" />
     <Compile Include="Interfaces\Storage\IJobStoragefactory.cs" />
-    <Compile Include="Extensions\ConcurrentDictionaryExtensions.cs" />
-    <Compile Include="Services\InMemoryStorage\InMemoryJobLoader.cs" />
-    <Compile Include="Services\InMemoryStorage\InMemoryJobSaver.cs" />
-    <Compile Include="Services\InMemoryStorage\InMemoryJobStorage.cs" />
-    <Compile Include="Services\InMemoryStorage\InMemoryJobStoragefactory.cs" />
-    <Compile Include="Services\InMemoryStorage\InMemoryJobStorageMemoryStore.cs" />
     <Compile Include="Core\JobFactory.cs" />
     <Compile Include="Models\JobLoad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

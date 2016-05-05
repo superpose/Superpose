@@ -1,6 +1,5 @@
 using Owin;
 using SuperposeLib.Services.DefaultConverter;
-using SuperposeLib.Services.InMemoryStorage;
 
 namespace SuperposeLib.Core
 {
@@ -10,10 +9,6 @@ namespace SuperposeLib.Core
         {
             return app.Use<SuperposeLibServerMiddleware>();
         }
-        public static IAppBuilder UseSuperposeLibInMemoryStorageFactory(this IAppBuilder app)
-        {
-            SuperposeLibServerMiddleware.StorageFactory = new InMemoryJobStoragefactory();
-            return app;
-        }
+      
     }
 }

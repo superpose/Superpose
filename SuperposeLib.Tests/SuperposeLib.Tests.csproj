@@ -81,8 +81,18 @@
     <Compile Include="job_tests_multiple_jobs_queuing.cs" />
     <Compile Include="job_tests_scheduling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="TestHarness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Superpose.Storage.InMemory\Superpose.Storage.InMemory.csproj">
+      <Project>{F5125D06-954A-4875-A7C8-D67CA7ABFF65}</Project>
+      <Name>Superpose.Storage.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Superpose.Storage.LiteDB\Superpose.Storage.LiteDB.csproj">
+      <Project>{8f209bdc-3879-4812-b074-801e417c8957}</Project>
+      <Name>Superpose.Storage.LiteDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SuperposeLib\SuperposeLib.csproj">
       <Project>{80CC5468-7675-4FB4-9D4A-E69D60E95252}</Project>
       <Name>SuperposeLib</Name>

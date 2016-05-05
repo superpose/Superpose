@@ -6,5 +6,6 @@ namespace SuperposeLib.Interfaces.Storage
     {
         IJobSaver JobSaver { set; get; }
         IJobLoader JobLoader { set; get; }
+        IJobStorageReseter JobStorageReseter { set; get; }
     }
 }

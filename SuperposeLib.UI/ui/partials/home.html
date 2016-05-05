@@ -1,0 +1,29 @@
+﻿<div class="row" >
+    <div class="col-sm-3 col-md-2 sidebar ">
+        <ul class="nav nav-sidebar">
+            <li class="active" ng-repeat="actor in actors">
+                <a href="#" style="word-wrap: break-word">{{actor}} <span class="sr-only">(current)</span></a>
+            </li>
+           
+        </ul>
+       
+    </div>
+    <div class="col-sm-9 col-md-10  main">
+        <div class="rows">
+            <div class="col-sm-12">
+                <ul class="list-group">
+                    <li class="list-group-item " style=" background-color: #000000;color: #fff;">
+                        <div class="pull-right" style="width: 30%;max-height: 300px;overflow: scroll;background-color: #000;">
+                            <div style="color: red" ng-show="actorState.LastException">LastException :   {{actorState.LastException}}</div>
+                            <div style="color:greenyellow">Last Updated :   {{actorState.LastUpdateTime |  date:"MM/dd/yyyy 'at' h:mm:ss a"}}</div>
+                            <h3 style="color: greenyellow">{{actorState.name}}</h3>
+                            <div json-viewer="actorState.state"></div>
+                        </div>
+                        <div id="dvTreeContainer" style="margin: 0 auto;width: 80%;position: relative;padding-bottom: 1000px;   "></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+   
+    </div>
+</div>

@@ -6,16 +6,18 @@ using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Models;
 using SuperposeLib.Services.DefaultConverter;
-using SuperposeLib.Services.InMemoryStorage;
+
 using SuperposeLib.Tests.Jobs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Superpose.Storage.InMemory;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.JobThings;
+using SuperposeLib.Services.InMemoryStorage;
 
 namespace SuperposeLib.Tests
 {
     [TestClass]
-    public class job_tests_queueing
+    public class job_tests_queueing : TestHarness
     {
         [TestMethod]
         public void it_can_serialize_and_deserialize_job()
@@ -30,7 +32,7 @@ namespace SuperposeLib.Tests
         public void it_can_queue_job()
         {
             IJobFactory factory = new JobFactory(
-                new InMemoryJobStorage(new InMemoryJobSaver(), new InMemoryJobLoader()),
+                new InMemoryJobStorage(new InMemoryJobSaver(), new InMemoryJobLoader(),new InMemoryJobResetter()),
                 new DefaultJobConverter(new DefaultJobParser(), new DefaultJobSerializer()));
             var jobId = factory.QueueJob(typeof(TestJob));
             Assert.IsFalse(string.IsNullOrEmpty(jobId));
@@ -39,10 +41,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_persist_job()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJob));
@@ -57,10 +59,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_persist_job_with_differnt_job_factories()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJob));
@@ -78,10 +80,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_run_job()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJob));
@@ -95,10 +97,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_que_job()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJob));
@@ -117,10 +119,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_process_a_queued_job()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJob));
@@ -141,10 +143,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_process_a_queued_job_first_failure()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
@@ -165,10 +167,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_process_a_queued_job_second_failure()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
@@ -191,10 +193,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_process_a_queued_job_third_time()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
@@ -220,10 +222,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void process_a_queued_job_forth_time()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
@@ -252,10 +254,10 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void process_a_queued_job_generic_time()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));

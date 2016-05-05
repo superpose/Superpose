@@ -1,0 +1,1160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5259BB47-2D4D-4A1F-B4B7-92EDA67E7B9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SuperposeLib.UI</RootNamespace>
+    <AssemblyName>SuperposeLib.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="ui\fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-BoldItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-Italic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-LightItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-Medium.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-MediumItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\LICENCE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\boostrap3-typeahead\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-datepicker\less\datepicker.less">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-switch\CONTRIBUTING.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-switch\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\.rvmrc" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\bootstrap-wysihtml5-rails.gemspec" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\CONTRIBUTING.md" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\Gemfile" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\lib\bootstrap-wysihtml5-rails.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\lib\bootstrap-wysihtml5-rails\engine.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\lib\bootstrap-wysihtml5-rails\railtie.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\lib\bootstrap-wysihtml5-rails\version.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\Rakefile" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\README.md" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\assets\javascripts\home.js.coffee" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\assets\stylesheets\application.css.scss" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\controllers\application_controller.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\controllers\home_controller.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\helpers\application_helper.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\helpers\home_helper.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\mailers\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\models\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\views\home\index.html.erb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\views\layouts\application.html.erb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config.ru" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\application.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\boot.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\database.yml" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\environment.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\environments\development.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\environments\production.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\environments\test.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\initializers\backtrace_silencers.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\initializers\inflections.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\initializers\mime_types.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\initializers\secret_token.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\initializers\session_store.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\initializers\wrap_parameters.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\locales\en.yml" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\config\routes.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\db\seeds.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\doc\README_FOR_APP" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\Gemfile" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\lib\assets\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\lib\tasks\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\log\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\Rakefile" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\README.rdoc" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\script\rails" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\fixtures\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\functional\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\functional\home_controller_test.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\integration\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\performance\browsing_test.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\test_helper.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\unit\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\test\unit\helpers\home_helper_test.rb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\vendor\assets\javascripts\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\vendor\assets\stylesheets\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\vendor\plugins\.gitkeep" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\core-b3.js.erb" />
+    <None Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\core.js.erb" />
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\component.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\Gemfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\Gemfile.lock">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\LICENCE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\Rakefile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\readme.textile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\README">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\VERSION">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="ui\vendors\datatables\images\Sorting icons.psd" />
+    <EmbeddedResource Include="ui\vendors\jGrowl\jgrowl.jquery.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\LICENSE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="ui\vendors\twitter-bootstrap-wizard\bower.json" />
+    <None Include="ui\vendors\twitter-bootstrap-wizard\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ui\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ui\partials\footer.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\partials\header.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\partials\home.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ui\fonts\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\angular-route.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\angular.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\bootstrap.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\jquery.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\jquery.signalr-2.2.0.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\script.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-theme.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\font-awesome.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ui\403.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\404.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\500.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\about.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\buttons-and-icons.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-admin-theme-change-size.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-admin-theme-small.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-admin-theme.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-error-page.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-small.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-switch-small.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-theme-switch.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-theme-switch.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap-theme.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\datepicker.fixes.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\DT_bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\css\uniform.default.fixes.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\dashboard.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\default.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\error-pages.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\fonts\Ubuntu-LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\forms.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\images\bg-input-focus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\images\bg-input.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\images\logo-meritoo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\images\sprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\bootstrap-admin-theme-change-size.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\DT_bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\html5shiv.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\respond.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\twitter-bootstrap-hover-dropdown.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\js\twitter-bootstrap-hover-dropdown.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\tables.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\ui-and-interface.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\boostrap3-typeahead\bootstrap3-typeahead.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\boostrap3-typeahead\bootstrap3-typeahead.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-datepicker\css\datepicker.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-datepicker\js\bootstrap-datepicker.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-switch\build\css\bootstrap3\bootstrap-switch.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-switch\build\css\bootstrap3\bootstrap-switch.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-switch\build\js\bootstrap-switch.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-switch\build\js\bootstrap-switch.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\.gitignore" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\.gitignore" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\assets\images\rails.png" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\app\assets\javascripts\application.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\public\404.html" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\public\422.html" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\public\500.html" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\public\favicon.ico" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\testapp\public\robots.txt" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\b3.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\core-b3.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\index.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\ar-AR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\bg-BG.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\ca-CT.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\cs-CZ.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\da-DK.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\de-DE.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\el-GR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\es-AR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\es-ES.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\fr-FR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\fr-NL.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\hr-HR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\index.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\it-IT.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\ja-JP.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\ko-KR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\lt-LT.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\mo-MD.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\nb-NB.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\nl-NL.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\pl-PL.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\pt-BR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\ru-RU.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\sk-SK.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\sv-SE.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\tr-TR.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\ua-UA.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\zh-CN.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\locales\zh-TW.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\javascripts\bootstrap-wysihtml5\wysihtml5.js" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\stylesheets\bootstrap-wysihtml5\b3.css" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\stylesheets\bootstrap-wysihtml5\core-b3.css" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\stylesheets\bootstrap-wysihtml5\core.css" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\stylesheets\bootstrap-wysihtml5\index.css" />
+    <Content Include="ui\vendors\bootstrap-wysihtml5-rails-b3\vendor\assets\stylesheets\bootstrap-wysihtml5\wysiwyg-color.css" />
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\.gitignore">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\.settings\.gitignore">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\dist\bootstrap-wysihtml5-0.0.2.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\dist\bootstrap-wysihtml5-0.0.2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\dist\bootstrap-wysihtml5-0.0.2.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\css\bootstrap-responsive.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\css\bootstrap-responsive.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\css\bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\css\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\css\prettify.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\css\wysiwyg-color.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\img\glyphicons-halflings-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\img\glyphicons-halflings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\bootstrap-button.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\bootstrap.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\jquery-1.7.2.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\prettify.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\wysihtml5-0.3.0.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\lib\js\wysihtml5-0.3.0.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\bootstrap-wysihtml5.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\bootstrap-wysihtml5.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.ar-AR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.bg-BG.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.ca-CT.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.cs-CZ.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.da-DK.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.de-DE.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.el-GR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.es-AR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.es-ES.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.fr-FR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.hr-HR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.it-IT.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.ja-JP.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.ko-KR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.lt-LT.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.mo-MD.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.nb-NB.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.nl-NL.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.pl-PL.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.pt-BR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.ru-RU.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.sk-SK.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.sv-SE.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.tr-TR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.ua-UA.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.zh-CN.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\locales\bootstrap-wysihtml5.zh-TW.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\src\wysiwyg-color.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\bootstrap_wysihtml5\parserRules_test.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\browser_test.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\editor_test.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\incompatible_test.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\support\html_equal.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\bootstrap-wysihtml5\test\undo_manager_test.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\chosen-sprite%402x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\chosen-sprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\chosen.jquery.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\chosen.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="ui\vendors\datatables\css\demo_page.css" />
+    <Content Include="ui\vendors\datatables\css\demo_table.css" />
+    <Content Include="ui\vendors\datatables\css\demo_table_jui.css" />
+    <Content Include="ui\vendors\datatables\css\jquery.dataTables.css" />
+    <Content Include="ui\vendors\datatables\css\jquery.dataTables_themeroller.css" />
+    <Content Include="ui\vendors\datatables\images\back_disabled.png" />
+    <Content Include="ui\vendors\datatables\images\back_enabled.png" />
+    <Content Include="ui\vendors\datatables\images\back_enabled_hover.png" />
+    <Content Include="ui\vendors\datatables\images\favicon.ico" />
+    <Content Include="ui\vendors\datatables\images\forward_disabled.png" />
+    <Content Include="ui\vendors\datatables\images\forward_enabled.png" />
+    <Content Include="ui\vendors\datatables\images\forward_enabled_hover.png" />
+    <Content Include="ui\vendors\datatables\images\sort_asc.png" />
+    <Content Include="ui\vendors\datatables\images\sort_asc_disabled.png" />
+    <Content Include="ui\vendors\datatables\images\sort_both.png" />
+    <Content Include="ui\vendors\datatables\images\sort_desc.png" />
+    <Content Include="ui\vendors\datatables\images\sort_desc_disabled.png" />
+    <Content Include="ui\vendors\datatables\js\jquery.dataTables.js" />
+    <Content Include="ui\vendors\datatables\js\jquery.dataTables.min.js" />
+    <Content Include="ui\vendors\datatables\js\jquery.js" />
+    <Content Include="ui\vendors\datatables\src\api\api.internal.js" />
+    <Content Include="ui\vendors\datatables\src\api\api.methods.js" />
+    <Content Include="ui\vendors\datatables\src\api\api.static.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.ajax.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.columns.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.constructor.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.data.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.draw.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.filter.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.info.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.init.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.length.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.page.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.processing.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.scrolling.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.sizing.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.sort.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.state.js" />
+    <Content Include="ui\vendors\datatables\src\core\core.support.js" />
+    <Content Include="ui\vendors\datatables\src\DataTables.js" />
+    <Content Include="ui\vendors\datatables\src\ext\ext.classes.js" />
+    <Content Include="ui\vendors\datatables\src\ext\ext.paging.js" />
+    <Content Include="ui\vendors\datatables\src\ext\ext.sorting.js" />
+    <Content Include="ui\vendors\datatables\src\ext\ext.types.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.column.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.defaults.columns.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.defaults.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.ext.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.row.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.search.js" />
+    <Content Include="ui\vendors\datatables\src\model\model.settings.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\controller.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\controller.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\index.html" />
+    <Content Include="ui\vendors\datatables\unit_testing\performance\draw.html" />
+    <Content Include="ui\vendors\datatables\unit_testing\performance\large.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\performance\page.html" />
+    <Content Include="ui\vendors\datatables\unit_testing\performance\sort.html" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\-complex_header.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\2512.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\6776.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\complex_header_2.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\deferred_table.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\dom_data.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\dom_data_th.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\dom_data_two_headers.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\dymanic_table.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\empty_table.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\html_table.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\js_data.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\js_data_mixed_types.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\templates\two_tables.php" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests\1_dom\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\-complex_header.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\-iDraw.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2512.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2530-2.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2530.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2569.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2600.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2608.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2635.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2746-stable-sort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2799.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2840-restore-table-width.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\2914-state-save-sort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\5396-fnUpdate-arrays-mData.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\5396-fnUpdate-arrays.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\5508-xscroll-zero-content.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\6776-scrolling-table-grows.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aaSorting.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aaSortingFixed.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.bSearchable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.bSortable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.bUseRendered.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.bVisible.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.bVisible2.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.fnRender.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.iDataSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.sClass.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.sName.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.sTitle.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoColumns.sWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\aoSearchCols.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\asStripClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bAutoWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bInfiniteScroll.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bJQueryUI.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bLengthChange.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bServerSide.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bSortCellsTop.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\bSortClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnCookieCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnCreatedCell.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnCreatedRow.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnDeleteRow.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnDrawCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnFooterCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnHeaderCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnInfoCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnInitComplete.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnRowCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnSetColumnVis.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\fnSetColumnVis2.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\html-autodetect-sort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\iDisplayLength.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.oPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sInfoEmpty.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sInfoPostFix.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sLengthMenu.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sUrl.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oLanguage.sZeroRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\oSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\sAjaxSource.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\sDom.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\sPaginationType.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\sScrollXY.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\th_in_body.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\_getDataFunctions.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\_setDataFunctions.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\1_dom\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\39-nested-null.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\6872-default-content-missing-props.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\8549--string-sorting-nonstrings.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aaSorting.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aaSortingFixed.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.bSearchable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.bSortable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.bUseRendered.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.bVisible.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.fnRender.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.iDataSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.sClass.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.sName.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.sTitle.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoColumns.sWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\aoSearchCols.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\asStripClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bAutoWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bLengthChange.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bServerSide.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\bSortClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnCreatedCell.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnCreatedRow.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnDrawCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnFooterCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnHeaderCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnInitComplete.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\fnRowCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\iDisplayLength.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\js_data_mixed_types.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.oPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sInfoEmpty.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sInfoPostFix.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sLengthMenu.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sUrl.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oLanguage.sZeroRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\oSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\sAjaxSource.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\sDom.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\sPaginationType.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\2_js\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aaSorting.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aaSortingFixed.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.bSearchable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.bSortable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.bUseRendered.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.bVisible.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.fnRender.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.iDataSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.sClass.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.sName.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.sTitle.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoColumns.sWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\aoSearchCols.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\asStripClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bAutoWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bLengthChange.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bServerSide.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\bSortClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnCreatedCell.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnCreatedRow.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnDrawCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnHeaderCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnInitComplete.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnRowCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\fnServerData.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\iDisplayLength.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.oPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sInfoEmpty.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sInfoPostFix.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sLengthMenu.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sLoadingRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sUrl.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oLanguage.sZeroRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\oSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\sAjaxDataProp.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\sAjaxDataProp2.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\sAjaxSource.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\sDom.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\sPaginationType.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\3_ajax\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\-iDraw.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\2440.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\2569.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\2600.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aaSorting.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aaSortingFixed.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.bSearchable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.bSortable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.bUseRendered.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.bVisible.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.fnRender.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.sClass.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.sName.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.sTitle.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoColumns.sWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\aoSearchCols.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\asStripClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bAutoWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bInfiniteScroll.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bLengthChange.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bServerSide.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\bSortClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\fnCreatedCell.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\fnCreatedRow.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\fnDrawCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\fnHeaderCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\fnInitComplete.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\fnRowCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\iDeferLoading.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\iDisplayLength.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.oPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sInfoEmpty.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sInfoPostFix.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sLengthMenu.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sUrl.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oLanguage.sZeroRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\oSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\sAjaxDataProp.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\sAjaxSource.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\sDom.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\sPaginationType.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\4_server-side\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aaSorting.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aaSortingFixed.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.bSearchable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.bSortable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.bUseRendered.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.bVisible.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.fnRender.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.iDataSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.sClass.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.sName.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.sTitle.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoColumns.sWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\aoSearchCols.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\asStripClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bAutoWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bLengthChange.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bServerSide.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\bSortClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\fnDrawCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\fnHeaderCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\fnInitComplete.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\fnRowCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\fnServerData.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\iDisplayLength.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.oPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sInfoEmpty.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sInfoPostFix.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sLengthMenu.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sUrl.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oLanguage.sZeroRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\oSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\sAjaxSource.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\sDom.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\sPaginationType.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config_arrays_subobjects.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config_deep.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config_mDataProp.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config_null_source.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config_objects.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\5_ajax_objects\_zero_config_objects_subarrays.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aaSorting.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aaSortingFixed.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.bSearchable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.bSortable.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.bUseRendered.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.bVisible.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.fnRender.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.iDataSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.sClass.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.sName.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.sTitle.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoColumns.sWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\aoSearchCols.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\asStripClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bAutoWidth.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bFilter.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bLengthChange.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bServerSide.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bSort.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\bSortClasses.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\fnDrawCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\fnHeaderCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\fnInitComplete.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\fnRowCallback.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\fnServerData.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\iDisplayLength.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.oPaginate.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sInfo.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sInfoEmpty.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sInfoPostFix.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sLengthMenu.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sProcessing.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sUrl.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oLanguage.sZeroRecords.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\oSearch.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\sAjaxDataProp.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\sAjaxDataProp2.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\sAjaxSource.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\sDom.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\sPaginationType.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\tests_onhold\6_delayed_rendering\_zero_config.js" />
+    <Content Include="ui\vendors\datatables\unit_testing\unit_test.js" />
+    <EmbeddedResource Include="ui\vendors\easypiechart\examples\excanvas.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\easypiechart\examples\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\easypiechart\examples\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\easypiechart\jquery.easy-pie-chart.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\easypiechart\jquery.easy-pie-chart.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\easypiechart\jquery.easy-pie-chart_custom.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\fullcalendar\fullcalendar.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\fullcalendar\fullcalendar.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\fullcalendar\fullcalendar.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\fullcalendar\fullcalendar.print.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\fullcalendar\gcal.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\.gitignore">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\examples\iphone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\examples\jgrowl-pool.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\examples\jgrowl.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\examples\multiple-containers.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\examples\sideways.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\examples\smoke.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\jquery.jgrowl.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jGrowl\jquery.jgrowl.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jquery-1.9.1.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jquery-1.9.1.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jquery-ui-1.10.3.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\jquery.knob.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\modernizr-2.6.2-respond-1.1.0.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\morris\morris.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\morris\morris.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\morris\morris.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ui\vendors\raphael-min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\css\bootstrap.css" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\css\bootstrap.min.css" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\js\bootstrap.js" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\bootstrap\js\bootstrap.min.js" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-custom.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-custombuttons.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-custombuttonsfirstlast.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-disabletabclick.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-finishbutton.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-formvalidation.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-inverse.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-pills.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-progressbar.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic-tabsleft.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\basic.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\custom.css" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\multiple.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\remove-step.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\examples\validation.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\index.html" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\jquery.bootstrap.wizard-for.bootstrap3.js" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\jquery.bootstrap.wizard.js" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\jquery.bootstrap.wizard.min.js" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\MIT-LICENSE.txt" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\prettify.css" />
+    <Content Include="ui\vendors\twitter-bootstrap-wizard\prettify.js" />
+    <EmbeddedResource Include="ui\wysiwyg-editors.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ui\pages\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

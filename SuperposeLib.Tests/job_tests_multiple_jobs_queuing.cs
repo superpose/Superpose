@@ -13,15 +13,15 @@ using SuperposeLib.Tests.Jobs;
 namespace SuperposeLib.Tests
 {
     [TestClass]
-    public class job_tests_multiple_jobs_queuing
+    public class job_tests_multiple_jobs_queuing : TestHarness
     {
         [TestMethod]
         public void process_a_queued_job_generic_time()
         {
-            IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
-            var converter = converterFactory.CretateConverter();
-            using (var storage = storageFactory.CreateJobStorage())
+            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
+            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
+            var converter = ConverterFactory.CretateConverter();
+            using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 const int noOfJobs = 10;
