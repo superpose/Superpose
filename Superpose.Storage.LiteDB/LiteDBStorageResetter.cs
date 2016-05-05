@@ -7,7 +7,7 @@ namespace Superpose.Storage.LiteDB
     {
         private LiteCollection<JobLoadCollectionEntity> GetJobLoadCollection()
         {
-            var jobLoadCollection = DB.GetCollection<JobLoadCollectionEntity>("JobLoad");
+            var jobLoadCollection = DB.GetCollection<JobLoadCollectionEntity>(typeof(JobLoadCollectionEntity).Name);
             return jobLoadCollection;
         }
         public LiteDatabase DB { get; set; }

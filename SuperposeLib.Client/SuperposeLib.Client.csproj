@@ -134,9 +134,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SinpleSelfHostOwinThings\SinpleSelfHostOwinThings.csproj">
+    <ProjectReference Include="..\SuperposeLib.Owin\SuperposeLib.Owin.csproj">
       <Project>{ae64d619-d969-46bf-abd3-0cfbe772c46c}</Project>
       <Name>SinpleSelfHostOwinThings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperposeLib.UI\SuperposeLib.UI.csproj">
+      <Project>{5259bb47-2d4d-4a1f-b4b7-92eda67e7b9d}</Project>
+      <Name>SuperposeLib.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

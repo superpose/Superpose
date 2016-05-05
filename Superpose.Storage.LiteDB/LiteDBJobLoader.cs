@@ -9,11 +9,11 @@ using SuperposeLib.Models;
 namespace Superpose.Storage.LiteDB
 {
     public class LiteDBJobLoader : IJobLoader
-    {
+    { 
 
         private LiteCollection<JobLoadCollectionEntity> GetJobLoadCollection()
         {
-              var  jobLoadCollection=  DB.GetCollection<JobLoadCollectionEntity>("JobLoad");
+            var jobLoadCollection = DB.GetCollection<JobLoadCollectionEntity>(typeof(JobLoadCollectionEntity).Name);
             return jobLoadCollection;
         }
 
@@ -34,8 +34,11 @@ namespace Superpose.Storage.LiteDB
 
         public string LoadJobById(string jobId)
         {
-         var collection=   GetJobLoadCollection().Find(x=>x.Id==jobId);
-            var result = collection.Select(x => x.JobLoad).First();
+            var collection=   GetJobLoadCollection().Find(x=>x.Id==jobId);
+
+          //  var tttt = collection.Select(x => x.JobLoad);
+         var ty= collection.Take(1).ToList();
+            var result = collection.Select(x => x.JobLoad).ToList();
             return result == null ? null : JsonConvert.SerializeObject(result);
         }
 
