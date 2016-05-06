@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SuperposeLib.Core;
@@ -44,12 +45,12 @@ namespace SuperposeLib.Tests
                             Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count, i);
                             Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Failed), i);
                         }
-                        Assert.AreEqual(existingResult.JobType, typeof(TestJobThatPassesAfter2Tryals));
-                        Assert.AreEqual(existingResult.JobId, jobId);
+                        Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                        Assert.AreEqual(existingResult.Id, jobId);
                         Assert.IsNotNull(existingResult);
                         Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                         Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                        Assert.AreEqual(existingResult.JobStateType,i >= 3 ? JobStateType.Successfull : JobStateType.Queued);
+                        Assert.AreEqual(existingResult.JobStateTypeName,i >= 3 ? Enum.GetName(typeof(JobStateType), JobStateType.Successfull) : Enum.GetName(typeof(JobStateType), JobStateType.Queued));
                     }
 
                     var statistics=   factory.JobStorage.JobLoader.GetJobStatistics();

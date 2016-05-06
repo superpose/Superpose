@@ -84,6 +84,7 @@
     <Compile Include="Extensions\JobStateExtensions.cs" />
     <Compile Include="Models\JobStateType.cs" />
     <Compile Include="Models\JobExecutionStatus.cs" />
+    <Compile Include="Models\SerializableJobLoad.cs" />
     <Compile Include="Services\DefaultConverter\DefaultJobConverter.cs" />
     <Compile Include="Services\DefaultConverter\DefaultJobConverterFactory.cs" />
     <Compile Include="Services\DefaultConverter\DefaultJobParser.cs" />

@@ -25,23 +25,23 @@ namespace SuperposeLib.Services.InMemoryStorage
             return new JobStatistics()
             {
                 TotalNumberOfJobs= InMemoryJobStorageMemoryStore.MemoryStore.Count,
-                TotalQueuedJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateType== JobStateType.Queued),
-                TotalProcessingJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateType == JobStateType.Processing),
-                TotalDeletedJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateType == JobStateType.Deleted),
-                TotalSuccessfullJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateType == JobStateType.Successfull),
-                TotalFailedJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateType == JobStateType.Failed),
-                TotalUnknownJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateType == JobStateType.Unknown)
+                TotalQueuedJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateTypeName== Enum.GetName(typeof(JobStateType), JobStateType.Queued)),
+                TotalProcessingJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Processing)),
+                TotalDeletedJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Deleted)),
+                TotalSuccessfullJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Successfull)),
+                TotalFailedJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Failed)),
+                TotalUnknownJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count(x => x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Unknown))
             };
         }
 
         public List<string> LoadJobsByJobType(Type jobType, int take, int skip)
         {
-           return InMemoryJobStorageMemoryStore.MemoryStore.Where(x => x.Value.JobType == jobType).Take(take).Skip(skip).Select(x=>x.Key).ToList();
+           return InMemoryJobStorageMemoryStore.MemoryStore.Where(x => x.Value.JobTypeFullName == jobType.AssemblyQualifiedName).Take(take).Skip(skip).Select(x=>x.Key).ToList();
         }
 
         public List<string> LoadJobsByJobStateType(JobStateType stateType, int take, int skip)
         {
-            return InMemoryJobStorageMemoryStore.MemoryStore.Where(x => x.Value.JobStateType == stateType).Take(take).Skip(skip).Select(x => x.Key).ToList();
+            return InMemoryJobStorageMemoryStore.MemoryStore.Where(x => x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType)).Take(take).Skip(skip).Select(x => x.Key).ToList();
         }
 
         public List<string> LoadJobsByTimeToRun(DateTime @from, DateTime to, int take, int skip)
@@ -56,7 +56,7 @@ namespace SuperposeLib.Services.InMemoryStorage
                 .Where(x =>
                 x.Value.TimeToRun >= @from
                 && x.Value.TimeToRun <= to &&
-                x.Value.JobStateType == stateType)
+                x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType))
                 .Skip(skip)
                 .Take(take)
                 .Select(x => x.Key)

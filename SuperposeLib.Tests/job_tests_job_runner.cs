@@ -17,6 +17,9 @@ namespace SuperposeLib.Tests
     [TestClass]
     public class job_tests_job_runner: TestHarness
     {
+
+
+
         [TestMethod]
         public void test_owin()
         {
@@ -38,7 +41,7 @@ namespace SuperposeLib.Tests
                         try
                         {
                             var existingResult = factory.GetJobLoad(jobId);
-                            Assert.AreEqual(existingResult.JobStateType, JobStateType.Successfull);
+                            Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
                             var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                             Assert.AreEqual(statistics.TotalSuccessfullJobs, 1);
                             passed = true;
@@ -67,7 +70,7 @@ namespace SuperposeLib.Tests
                 IJobRunner runner = new JobRunner(storage, converter);
                 runner.Run();
                 var existingResult = factory.GetJobLoad(jobId);
-                Assert.AreEqual(existingResult.JobStateType, JobStateType.Successfull);
+                Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                 Assert.AreEqual(statistics.TotalSuccessfullJobs, 1);
             }
@@ -91,12 +94,12 @@ namespace SuperposeLib.Tests
                 Assert.IsTrue(result);
                 var existingResult = factory.GetJobLoad(jobId);
 
-                Assert.AreEqual(existingResult.JobType, typeof(TestJobThatPassesAfter2Tryals));
-                Assert.AreEqual(existingResult.JobId, jobId);
+                Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
                 Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                 Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                Assert.AreEqual(existingResult.JobStateType, JobStateType.Successfull);
+                Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
 
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                 Assert.AreEqual(statistics.TotalNumberOfJobs, 1);
@@ -126,12 +129,12 @@ namespace SuperposeLib.Tests
                     Assert.IsTrue(result);
                     var existingResult = factory.GetJobLoad(jobId);
 
-                    Assert.AreEqual(existingResult.JobType, typeof(TestJobThatPassesAfter2Tryals));
-                    Assert.AreEqual(existingResult.JobId, jobId);
+                    Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                    Assert.AreEqual(existingResult.Id, jobId);
                     Assert.IsNotNull(existingResult);
                     Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                     Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                    Assert.AreEqual(existingResult.JobStateType, JobStateType.Successfull);
+                    Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
 
 
                     var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
@@ -163,12 +166,12 @@ namespace SuperposeLib.Tests
                         Assert.IsTrue(result);
                         var existingResult = factory.GetJobLoad(jobId);
 
-                        Assert.AreEqual(existingResult.JobType, typeof(TestJobThatPassesAfter2Tryals));
-                        Assert.AreEqual(existingResult.JobId, jobId);
+                        Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                        Assert.AreEqual(existingResult.Id, jobId);
                         Assert.IsNotNull(existingResult);
                         Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                         Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                        Assert.AreEqual(existingResult.JobStateType, JobStateType.Successfull);
+                        Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
                     }
 
                     var statistics = factory.JobStorage.JobLoader.GetJobStatistics();

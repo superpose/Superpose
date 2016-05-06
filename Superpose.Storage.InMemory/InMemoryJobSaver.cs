@@ -1,10 +1,11 @@
-using SuperposeLib.Interfaces.Storage;
 using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using SuperposeLib.Extensions;
+using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Models;
+using SuperposeLib.Services.InMemoryStorage;
 
-namespace SuperposeLib.Services.InMemoryStorage
+namespace Superpose.Storage.InMemory
 {
     public class InMemoryJobSaver : IJobSaver
     {

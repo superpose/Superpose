@@ -6,7 +6,7 @@ namespace SuperposeLib.Interfaces.JobThings
 {
     public interface IJobState
     {
-        JobStateType JobStateType { set; get; }
+        string JobStateTypeName { set; get; }
         DateTime? Started { set; get; }
         DateTime? Ended { set; get; }
 

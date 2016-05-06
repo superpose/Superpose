@@ -2,92 +2,105 @@ using System;
 using SuperposeLib.Interfaces.Storage;
 using System.Collections.Generic;
 using System.Linq;
-using LiteDB;
 using Newtonsoft.Json;
 using SuperposeLib.Models;
 
 namespace Superpose.Storage.LiteDB
 {
     public class LiteDBJobLoader : IJobLoader
-    { 
-
-        private LiteCollection<JobLoadCollectionEntity> GetJobLoadCollection()
-        {
-            var jobLoadCollection = DB.GetCollection<JobLoadCollectionEntity>(typeof(JobLoadCollectionEntity).Name);
-            return jobLoadCollection;
-        }
-
-        public LiteDBJobLoader()
-        {
-            DB = new LiteDatabase(@"MyData.db");
-        }
-
-      
-
-        public LiteDatabase DB { get; set; }
-
-
-        public void Dispose()
-        {
-          DB.Dispose();
-        }
-
+    {
         public string LoadJobById(string jobId)
         {
-            var collection=   GetJobLoadCollection().Find(x=>x.Id==jobId);
-
-          //  var tttt = collection.Select(x => x.JobLoad);
-         var ty= collection.Take(1).ToList();
-            var result = collection.Select(x => x.JobLoad).ToList();
+            SerializableJobLoad result = null;
+            LiteDbCollectionsFactory.UseLiteDatabase((jobLoadCollection) =>
+            {
+                var collection = jobLoadCollection.Find(x => x.Id == jobId);
+            
+                result = collection.FirstOrDefault();
+            });
             return result == null ? null : JsonConvert.SerializeObject(result);
         }
 
         public JobStatistics GetJobStatistics()
         {
-            return new JobStatistics()
+            JobStatistics result = null;
+            LiteDbCollectionsFactory.UseLiteDatabase((jobLoadCollection) =>
             {
-                TotalNumberOfJobs = GetJobLoadCollection().Count(),
-                TotalQueuedJobs = GetJobLoadCollection().Find(x => x.JobLoad.JobStateType == JobStateType.Queued).Count(),
-                TotalProcessingJobs = GetJobLoadCollection().Find(x => x.JobLoad.JobStateType == JobStateType.Processing).Count(),
-                TotalDeletedJobs = GetJobLoadCollection().Find(x => x.JobLoad.JobStateType == JobStateType.Deleted).Count(),
-                TotalSuccessfullJobs = GetJobLoadCollection().Find(x => x.JobLoad.JobStateType == JobStateType.Successfull).Count(),
-                TotalFailedJobs = GetJobLoadCollection().Find(x => x.JobLoad.JobStateType == JobStateType.Failed).Count(),
-                TotalUnknownJobs = GetJobLoadCollection().Find(x => x.JobLoad.JobStateType == JobStateType.Unknown).Count()
+                result = new JobStatistics()
+                {
+                   
+                   TotalNumberOfJobs = jobLoadCollection.Count(),
+                    TotalQueuedJobs = jobLoadCollection.Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Queued)).Count(),
+                    TotalProcessingJobs = jobLoadCollection.Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Processing)).Count(),
+                    TotalDeletedJobs = jobLoadCollection.Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Deleted)).Count(),
+                    TotalSuccessfullJobs = jobLoadCollection.Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Successfull)).Count(),
+                    TotalFailedJobs = jobLoadCollection.Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Failed)).Count(),
+                    TotalUnknownJobs = jobLoadCollection.Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Unknown)).Count()
 
-            };
+
+                };
+            });
+            return result;
         }
 
         public List<string> LoadJobsByJobType(Type jobType, int take, int skip)
         {
-            var collection = GetJobLoadCollection()
-                .Find(x => x.JobLoad.JobType == jobType).Take(take).Skip(skip).Select(x => x.Id).ToList();
+            List<string> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase((jobLoadCollection) =>
+            {
+                collection = jobLoadCollection
+                             .Find(x => x.JobTypeFullName == jobType.AssemblyQualifiedName).Take(take).Skip(skip).Select(x => x.Id).ToList();
+            });
+
             return collection;
         }
 
         public List<string> LoadJobsByJobStateType(JobStateType stateType, int take, int skip)
         {
-            var collection = GetJobLoadCollection()
-             .Find(x => x.JobLoad.JobStateType == stateType).Take(take).Skip(skip).Select(x => x.Id).ToList();
+            List<string> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase((jobLoadCollection) =>
+            {
+                collection = jobLoadCollection
+                           .Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType)).Take(take).Skip(skip).Select(x => x.Id).ToList();
+            });
+
             return collection;
         }
 
         public List<string> LoadJobsByTimeToRun(DateTime @from, DateTime to, int take, int skip)
         {
-            var collection = GetJobLoadCollection()
-             .Find(x => x.JobLoad.TimeToRun >= @from && x.JobLoad.TimeToRun <= to).Take(take).Skip(skip).Select(x => x.Id).ToList();
+            List<string> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase((jobLoadCollection) =>
+            {
+                collection = jobLoadCollection
+                          .Find(x => x.TimeToRun >= @from && x.TimeToRun <= to).Take(take).Skip(skip).Select(x => x.Id).ToList();
+
+            });
             return collection;
         }
 
         public List<string> LoadJobsByJobStateTypeAndTimeToRun(JobStateType stateType, DateTime @from, DateTime to, int take, int skip)
         {
-            var collection = GetJobLoadCollection()
-             .Find(x => x.JobLoad.JobStateType==stateType&& x.JobLoad.TimeToRun >= @from && x.JobLoad.TimeToRun <= to).Take(take).Skip(skip).Select(x => x.Id).ToList();
+            List<string> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase((jobLoadCollection) =>
+            {
+                var collectionTmp = jobLoadCollection
+                    .Find(x => x.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType) && x.TimeToRun >= @from && x.TimeToRun <= to);
+
+                collection= collectionTmp.Select(x => x.Id).Take(take).Skip(skip).ToList();
+
+            });
             return collection;
         }
 
         public List<string> LoadJobsByIds(List<string> ids)
         {
             return ids.Select(LoadJobById).ToList();
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

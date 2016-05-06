@@ -6,10 +6,11 @@ namespace SuperposeLib.Interfaces.JobThings
     {
         DateTime? TimeToRun { set; get; }
 
-        Type JobType { set; get; }
+        string JobTypeFullName { set; get; }
 
-       // IJobState State { set; get; }
+  
 
-        string JobId { get; set; }
+        string Id { get; set; }
+
     }
 }
