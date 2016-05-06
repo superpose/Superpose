@@ -9,7 +9,7 @@ namespace Superpose.Storage.InMemory
     {
         public void ReSet()
         {
-            InMemoryJobStorageMemoryStore.MemoryStore=new ConcurrentDictionary<string, JobLoad>();
+            InMemoryJobStorageMemoryStore.MemoryStore = new ConcurrentDictionary<string, SerializableJobLoad>();
         }
     }
 }

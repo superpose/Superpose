@@ -9,7 +9,9 @@ namespace Superpose.Storage.InMemory
 
         public IJobStorage CreateJobStorage()
         {
-            return JobStorage ?? (JobStorage = new InMemoryJobStorage(new InMemoryJobSaver(), new InMemoryJobLoader(),new InMemoryJobResetter()));
+            return JobStorage ??
+                   (JobStorage =
+                       new InMemoryJobStorage(new InMemoryJobSaver(), new InMemoryJobLoader(), new InMemoryJobResetter()));
         }
     }
 }

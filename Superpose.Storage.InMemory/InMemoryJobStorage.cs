@@ -1,5 +1,5 @@
-using SuperposeLib.Interfaces.Storage;
 using System;
+using SuperposeLib.Interfaces.Storage;
 
 namespace SuperposeLib.Services.InMemoryStorage
 {
@@ -16,7 +16,7 @@ namespace SuperposeLib.Services.InMemoryStorage
 
         public IJobSaver JobSaver { get; set; }
         public IJobLoader JobLoader { get; set; }
-        public IJobStorageReseter JobStorageReseter { get;  set; }
+        public IJobStorageReseter JobStorageReseter { get; set; }
 
         public void Dispose()
         {

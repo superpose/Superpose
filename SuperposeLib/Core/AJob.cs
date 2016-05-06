@@ -1,13 +1,12 @@
-using SuperposeLib.Models;
 using System;
-using Microsoft.Owin;
+using SuperposeLib.Models;
 
 namespace SuperposeLib.Core
 {
     public abstract class AJob
     {
         protected abstract void Execute();
-        
+
         public virtual SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)
         {
             return totalNumberOfHistoricFailures > 10 ? SuperVisionDecision.Fail : SuperVisionDecision.ReQueue;
@@ -27,9 +26,5 @@ namespace SuperposeLib.Core
             }
             return result;
         }
-
-
-
-
     }
 }

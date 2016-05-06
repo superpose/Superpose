@@ -5,6 +5,7 @@ namespace SuperposeLib.Services.InMemoryStorage
 {
     public class InMemoryJobStorageMemoryStore
     {
-        public static ConcurrentDictionary<string, JobLoad> MemoryStore = new ConcurrentDictionary<string, JobLoad>();
+        public static ConcurrentDictionary<string, SerializableJobLoad> MemoryStore =
+            new ConcurrentDictionary<string, SerializableJobLoad>();
     }
 }

@@ -4,7 +4,7 @@ using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Models
 {
-    public class SerializableJobLoad :  IJobLoad
+    public class SerializableJobLoad : IJobLoad
     {
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }

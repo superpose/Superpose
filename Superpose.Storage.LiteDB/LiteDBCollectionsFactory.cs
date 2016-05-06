@@ -12,7 +12,7 @@ namespace Superpose.Storage.LiteDB
 
             using (var db = new LiteDatabase(@"LITEDB_SUPERPOSE_DB.db"))
             {
-                var jobLoadCollection = db.GetCollection<SerializableJobLoad>(typeof(SerializableJobLoad).Name);
+                var jobLoadCollection = db.GetCollection<SerializableJobLoad>(typeof (SerializableJobLoad).Name);
                 dbOPeration(jobLoadCollection);
             }
         }

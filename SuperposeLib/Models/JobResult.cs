@@ -1,5 +1,5 @@
-using SuperposeLib.Core;
 using System;
+using SuperposeLib.Core;
 
 namespace SuperposeLib.Models
 {

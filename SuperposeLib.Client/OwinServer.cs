@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Hosting;
 
-
 namespace SuperposeLib.Client
 {
     public class OwinServer

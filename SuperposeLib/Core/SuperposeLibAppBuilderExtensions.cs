@@ -1,5 +1,4 @@
 using Owin;
-using SuperposeLib.Services.DefaultConverter;
 
 namespace SuperposeLib.Core
 {
@@ -9,6 +8,5 @@ namespace SuperposeLib.Core
         {
             return app.Use<SuperposeLibServerMiddleware>();
         }
-      
     }
 }

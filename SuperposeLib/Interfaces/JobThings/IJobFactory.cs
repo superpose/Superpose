@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Models;
 
@@ -7,12 +6,11 @@ namespace SuperposeLib.Interfaces.JobThings
 {
     public interface IJobFactory
     {
-        string QueueJob(Type jobType);
-
-         ITime Time { set; get; }
-        JobLoad GetJobLoad(string jobId);
+        ITime Time { set; get; }
 
         IJobStorage JobStorage { set; get; }
+        string QueueJob(Type jobType);
+        JobLoad GetJobLoad(string jobId);
 
         IJobLoad ProcessJob(string jobId);
         JobLoad InstantiateJobComponent(IJobLoad jobLoad);

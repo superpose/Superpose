@@ -2,8 +2,6 @@
 using Microsoft.Owin.Cors;
 using Owin;
 
-
-
 namespace SuperposeLib.Owin
 {
     public static class AppBuilderUiExtensions
@@ -34,7 +32,5 @@ namespace SuperposeLib.Owin
 
             return app;
         }
-
-
     }
 }

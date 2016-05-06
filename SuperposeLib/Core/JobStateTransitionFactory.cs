@@ -1,9 +1,8 @@
-using SuperposeLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
+using SuperposeLib.Models;
 
 namespace SuperposeLib.Core
 {
@@ -18,61 +17,68 @@ namespace SuperposeLib.Core
             };
             if (jobLoad == null)
             {
-                nextState = new JobState { JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Unknown), PreviousJobExecutionStatusList = new List<JobExecutionStatus>() };
+                nextState = new JobState
+                {
+                    JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown),
+                    PreviousJobExecutionStatusList = new List<JobExecutionStatus>()
+                };
             }
 
             if (jobLoad != null)
             {
-                jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList ?? new List<JobExecutionStatus>();
+                jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList ??
+                                                         new List<JobExecutionStatus>();
                 nextState.PreviousJobExecutionStatusList.AddRange(jobLoad.PreviousJobExecutionStatusList);
 
                 {
-                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Deleted))
+                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Deleted))
                     {
                         nextState = jobLoad;
                     }
 
-                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Unknown))
+                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Unknown))
                     {
-                        nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Queued);
+                        nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
                     }
 
-                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Queued))
+                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Queued))
                     {
                         if (superVisionDecision == SuperVisionDecision.Fail)
                         {
-                            nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Failed);
+                            nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Failed);
                         }
 
                         if (superVisionDecision != SuperVisionDecision.Fail)
                         {
-                            nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Processing);
+                            nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Processing);
                         }
                     }
 
-                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof(JobStateType), JobStateType.Processing))
+                    if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Processing))
                     {
                         if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Unknown)
                         {
-                            nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Queued);
+                            nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
                         }
                         if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Passed)
                         {
-                            nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Successfull);
+                            nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Successfull);
                         }
                         if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Failed)
                         {
                             if (superVisionDecision == SuperVisionDecision.Fail)
                             {
-                                nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Failed);
+                                nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Failed);
                             }
                             if (superVisionDecision == SuperVisionDecision.Pass)
                             {
-                                nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Successfull);
+                                nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType),
+                                    JobStateType.Successfull);
                             }
-                            if (superVisionDecision != SuperVisionDecision.Fail && superVisionDecision != SuperVisionDecision.Pass)
+                            if (superVisionDecision != SuperVisionDecision.Fail &&
+                                superVisionDecision != SuperVisionDecision.Pass)
                             {
-                                nextState.JobStateTypeName = Enum.GetName(typeof(JobStateType), JobStateType.Queued);
+                                nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
                             }
                         }
                     }

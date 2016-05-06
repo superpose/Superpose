@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.Storage;
@@ -11,17 +10,19 @@ namespace Superpose.Storage.InMemory
     {
         public void SaveNew(string data, string Id)
         {
-            InMemoryJobStorageMemoryStore.MemoryStore.GetOrAdd(Id, JsonConvert.DeserializeObject<JobLoad>(data));
+            InMemoryJobStorageMemoryStore.MemoryStore.GetOrAdd(Id,
+                JsonConvert.DeserializeObject<SerializableJobLoad>(data));
         }
 
         public void Update(string data, string Id)
         {
-           InMemoryJobStorageMemoryStore.MemoryStore.AddOrUpdate(Id, JsonConvert.DeserializeObject<JobLoad>(data));
-  }
+            InMemoryJobStorageMemoryStore.MemoryStore.AddOrUpdate(Id,
+                JsonConvert.DeserializeObject<SerializableJobLoad>(data));
+        }
 
         public void Dispose()
         {
-            InMemoryJobStorageMemoryStore.MemoryStore = new ConcurrentDictionary<string, JobLoad>();
+            //  InMemoryJobStorageMemoryStore.MemoryStore = new ConcurrentDictionary<string, SerializableJobLoad>();
         }
     }
 }

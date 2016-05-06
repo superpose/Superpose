@@ -1,17 +1,12 @@
 using System;
 using System.Linq;
-using SuperposeLib.Core;
-using SuperposeLib.Interfaces;
-using SuperposeLib.Interfaces.Converters;
-using SuperposeLib.Interfaces.Storage;
-using SuperposeLib.Models;
-using SuperposeLib.Services.DefaultConverter;
-
-using SuperposeLib.Tests.Jobs;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SuperposeLib.Core;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Services.InMemoryStorage;
+using SuperposeLib.Models;
+using SuperposeLib.Tests.Jobs;
 
 namespace SuperposeLib.Tests
 {
@@ -27,20 +22,19 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.ScheduleJob(typeof(TestJob), DateTime.UtcNow.AddSeconds(3));
-                System.Threading.Thread.Sleep(3000);
+                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddSeconds(3));
+                Thread.Sleep(3000);
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);
 
-                Assert.AreEqual(result.JobTypeFullName, typeof(TestJob).AssemblyQualifiedName);
+                Assert.AreEqual(result.JobTypeFullName, typeof (TestJob).AssemblyQualifiedName);
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
-                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
             }
-
         }
 
         [TestMethod]
@@ -52,19 +46,18 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.ScheduleJob(typeof(TestJob), DateTime.UtcNow.AddSeconds(3));
-            
+                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddSeconds(3));
+
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNull(result);
                 result = factory.GetJobLoad(jobId);
-                Assert.AreEqual(result.JobTypeFullName, typeof(TestJob).AssemblyQualifiedName);
+                Assert.AreEqual(result.JobTypeFullName, typeof (TestJob).AssemblyQualifiedName);
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 0);
-                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Queued));
+                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Queued));
             }
-
         }
 
         [TestMethod]
@@ -76,18 +69,18 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter, new VirtualTime(DateTime.UtcNow.AddSeconds(4)));
-                var jobId = factory.ScheduleJob(typeof(TestJob), DateTime.UtcNow.AddSeconds(3));
+                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddSeconds(3));
 
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);
 
-                Assert.AreEqual(result.JobTypeFullName, typeof(TestJob).AssemblyQualifiedName);
+                Assert.AreEqual(result.JobTypeFullName, typeof (TestJob).AssemblyQualifiedName);
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
-                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
             }
         }
 
@@ -100,18 +93,18 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter, new VirtualTime(DateTime.UtcNow.AddYears(4)));
-                var jobId = factory.ScheduleJob(typeof(TestJob), DateTime.UtcNow.AddYears(3));
+                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddYears(3));
 
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);
 
-                Assert.AreEqual(result.JobTypeFullName, typeof(TestJob).AssemblyQualifiedName);
+                Assert.AreEqual(result.JobTypeFullName, typeof (TestJob).AssemblyQualifiedName);
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
                 Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
-                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
             }
         }
     }

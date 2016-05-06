@@ -1,25 +1,19 @@
 using System;
 using System.Linq;
+using System.Threading;
 using Microsoft.Owin.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SuperposeLib.Core;
-using SuperposeLib.Extensions;
-using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Models;
 using SuperposeLib.Services.DefaultConverter;
-using SuperposeLib.Services.InMemoryStorage;
 using SuperposeLib.Tests.Jobs;
 
 namespace SuperposeLib.Tests
 {
     [TestClass]
-    public class job_tests_job_runner: TestHarness
+    public class job_tests_job_runner : TestHarness
     {
-
-
-
         [TestMethod]
         public void test_owin()
         {
@@ -29,7 +23,7 @@ namespace SuperposeLib.Tests
                 {
                     var converter = new DefaultJobConverterFactory().CretateConverter();
                     IJobFactory factory = new JobFactory(storage, converter);
-                    var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
+                    var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
                     var passed = false;
 
                     var iteri = 10;
@@ -37,19 +31,18 @@ namespace SuperposeLib.Tests
                     {
                         iteri--;
 
-                        System.Threading.Thread.Sleep(1000);
+                        Thread.Sleep(1000);
                         try
                         {
                             var existingResult = factory.GetJobLoad(jobId);
-                            Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                            Assert.AreEqual(existingResult.JobStateTypeName,
+                                Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
                             var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                             Assert.AreEqual(statistics.TotalSuccessfullJobs, 1);
                             passed = true;
                         }
                         catch (Exception e)
                         {
-
-
                         }
                     }
                     Assert.IsTrue(passed);
@@ -66,11 +59,12 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
+                var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
                 IJobRunner runner = new JobRunner(storage, converter);
                 runner.Run();
                 var existingResult = factory.GetJobLoad(jobId);
-                Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                Assert.AreEqual(existingResult.JobStateTypeName,
+                    Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                 Assert.AreEqual(statistics.TotalSuccessfullJobs, 1);
             }
@@ -86,7 +80,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
+                var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                 var runner = new JobRunner(storage, converter);
                 var result = runner.Run();
@@ -94,19 +88,21 @@ namespace SuperposeLib.Tests
                 Assert.IsTrue(result);
                 var existingResult = factory.GetJobLoad(jobId);
 
-                Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                Assert.AreEqual(existingResult.JobTypeFullName,
+                    typeof (TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
                 Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
-                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
+                Assert.AreEqual(
+                    existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                 Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                Assert.AreEqual(existingResult.JobStateTypeName,
+                    Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
 
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                 Assert.AreEqual(statistics.TotalNumberOfJobs, 1);
                 Assert.AreEqual(statistics.TotalSuccessfullJobs, 1);
                 Assert.AreEqual(statistics.TotalFailedJobs, 0);
                 Assert.AreEqual(statistics.TotalProcessingJobs, 0);
-
             }
         }
 
@@ -122,19 +118,22 @@ namespace SuperposeLib.Tests
                 const int noOfJobs = 10;
                 for (var j = 1; j <= noOfJobs; j++)
                 {
-                    var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
+                    var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                     var runner = new JobRunner(storage, converter);
                     var result = runner.Run();
                     Assert.IsTrue(result);
                     var existingResult = factory.GetJobLoad(jobId);
 
-                    Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                    Assert.AreEqual(existingResult.JobTypeFullName,
+                        typeof (TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
                     Assert.AreEqual(existingResult.Id, jobId);
                     Assert.IsNotNull(existingResult);
-                    Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
+                    Assert.AreEqual(
+                        existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                     Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                    Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                    Assert.AreEqual(existingResult.JobStateTypeName,
+                        Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
 
 
                     var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
@@ -145,6 +144,7 @@ namespace SuperposeLib.Tests
                 }
             }
         }
+
         [TestMethod]
         public void process_a_queued_job_generic_time()
         {
@@ -157,7 +157,7 @@ namespace SuperposeLib.Tests
                 const int noOfJobs = 10;
                 for (var j = 1; j <= noOfJobs; j++)
                 {
-                    var jobId = factory.QueueJob(typeof(TestJobThatPassesAfter2Tryals));
+                    var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
                     const int noOfCircles = 10;
                     for (var i = 1; i <= noOfCircles; i++)
                     {
@@ -166,12 +166,15 @@ namespace SuperposeLib.Tests
                         Assert.IsTrue(result);
                         var existingResult = factory.GetJobLoad(jobId);
 
-                        Assert.AreEqual(existingResult.JobTypeFullName, typeof(TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
+                        Assert.AreEqual(existingResult.JobTypeFullName,
+                            typeof (TestJobThatPassesAfter2Tryals).AssemblyQualifiedName);
                         Assert.AreEqual(existingResult.Id, jobId);
                         Assert.IsNotNull(existingResult);
-                        Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
+                        Assert.AreEqual(
+                            existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
                         Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
-                        Assert.AreEqual(existingResult.JobStateTypeName, Enum.GetName(typeof(JobStateType), JobStateType.Successfull));
+                        Assert.AreEqual(existingResult.JobStateTypeName,
+                            Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
                     }
 
                     var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
@@ -182,7 +185,5 @@ namespace SuperposeLib.Tests
                 }
             }
         }
-
-
     }
 }

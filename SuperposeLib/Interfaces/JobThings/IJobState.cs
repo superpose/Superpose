@@ -11,7 +11,7 @@ namespace SuperposeLib.Interfaces.JobThings
         DateTime? Ended { set; get; }
 
         /// <summary>
-        /// updated in process
+        ///     updated in process
         /// </summary>
         List<JobExecutionStatus> PreviousJobExecutionStatusList { set; get; }
     }

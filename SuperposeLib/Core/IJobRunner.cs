@@ -4,7 +4,7 @@ namespace SuperposeLib.Core
 {
     public interface IJobRunner
     {
-        bool Run();
         IJobFactory JobFactory { get; }
+        bool Run();
     }
 }

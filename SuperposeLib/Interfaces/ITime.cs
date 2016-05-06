@@ -6,6 +6,6 @@ namespace SuperposeLib.Interfaces
     {
         DateTime UtcNow { get; }
 
-       DateTime MinValue {  get; }
+        DateTime MinValue { get; }
     }
 }

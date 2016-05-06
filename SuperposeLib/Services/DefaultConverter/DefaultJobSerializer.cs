@@ -1,7 +1,5 @@
-﻿using SuperposeLib.Interfaces.Converters;
-using SuperposeLib.Models;
-using Newtonsoft.Json;
-using SuperposeLib.Interfaces;
+﻿using Newtonsoft.Json;
+using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Services.DefaultConverter

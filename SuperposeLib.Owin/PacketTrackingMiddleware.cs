@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Owin;
@@ -23,7 +24,7 @@ namespace SuperposeLib.Owin
 
             //capture details about the caller identity
 
-            var identity = (request.User != null && request.User.Identity.IsAuthenticated)
+            var identity = request.User != null && request.User.Identity.IsAuthenticated
                 ? request.User.Identity.Name
                 : "(anonymous)";
 
@@ -44,16 +45,13 @@ namespace SuperposeLib.Owin
             //add the "Http-Tracking-Id" response header
             //adding the tracking id response header so that the user
             //of the API can correlate the call back to this entry
-            var responseHeaders = (IDictionary<string, string[]>)environment["owin.ResponseHeaders"];
-            responseHeaders["http-tracking-id"] = new[] { apiPacket.TrackingId };
+            var responseHeaders = (IDictionary<string, string[]>) environment["owin.ResponseHeaders"];
+            responseHeaders["http-tracking-id"] = new[] {apiPacket.TrackingId};
             context.Response.OnSendingHeaders(state =>
             {
                 var ctx = state as IOwinContext;
                 if (ctx == null) return;
                 var resp = ctx.Response;
-
-
-
             }, context);
 
             //invoke the next middleware in the pipeline
@@ -72,18 +70,20 @@ namespace SuperposeLib.Owin
 
             //write the apiPacket to the database
             //await database.InsterRecordAsync(apiPacket);
-            System.Diagnostics.Debug.WriteLine("TrackingId: " + apiPacket.TrackingId);
+            Debug.WriteLine("TrackingId: " + apiPacket.TrackingId);
 
             //make sure the response we buffered is flushed to the client
             responseBuffer.Seek(0, SeekOrigin.Begin);
             await responseBuffer.CopyToAsync(responseStream);
         }
+
         private static void WriteRequestHeaders(IOwinRequest request, ApiPacket packet)
         {
             packet.Verb = request.Method;
             packet.RequestUri = request.Uri;
             packet.RequestHeaders = request.Headers;
         }
+
         private static void WriteResponseHeaders(IOwinResponse response, ApiPacket packet)
         {
             packet.StatusCode = response.StatusCode;

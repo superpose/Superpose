@@ -8,7 +8,9 @@ namespace Superpose.Storage.LiteDB
 
         public IJobStorage CreateJobStorage()
         {
-            return JobStorage ?? (JobStorage = new LiteDBJobStorage(new LiteDBJobSaver(), new LiteDBJobLoader(),new LiteDBStorageResetter()));
+            return JobStorage ??
+                   (JobStorage =
+                       new LiteDBJobStorage(new LiteDBJobSaver(), new LiteDBJobLoader(), new LiteDBStorageResetter()));
         }
     }
 }

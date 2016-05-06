@@ -1,7 +1,6 @@
 using Owin;
 using Superpose.Storage.InMemory;
 using SuperposeLib.Core;
-using SuperposeLib.Services.InMemoryStorage;
 
 namespace SuperposeLib.Tests
 {

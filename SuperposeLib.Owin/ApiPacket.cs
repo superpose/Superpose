@@ -9,6 +9,7 @@ namespace SuperposeLib.Owin
         {
             TrackingId = Guid.NewGuid().ToString();
         }
+
         public string CallerIdentity { get; set; }
         public string Response { get; set; }
         public string TrackingId { get; set; }
