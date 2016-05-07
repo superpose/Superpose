@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Hosting;
+using SuperposeLib.Owin;
 
 namespace SuperposeLib.Client
 {
@@ -25,7 +28,17 @@ namespace SuperposeLib.Client
                 var response = client.GetAsync(baseAddress.Replace("*", "localhost") + "api/values").Result;
                 Console.WriteLine(response);
                 Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                 Task.Delay(TimeSpan.FromSeconds(10)).ContinueWith((n) =>
+                {
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+                    hubContext.Clients.All.Send("hghdh");
+                });
+
+
                 RunAuthenticationSample();
+
+               
+
                 Console.ReadLine();
             }
         }

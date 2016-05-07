@@ -13,29 +13,7 @@ app.config([
 ]);
 
 
-angular.module('tutorialWebApp').factory("Grapgher", function() {
-    
- 
 
-    function Run(o) {
-        try {
-          console.log(o);
-        } catch (e) {
-            console.warn(e);
-        }
-    }
-
-
-    function Refresh() {
-        console.log("Refreshed");
-    };
-
-
-    return {
-        Run: Run,
-        Regresh: Refresh
-    };
-});
 
 angular.module('tutorialWebApp').controller('ActorsCtrl', function ($scope, $rootScope, $http, $q, $timeout, $interval, Grapgher) {
     var endpoint = '/api/values/ActorSystemStates';
@@ -50,14 +28,14 @@ angular.module('tutorialWebApp').controller('ActorsCtrl', function ($scope, $roo
     };
     $scope.actors = [];
    
-    var actorVals = {};
+
     $scope.actorState = { state: {} };
 
     $.connection.hub.url = "http://localhost:8008/signalr";
     var chat = $.connection.myHub;
     chat.client.addMessage = function ( response) {
         $timeout(function() {
-            Grapgher.Run(response);
+           alert(response);
         });
     };
     // Start the connection.
