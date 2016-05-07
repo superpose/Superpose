@@ -9,4 +9,12 @@ namespace SuperposeLib.Owin
             Clients.All.addMessage( message);
         }
     }
+
+    public class SuperposeSignalRContext
+    {
+        public static IHubContext GetHubContext()
+        {
+            return GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+        }
+    }
 }

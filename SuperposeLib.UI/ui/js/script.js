@@ -15,7 +15,7 @@ app.config([
 
 
 
-angular.module('tutorialWebApp').controller('ActorsCtrl', function ($scope, $rootScope, $http, $q, $timeout, $interval, Grapgher) {
+angular.module('tutorialWebApp').controller('ActorsCtrl', function ($scope, $rootScope, $http, $q, $timeout, $interval) {
     var endpoint = '/api/values/ActorSystemStates';
     var getThings = function (selection) {
         var deferred = $q.defer();

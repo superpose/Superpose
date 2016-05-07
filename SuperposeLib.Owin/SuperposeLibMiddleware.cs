@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Superpose.StorageInterface;
@@ -16,7 +17,11 @@ namespace SuperposeLib.Owin
             var converter = new DefaultJobConverterFactory().CretateConverter();
             var storage = StorageFactory.CreateJobStorage();
             Runner = new JobRunner(storage, converter);
-            Runner.Run();
+            Runner.Run((jobId) => Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith((n) =>
+            {
+                SuperposeSignalRContext.GetHubContext().Clients.All.AddMessage(jobId);
+
+            }));
         }
 
         public static IJobStoragefactory StorageFactory { set; get; }

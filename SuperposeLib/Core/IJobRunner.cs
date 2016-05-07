@@ -1,3 +1,4 @@
+using System;
 using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Core
@@ -5,6 +6,6 @@ namespace SuperposeLib.Core
     public interface IJobRunner
     {
         IJobFactory JobFactory { get; }
-        bool Run();
+        bool Run(Action<string> onRunning );
     }
 }

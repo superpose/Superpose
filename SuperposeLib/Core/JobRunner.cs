@@ -23,7 +23,7 @@ namespace SuperposeLib.Core
             Timer.Dispose();
         }
 
-        public bool Run()
+        public bool Run(Action<string> onRunning)
         {
             try
             {
@@ -38,13 +38,25 @@ namespace SuperposeLib.Core
                 if (jobsId == null || jobsId.Count != 1)
                 {
                     Timer?.Dispose();
-
-                    Timer = new Timer(state => { Run(); }, null, TimeSpan.FromSeconds(3), TimeSpan.Zero);
-
+                    Timer = new Timer(state =>
+                    {
+                        Run(onRunning);
+                    }, null, TimeSpan.FromSeconds(3), TimeSpan.Zero);
                     return true;
                 }
-                JobFactory.ProcessJob(jobsId.First());
-                return Run();
+                var selectJob = jobsId.First();
+
+                try
+                {
+                    onRunning?.Invoke(selectJob);
+                }
+                catch (Exception)
+                {
+                    //
+                }
+
+                JobFactory.ProcessJob(selectJob);
+                return Run(onRunning);
             }
             catch (Exception)
             {
