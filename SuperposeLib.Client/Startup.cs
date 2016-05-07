@@ -7,7 +7,7 @@ namespace SuperposeLib.Client
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseUIMiddleware();
+            app.UseSuperposeDashboard();
         }
     }
 }
