@@ -33,14 +33,24 @@ angular.module('tutorialWebApp').controller('ActorsCtrl', function ($scope, $roo
 
     $.connection.hub.url = "http://localhost:8008/signalr";
     var chat = $.connection.myHub;
-    chat.client.addMessage = function ( response) {
+    chat.client.processing = function ( response) {
         $timeout(function() {
-           alert(response);
+            console.log(response);
+        });
+    };
+
+    chat.client.jobStatisticsCompleted = function (response) {
+        $timeout(function () {
+            console.warn(response);
         });
     };
     // Start the connection.
     $.connection.hub.start().done(function () {
-        // getActorSystemStates();
+        chat.server.getJobStatistics().done(function (response) {
+            $timeout(function () {
+                console.warn(response);
+            });
+        });
     });
 
 });

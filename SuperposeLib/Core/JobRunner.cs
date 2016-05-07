@@ -23,7 +23,7 @@ namespace SuperposeLib.Core
             Timer.Dispose();
         }
 
-        public bool Run(Action<string> onRunning)
+        public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace SuperposeLib.Core
                     Timer?.Dispose();
                     Timer = new Timer(state =>
                     {
-                        Run(onRunning);
+                        Run(onRunning, runningCompleted);
                     }, null, TimeSpan.FromSeconds(3), TimeSpan.Zero);
                     return true;
                 }
@@ -56,7 +56,15 @@ namespace SuperposeLib.Core
                 }
 
                 JobFactory.ProcessJob(selectJob);
-                return Run(onRunning);
+                try
+                {
+                    runningCompleted?.Invoke(selectJob);
+                }
+                catch (Exception)
+                {
+                    //
+                }
+                return Run(onRunning, runningCompleted);
             }
             catch (Exception)
             {

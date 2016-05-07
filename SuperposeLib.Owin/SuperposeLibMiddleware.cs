@@ -20,8 +20,12 @@ namespace SuperposeLib.Owin
             Runner = new JobRunner(storage, converter);
             Runner.Run((jobId) => Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith((n) =>
             {
-                SuperposeSignalRContext.GetHubContext().Clients.All.AddMessage(jobId);
-
+                SuperposeSignalRContext.GetHubContext().Clients.All.Processing(jobId);
+            }), (jobId) => Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith((n) =>
+            {
+                 var jobStatistics = storage.JobLoader.GetJobStatistics();
+                SuperposeSignalRContext.GetHubContext().Clients.All.jobStatisticsCompleted(jobStatistics);
+                
             }));
         }
 

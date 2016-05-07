@@ -6,6 +6,6 @@ namespace SuperposeLib.Core
     public interface IJobRunner
     {
         IJobFactory JobFactory { get; }
-        bool Run(Action<string> onRunning );
+        bool Run(Action<string> onRunning, Action<string> runningCompleted);
     }
 }

@@ -1,12 +1,19 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Superpose.StorageInterface;
 
 namespace SuperposeLib.Owin
 {
     public class MyHub : Hub
     {
-        public void Send( string message)
+
+        public void GetJobStatistics()
         {
-            Clients.All.addMessage( message);
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            {
+                var jobStatistics = storage.JobLoader.GetJobStatistics();
+                Clients.All.jobStatisticsCompleted(jobStatistics);
+            }
+
         }
     }
 
