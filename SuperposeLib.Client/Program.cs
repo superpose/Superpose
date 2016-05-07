@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Superpose.Storage.InMemory;
+using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Owin;
@@ -14,22 +15,7 @@ namespace SuperposeLib.Client
         {
             Task.Delay(TimeSpan.FromSeconds(15)).ContinueWith(n =>
             {
-                var storageFactory = new InMemoryJobStoragefactory();
-                // StorageFactory = new LiteDBJobStoragefactory();
-                var converterFactory = new DefaultJobConverterFactory();
-                var converter = converterFactory.CretateConverter();
-                using (var storage = storageFactory.CreateJobStorage())
-                {
-                    try
-                    {
-                        IJobFactory factory = new JobFactory(storage, converter);
-                        var jobId = factory.QueueJob(typeof(SampleJob));
-                    }
-                    catch (Exception e)
-                    {
-                        
-                    }
-                }
+                JobHandler.EnqueueJob<SampleJob>();
             });
             OwinServer.StartServer();
         }

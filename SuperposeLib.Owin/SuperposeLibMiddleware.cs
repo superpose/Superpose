@@ -13,9 +13,10 @@ namespace SuperposeLib.Owin
         public SuperposeLibServerMiddleware(AppFunc next)
         {
             Next = next;
-
-            var converter = new DefaultJobConverterFactory().CretateConverter();
-            var storage = StorageFactory.CreateJobStorage();
+            SuperposeGlobalConfiguration.JobConverterFactory = SuperposeGlobalConfiguration.JobConverterFactory ??
+                                                               new DefaultJobConverterFactory();
+           var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
+            var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
             Runner = new JobRunner(storage, converter);
             Runner.Run((jobId) => Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith((n) =>
             {
@@ -24,7 +25,6 @@ namespace SuperposeLib.Owin
             }));
         }
 
-        public static IJobStoragefactory StorageFactory { set; get; }
         private AppFunc Next { get; }
         private IJobRunner Runner { get; }
 

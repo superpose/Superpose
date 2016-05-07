@@ -21,7 +21,7 @@ namespace SuperposeLib.Tests
         {
             using (WebApp.Start<Startup>("http://localhost:12345"))
             {
-                using (var storage = SuperposeLibServerMiddleware.StorageFactory.CreateJobStorage())
+                using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
                 {
                     var converter = new DefaultJobConverterFactory().CretateConverter();
                     IJobFactory factory = new JobFactory(storage, converter);
@@ -48,6 +48,7 @@ namespace SuperposeLib.Tests
                         }
                     }
                     Assert.IsTrue(passed);
+
                 }
             }
         }
@@ -63,7 +64,7 @@ namespace SuperposeLib.Tests
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
                 IJobRunner runner = new JobRunner(storage, converter);
-                runner.Run(TODO);
+                runner.Run(null);
                 var existingResult = factory.GetJobLoad(jobId);
                 Assert.AreEqual(existingResult.JobStateTypeName,
                     Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
@@ -85,7 +86,7 @@ namespace SuperposeLib.Tests
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                 var runner = new JobRunner(storage, converter);
-                var result = runner.Run(TODO);
+                var result = runner.Run(null);
 
                 Assert.IsTrue(result);
                 var existingResult = factory.GetJobLoad(jobId);
@@ -123,7 +124,7 @@ namespace SuperposeLib.Tests
                     var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                     var runner = new JobRunner(storage, converter);
-                    var result = runner.Run(TODO);
+                    var result = runner.Run(null);
                     Assert.IsTrue(result);
                     var existingResult = factory.GetJobLoad(jobId);
 
@@ -164,7 +165,7 @@ namespace SuperposeLib.Tests
                     for (var i = 1; i <= noOfCircles; i++)
                     {
                         var runner = new JobRunner(storage, converter);
-                        var result = runner.Run(TODO);
+                        var result = runner.Run(null);
                         Assert.IsTrue(result);
                         var existingResult = factory.GetJobLoad(jobId);
 

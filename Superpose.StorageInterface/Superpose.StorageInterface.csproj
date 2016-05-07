@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IJobConverter.cs" />
+    <Compile Include="Converters\IJobConverterFactory.cs" />
+    <Compile Include="Converters\IJobParser.cs" />
+    <Compile Include="Converters\IJobSerializer.cs" />
     <Compile Include="IJobLoad.cs" />
     <Compile Include="IJobState.cs" />
     <Compile Include="JobExecutionStatus.cs" />
@@ -52,6 +56,7 @@
     <Compile Include="IJobStoragefactory.cs" />
     <Compile Include="IJobStorageReseter.cs" />
     <Compile Include="JobStatistics.cs" />
+    <Compile Include="SuperposeGlobalConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

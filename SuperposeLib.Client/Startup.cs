@@ -8,8 +8,8 @@ namespace SuperposeLib.Client
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseSuperposeLibInMemoryStorageFactory();
-            app.UseSuperposeLibServerMiddleware();
+            app.UseSuperposeInMemoryStorage();
+            app.UseSuperposeServer();
             app.UseSuperposeDashboard();
         }
     }

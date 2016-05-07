@@ -145,7 +145,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 var runner = new JobRunner(storage, converter);
-                var result = runner.Run(TODO);
+                var result = runner.Run(null);
                 Assert.IsTrue(result);
             }
             Console.WriteLine("Done!");
