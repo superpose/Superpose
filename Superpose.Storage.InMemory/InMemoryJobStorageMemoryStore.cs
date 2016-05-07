@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using SuperposeLib.Models;
+using Superpose.StorageInterface;
 
 namespace SuperposeLib.Services.InMemoryStorage
 {

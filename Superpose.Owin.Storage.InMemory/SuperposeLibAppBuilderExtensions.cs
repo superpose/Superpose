@@ -1,7 +1,8 @@
 using Owin;
-using SuperposeLib.Core;
+using Superpose.Storage.InMemory;
+using SuperposeLib.Owin;
 
-namespace Superpose.Storage.InMemory
+namespace Superpose.Owin.Storage.InMemory
 {
     public static class SuperposeLibAppBuilderExtensions
     {

@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
+using Superpose.StorageInterface;
+using Superpose.StorageInterface.Storage;
 using SuperposeLib.Extensions;
-using SuperposeLib.Interfaces.Storage;
-using SuperposeLib.Models;
 using SuperposeLib.Services.InMemoryStorage;
 
 namespace Superpose.Storage.InMemory

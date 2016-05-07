@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using SuperposeLib.Interfaces.Storage;
-using SuperposeLib.Models;
+using Superpose.StorageInterface;
+using Superpose.StorageInterface.Storage;
 
 namespace SuperposeLib.Services.InMemoryStorage
 {

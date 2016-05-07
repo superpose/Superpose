@@ -1,4 +1,5 @@
-﻿using SuperposeLib.Interfaces.JobThings;
+﻿using Superpose.StorageInterface;
+using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Interfaces.Converters
 {

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Superpose.StorageInterface;
 using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;

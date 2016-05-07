@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SuperposeLib.Interfaces.JobThings;
 
-namespace SuperposeLib.Models
+namespace Superpose.StorageInterface
 {
     public class SerializableJobLoad : IJobLoad
     {

@@ -1,4 +1,4 @@
-namespace SuperposeLib.Interfaces.Storage
+namespace Superpose.StorageInterface.Storage
 {
     public interface IJobStorageReseter
     {

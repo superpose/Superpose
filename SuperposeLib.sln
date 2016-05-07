@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Storage.LiteDB", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Storage.InMemory", "Superpose.Storage.InMemory\Superpose.Storage.InMemory.csproj", "{F5125D06-954A-4875-A7C8-D67CA7ABFF65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.StorageInterface", "Superpose.StorageInterface\Superpose.StorageInterface.csproj", "{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Owin.Storage.InMemory", "Superpose.Owin.Storage.InMemory\Superpose.Owin.Storage.InMemory.csproj", "{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Owin.Storage.LiteDB", "Superpose.Owin.Storage.LiteDB\Superpose.Owin.Storage.LiteDB.csproj", "{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +57,18 @@ Global
 		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5125D06-954A-4875-A7C8-D67CA7ABFF65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

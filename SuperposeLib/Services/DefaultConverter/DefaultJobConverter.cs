@@ -1,4 +1,5 @@
 ﻿using System;
+using Superpose.StorageInterface;
 using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
 

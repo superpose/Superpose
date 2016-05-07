@@ -146,6 +146,8 @@
     <Compile Include="MyHub.cs" />
     <Compile Include="PacketTrackingMiddleware.cs" />
     <Compile Include="SuperposeLib.Owin.cs" />
+    <Compile Include="SuperposeLibAppBuilderExtensions.cs" />
+    <Compile Include="SuperposeLibMiddleware.cs" />
     <Compile Include="ValuesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -159,6 +161,14 @@
     <ProjectReference Include="..\PacketTrackingMiddlewareLib\PacketTrackingMiddlewareLib.csproj">
       <Project>{a674ad69-e5d6-4fa0-b991-50d3ae540b19}</Project>
       <Name>PacketTrackingMiddlewareLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
+      <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
+      <Name>Superpose.StorageInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperposeLib\SuperposeLib.csproj">
+      <Project>{80CC5468-7675-4FB4-9D4A-E69D60E95252}</Project>
+      <Name>SuperposeLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -1,4 +1,4 @@
-using SuperposeLib.Interfaces.Storage;
+using Superpose.StorageInterface.Storage;
 using SuperposeLib.Services.InMemoryStorage;
 
 namespace Superpose.Storage.InMemory

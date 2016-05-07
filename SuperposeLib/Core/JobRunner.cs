@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading;
+using Superpose.StorageInterface;
+using Superpose.StorageInterface.Storage;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Models;
 
 namespace SuperposeLib.Core

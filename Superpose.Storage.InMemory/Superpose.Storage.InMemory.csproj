@@ -64,12 +64,15 @@
     <Compile Include="InMemoryJobStoragefactory.cs" />
     <Compile Include="InMemoryJobStorageMemoryStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SuperposeLibAppBuilderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SuperposeLib\SuperposeLib.csproj">
-      <Project>{80cc5468-7675-4fb4-9d4a-e69d60e95252}</Project>
-      <Name>SuperposeLib</Name>
+    <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
+      <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
+      <Name>Superpose.StorageInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperposeLib.Owin\SuperposeLib.Owin.csproj">
+      <Project>{AE64D619-D969-46BF-ABD3-0CFBE772C46C}</Project>
+      <Name>SuperposeLib.Owin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

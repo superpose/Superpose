@@ -90,6 +90,14 @@
     <Compile Include="TestHarness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Superpose.Owin.Storage.InMemory\Superpose.Owin.Storage.InMemory.csproj">
+      <Project>{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}</Project>
+      <Name>Superpose.Owin.Storage.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Superpose.Owin.Storage.LiteDB\Superpose.Owin.Storage.LiteDB.csproj">
+      <Project>{2c8e94c8-7f0f-46ed-8f69-4d62cec5b4da}</Project>
+      <Name>Superpose.Owin.Storage.LiteDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Superpose.Storage.InMemory\Superpose.Storage.InMemory.csproj">
       <Project>{F5125D06-954A-4875-A7C8-D67CA7ABFF65}</Project>
       <Name>Superpose.Storage.InMemory</Name>
@@ -97,6 +105,14 @@
     <ProjectReference Include="..\Superpose.Storage.LiteDB\Superpose.Storage.LiteDB.csproj">
       <Project>{8f209bdc-3879-4812-b074-801e417c8957}</Project>
       <Name>Superpose.Storage.LiteDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
+      <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
+      <Name>Superpose.StorageInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperposeLib.Owin\SuperposeLib.Owin.csproj">
+      <Project>{AE64D619-D969-46BF-ABD3-0CFBE772C46C}</Project>
+      <Name>SuperposeLib.Owin</Name>
     </ProjectReference>
     <ProjectReference Include="..\SuperposeLib\SuperposeLib.csproj">
       <Project>{80CC5468-7675-4FB4-9D4A-E69D60E95252}</Project>

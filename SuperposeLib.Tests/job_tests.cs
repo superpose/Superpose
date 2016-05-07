@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.Storage.InMemory;
+using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.Converters;

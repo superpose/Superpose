@@ -1,5 +1,5 @@
 using System;
-using SuperposeLib.Interfaces.Storage;
+using Superpose.StorageInterface.Storage;
 
 namespace SuperposeLib.Services.InMemoryStorage
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.Storage.InMemory;
+using Superpose.StorageInterface.Storage;
 using SuperposeLib.Interfaces.Converters;
-using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Services.DefaultConverter;
 
 namespace SuperposeLib.Tests

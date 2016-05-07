@@ -1,5 +1,6 @@
 using System;
 using LiteDB;
+using Superpose.StorageInterface;
 using SuperposeLib.Models;
 
 namespace Superpose.Storage.LiteDB

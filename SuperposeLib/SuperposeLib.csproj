@@ -65,26 +65,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AJob.cs" />
-    <Compile Include="Core\SuperposeLibAppBuilderExtensions.cs" />
     <Compile Include="Core\IJobRunner.cs" />
     <Compile Include="Core\JobRunner.cs" />
-    <Compile Include="Core\SuperposeLibMiddleware.cs" />
     <Compile Include="Interfaces\ITime.cs" />
     <Compile Include="Core\RealTime.cs" />
     <Compile Include="Core\SuperVisionDecision.cs" />
     <Compile Include="Core\VirtualTime.cs" />
-    <Compile Include="Interfaces\JobThings\IJobLoad.cs" />
-    <Compile Include="Interfaces\JobThings\IJobState.cs" />
-    <Compile Include="Interfaces\Storage\IJobStorageReseter.cs" />
-    <Compile Include="Interfaces\Storage\JobStatistics.cs" />
     <Compile Include="Models\JobPartOfJobLoad.cs" />
     <Compile Include="Models\JobResult.cs" />
     <Compile Include="Models\JobState.cs" />
     <Compile Include="Core\JobStateTransitionFactory.cs" />
     <Compile Include="Extensions\JobStateExtensions.cs" />
-    <Compile Include="Models\JobStateType.cs" />
-    <Compile Include="Models\JobExecutionStatus.cs" />
-    <Compile Include="Models\SerializableJobLoad.cs" />
     <Compile Include="Services\DefaultConverter\DefaultJobConverter.cs" />
     <Compile Include="Services\DefaultConverter\DefaultJobConverterFactory.cs" />
     <Compile Include="Services\DefaultConverter\DefaultJobParser.cs" />
@@ -92,18 +83,20 @@
     <Compile Include="Interfaces\Converters\IJobConverter.cs" />
     <Compile Include="Interfaces\Converters\IJobConverterFactory.cs" />
     <Compile Include="Interfaces\JobThings\IJobFactory.cs" />
-    <Compile Include="Interfaces\Storage\IJobLoader.cs" />
     <Compile Include="Interfaces\Converters\IJobParser.cs" />
-    <Compile Include="Interfaces\Storage\IJobSaver.cs" />
     <Compile Include="Interfaces\Converters\IJobSerializer.cs" />
-    <Compile Include="Interfaces\Storage\IJobStorage.cs" />
-    <Compile Include="Interfaces\Storage\IJobStoragefactory.cs" />
     <Compile Include="Core\JobFactory.cs" />
     <Compile Include="Models\JobLoad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
+      <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
+      <Name>Superpose.StorageInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

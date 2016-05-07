@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using SuperposeLib.Interfaces.Storage;
+using Superpose.StorageInterface;
+using Superpose.StorageInterface.Storage;
 using SuperposeLib.Models;
 
 namespace Superpose.Storage.LiteDB

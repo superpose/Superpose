@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.JobThings;

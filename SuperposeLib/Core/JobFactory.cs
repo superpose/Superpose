@@ -1,9 +1,10 @@
 ﻿using System;
+using Superpose.StorageInterface;
+using Superpose.StorageInterface.Storage;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Interfaces.Storage;
 using SuperposeLib.Models;
 
 namespace SuperposeLib.Core
