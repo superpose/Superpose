@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using Superpose.StorageInterface;
+using Superpose.StorageInterface.Converters;
 using SuperposeLib.Interfaces;
-using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
 

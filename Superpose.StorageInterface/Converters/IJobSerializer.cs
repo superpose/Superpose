@@ -1,7 +1,4 @@
-﻿using Superpose.StorageInterface;
-
-
-namespace SuperposeLib.Interfaces.Converters
+﻿namespace Superpose.StorageInterface.Converters
 {
     public interface IJobSerializer
     {

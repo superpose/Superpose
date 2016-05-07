@@ -1,8 +1,8 @@
 ﻿using System;
 using Superpose.StorageInterface;
+using Superpose.StorageInterface.Converters;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
-using SuperposeLib.Interfaces.Converters;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
 

@@ -1,4 +1,4 @@
-﻿namespace SuperposeLib.Interfaces.Converters
+﻿namespace Superpose.StorageInterface.Converters
 {
     public interface IJobConverterFactory
     {

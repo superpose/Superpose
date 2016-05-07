@@ -1,4 +1,4 @@
-﻿using SuperposeLib.Interfaces.Converters;
+﻿using Superpose.StorageInterface.Converters;
 
 namespace SuperposeLib.Services.DefaultConverter
 {
