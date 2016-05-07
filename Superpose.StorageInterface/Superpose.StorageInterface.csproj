@@ -46,12 +46,12 @@
     <Compile Include="JobStateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableJobLoad.cs" />
-    <Compile Include="Storage\IJobLoader.cs" />
-    <Compile Include="Storage\IJobSaver.cs" />
-    <Compile Include="Storage\IJobStorage.cs" />
-    <Compile Include="Storage\IJobStoragefactory.cs" />
-    <Compile Include="Storage\IJobStorageReseter.cs" />
-    <Compile Include="Storage\JobStatistics.cs" />
+    <Compile Include="IJobLoader.cs" />
+    <Compile Include="IJobSaver.cs" />
+    <Compile Include="IJobStorage.cs" />
+    <Compile Include="IJobStoragefactory.cs" />
+    <Compile Include="IJobStorageReseter.cs" />
+    <Compile Include="JobStatistics.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

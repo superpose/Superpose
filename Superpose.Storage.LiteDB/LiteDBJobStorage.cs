@@ -1,5 +1,5 @@
 using System;
-using Superpose.StorageInterface.Storage;
+using Superpose.StorageInterface;
 
 namespace Superpose.Storage.LiteDB
 {

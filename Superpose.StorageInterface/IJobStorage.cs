@@ -1,6 +1,6 @@
 using System;
 
-namespace Superpose.StorageInterface.Storage
+namespace Superpose.StorageInterface
 {
     public interface IJobStorage : IDisposable
     {

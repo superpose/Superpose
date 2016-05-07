@@ -1,6 +1,5 @@
 ﻿using System;
 using Superpose.StorageInterface;
-using Superpose.StorageInterface.Storage;
 using SuperposeLib.Models;
 
 namespace SuperposeLib.Interfaces.JobThings

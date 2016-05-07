@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Superpose.StorageInterface.Storage;
+using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Services.DefaultConverter;
 using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;

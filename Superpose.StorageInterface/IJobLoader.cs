@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Superpose.StorageInterface.Storage
+namespace Superpose.StorageInterface
 {
     public interface IJobLoader : IDisposable
     {
