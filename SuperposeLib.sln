@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Owin.Storage.InMe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Owin.Storage.LiteDB", "Superpose.Owin.Storage.LiteDB\Superpose.Owin.Storage.LiteDB.csproj", "{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Owin", "Owin", "{3ED9F4BB-4988-4264-88FA-56A5B9F25105}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storages", "Storages", "{DD441025-AC5C-462D-854A-3513F084AE44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +76,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE64D619-D969-46BF-ABD3-0CFBE772C46C} = {3ED9F4BB-4988-4264-88FA-56A5B9F25105}
+		{8F209BDC-3879-4812-B074-801E417C8957} = {DD441025-AC5C-462D-854A-3513F084AE44}
+		{F5125D06-954A-4875-A7C8-D67CA7ABFF65} = {DD441025-AC5C-462D-854A-3513F084AE44}
+		{B9E28634-4A55-46B8-9AD7-AB28BEFE059F} = {3ED9F4BB-4988-4264-88FA-56A5B9F25105}
+		{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA} = {3ED9F4BB-4988-4264-88FA-56A5B9F25105}
 	EndGlobalSection
 EndGlobal
