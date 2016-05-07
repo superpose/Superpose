@@ -49,22 +49,22 @@ namespace SuperposeLib.Core
             return jobId;
         }
 
-        private static readonly Dictionary<string,AJob> CachedInstances=new Dictionary<string, AJob>(); 
+       // private static readonly Dictionary<string,AJob> CachedInstances=new Dictionary<string, AJob>(); 
         public JobLoad InstantiateJobComponent(IJobLoad jobLoad)
         {
             var load = (JobLoad)jobLoad;
             try
             {
-                if (CachedInstances.ContainsKey(jobLoad.JobTypeFullName) && CachedInstances[jobLoad.JobTypeFullName]!=null)
-                {
-                    load.Job = CachedInstances[jobLoad.JobTypeFullName];
-                }
-                else
-                {
+                //if (CachedInstances.ContainsKey(jobLoad.JobTypeFullName) && CachedInstances[jobLoad.JobTypeFullName]!=null)
+                //{
+                //    load.Job = CachedInstances[jobLoad.JobTypeFullName];
+                //}
+                //else
+                //{
                    var job = (AJob)Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
-                    CachedInstances.Add(jobLoad.JobTypeFullName,job);
+                   // CachedInstances.Add(jobLoad.JobTypeFullName,job);
                     load.Job = job;
-                }
+                //}
                 
             }
             catch (Exception e)

@@ -31,14 +31,14 @@ namespace SuperposeLib.Core
             
             try
             {
-                var jobsId = JobFactory
+                var jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
                     .LoadJobsByJobStateTypeAndTimeToRun(
                         JobStateType.Queued,
                         JobFactory.Time.MinValue,
                         JobFactory.Time.UtcNow.AddMinutes(1), 1, 0);
-                var hasNoWorkToDo = jobsId == null || jobsId.Count != 1;
+                var hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
 
                 if (hasNoWorkToDo)
                 {
@@ -46,8 +46,11 @@ namespace SuperposeLib.Core
                 }
                 else
                 {
-                    DoSomeWork(onRunning, runningCompleted, jobsId);
-                    Task.Delay(TimeSpan.FromMilliseconds(10)).ContinueWith(c => Run(onRunning, runningCompleted));
+                    DoSomeWork(onRunning, runningCompleted, jobsIds);
+                    var task=Task.Delay(TimeSpan.FromMilliseconds(1)).ContinueWith(c => Run(onRunning, runningCompleted));
+
+                    Task.WaitAll(task);
+                    //Run(onRunning, runningCompleted);
                 }
 
                 return true;
