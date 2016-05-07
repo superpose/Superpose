@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
@@ -9,7 +10,7 @@ namespace SuperposeLib.Owin
     {
         public void QueueSampleJob()
         {
-            int total = 50000;
+            int total = 1000000;
             for (int i = 0; i < total; i++)
             {
                 JobHandler.EnqueueJob<TestJob>();
@@ -32,7 +33,9 @@ namespace SuperposeLib.Owin
     {
         protected override void Execute()
         {
-           // Console.WriteLine("woooo!");
+           // throw  new Exception();
+            Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(100)));
+            // Console.WriteLine("woooo!");
         }
     }
 

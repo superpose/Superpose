@@ -5,27 +5,30 @@
 <!-- content -->
 
 <ul class="nav navbar-collapse collapse bootstrap-admin-navbar-side">
+   
+   
     <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalDeletedJobs}}</span> Deleted</a>
+        <a ><span class="badge pull-right label-{{statictics.TotalNumberOfJobs?'info':'default'}}">{{statictics.TotalNumberOfJobs}}</span> Total</a>
     </li>
     <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalFailedJobs}}</span> Failed</a>
+    <a><span class="badge pull-right label-{{statictics.TotalQueuedJobs?'primary':'default'}}">{{statictics.TotalQueuedJobs}}</span> Queued</a>
+</li>
+    <li>
+        <a ><span class="badge pull-right label-{{statictics.TotalProcessingJobs?'warning':'default'}}">{{statictics.TotalProcessingJobs}}</span> Processing</a>
+    </li>
+
+    <li>
+        <a ><span class="badge pull-right label-{{statictics.TotalSuccessfullJobs?'success':'default'}}">{{statictics.TotalSuccessfullJobs}}</span> Successfull</a>
     </li>
     <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalNumberOfJobs}}</span> Total</a>
+        <a><span class="badge  pull-right label-{{statictics.TotalFailedJobs?'danger':'default'}}">{{statictics.TotalFailedJobs}}</span> Failed</a>
     </li>
     <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalProcessingJobs}}</span> Processing</a>
+        <a ><span class="badge pull-right label-{{statictics.TotalUnknownJobs?'warning':'default'}}">{{statictics.TotalUnknownJobs}}</span> Unknown</a>
     </li>
     <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalQueuedJobs}}</span> Queued</a>
-    </li>
-    <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalSuccessfullJobs}}</span> Successfull</a>
-    </li>
-    <li>
-        <a href="#"><span class="badge pull-right">{{statictics.TotalUnknownJobs}}</span> Unknown</a>
-    </li>
+    <a><span class="badge pull-right label-{{statictics.TotalDeletedJobs?'warning':'default'}}">{{statictics.TotalDeletedJobs}}</span> Deleted</a>
+</li>
     <li class="active">
         <a style="cursor: pointer" ng-click="queueSampleJob()"><i class="glyphicon glyphicon-chevron-right"></i>Queue Sample Job</a>
     </li>

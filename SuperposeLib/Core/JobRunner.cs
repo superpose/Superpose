@@ -53,7 +53,8 @@ namespace SuperposeLib.Core
                 }
                 else
                 {
-                    ParallelDoSomeWork(Environment.ProcessorCount, onRunning, runningCompleted, jobsIds);
+                    //Environment.ProcessorCount
+                    ParallelDoSomeWork(100, onRunning, runningCompleted, jobsIds);
                     Run(onRunning, runningCompleted);
                 }
 

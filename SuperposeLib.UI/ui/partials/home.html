@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="text-muted bootstrap-admin-box-title">Jobs List - Executing {{jobExecuting}}</div>
+                <div class="text-muted bootstrap-admin-box-title" ng-show="jobExecuting"><span class="label label-info">Jobs List </span></div>
             </div>
             <div class="bootstrap-admin-panel-content">
                 <table class="table table-striped table-bordered" id="example">
@@ -42,7 +42,7 @@
     <div class="col-lg-12">
         <div class="alert alert-info">
             <a class="close" data-dismiss="alert" href="#">&times;</a>
-            Press enter key or click the Submit button
+            Executing {{jobExecuting}} ...
         </div>
         <form method="post" action="about.html" class="bootstrap-admin-login-form">
             <h1>Login</h1>
