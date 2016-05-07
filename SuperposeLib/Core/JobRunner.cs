@@ -13,9 +13,15 @@ namespace SuperposeLib.Core
 {
     public class JobRunner : IJobRunner, IDisposable
     {
+        private readonly IJobStorage _jobStorage;
+        private readonly IJobConverter _jobConverter;
+        private readonly ITime _time;
+
         public JobRunner(IJobStorage jobStorage, IJobConverter jobConverter, ITime time = null)
         {
-            JobFactory = new JobFactory(jobStorage, jobConverter, time);
+            _jobStorage = jobStorage;
+            _jobConverter = jobConverter;
+            _time = time;
         }
 
         private Timer Timer { set; get; }
@@ -28,16 +34,17 @@ namespace SuperposeLib.Core
        
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
-            
+             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             try
             {
+
                 var jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
                     .LoadJobsByJobStateTypeAndTimeToRun(
                         JobStateType.Queued,
                         JobFactory.Time.MinValue,
-                        JobFactory.Time.UtcNow.AddMinutes(1), 1, 0);
+                        JobFactory.Time.UtcNow.AddMinutes(1), 100, 0);
                 var hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
 
                 if (hasNoWorkToDo)
@@ -46,11 +53,8 @@ namespace SuperposeLib.Core
                 }
                 else
                 {
-                    DoSomeWork(onRunning, runningCompleted, jobsIds);
-                    var task=Task.Delay(TimeSpan.FromMilliseconds(1)).ContinueWith(c => Run(onRunning, runningCompleted));
-
-                    Task.WaitAll(task);
-                    //Run(onRunning, runningCompleted);
+                    ParallelDoSomeWork(Environment.ProcessorCount, onRunning, runningCompleted, jobsIds);
+                    Run(onRunning, runningCompleted);
                 }
 
                 return true;
@@ -59,25 +63,39 @@ namespace SuperposeLib.Core
             {
                 return false;
             }
+            
         }
 
-        private void DoSomeWork(Action<string> onRunning, Action<string> runningCompleted, List<string> jobsId)
+        private void ParallelDoSomeWork(int maxDegreeOfParallelism,Action<string> onRunning, Action<string> runningCompleted, List<string> jobsIds)
         {
-            var selectJob = jobsId.First();
+           
+            Parallel.ForEach( jobsIds, new ParallelOptions
+            {
+                MaxDegreeOfParallelism = maxDegreeOfParallelism
+            }, (jobsId) =>
+            {
+               // Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(1)));
+                DoSomeWork(onRunning, runningCompleted, jobsId);
+
+            });
+        }
+
+        private void DoSomeWork(Action<string> onRunning, Action<string> runningCompleted, string jobsId)
+        {
 
             try
             {
-                onRunning?.Invoke(selectJob);
+                onRunning?.Invoke(jobsId);
             }
             catch (Exception)
             {
                 //
             }
 
-            JobFactory.ProcessJob(selectJob);
+            JobFactory.ProcessJob(jobsId);
             try
             {
-                runningCompleted?.Invoke(selectJob);
+                runningCompleted?.Invoke(jobsId);
             }
             catch (Exception)
             {
@@ -85,6 +103,6 @@ namespace SuperposeLib.Core
             }
         }
 
-        public IJobFactory JobFactory { get; }
+        public IJobFactory JobFactory { get; set; }
     }
 }

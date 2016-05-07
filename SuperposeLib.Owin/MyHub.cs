@@ -9,7 +9,7 @@ namespace SuperposeLib.Owin
     {
         public void QueueSampleJob()
         {
-            int total = 1000;
+            int total = 50000;
             for (int i = 0; i < total; i++)
             {
                 JobHandler.EnqueueJob<TestJob>();
