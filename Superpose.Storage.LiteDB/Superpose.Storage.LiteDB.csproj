@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JobLoadCollectionEntity.cs" />
     <Compile Include="LiteDBCollectionsFactory.cs" />
     <Compile Include="LiteDBJobLoader.cs" />
     <Compile Include="LiteDBJobSaver.cs" />
@@ -73,10 +72,6 @@
     <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
       <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
       <Name>Superpose.StorageInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SuperposeLib\SuperposeLib.csproj">
-      <Project>{80cc5468-7675-4fb4-9d4a-e69d60e95252}</Project>
-      <Name>SuperposeLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
