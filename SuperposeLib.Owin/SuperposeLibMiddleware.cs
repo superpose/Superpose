@@ -14,24 +14,37 @@ namespace SuperposeLib.Owin
         {
             Next = next;
             SuperposeGlobalConfiguration.JobConverterFactory = SuperposeGlobalConfiguration.JobConverterFactory ??
-                                                               new DefaultJobConverterFactory();
-           var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
-            var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
-            Runner = new JobRunner(storage, converter);
-            Runner.Run((jobId) => Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith((n) =>
-            {
-                SuperposeSignalRContext.GetHubContext().Clients.All.Processing(jobId);
-            }), (jobId) => Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith((n) =>
-            {
-                 var jobStatistics = storage.JobLoader.GetJobStatistics();
-                SuperposeSignalRContext.GetHubContext().Clients.All.jobStatisticsCompleted(jobStatistics);
-                
-            }));
+                                                              new DefaultJobConverterFactory();
+                var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
+                 Storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
+                Runner = new JobRunner(Storage, converter);
+                Runner.Run(UiNotifyer, UiNotifyer);
         }
 
-        private AppFunc Next { get; }
-        private IJobRunner Runner { get; }
+        public static IJobStorage Storage { get; set; }
 
+        public Action<string> UiNotifyer = (jobId) =>
+        {
+            LastReportedProcessedJob = jobId;
+
+            if (ReportDelayInProgress)
+            {
+                return;
+            }
+            ReportDelayInProgress = true;
+            Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith((n) =>
+            {
+                SuperposeSignalRContext.GetHubContext().Clients.All.Processing(LastReportedProcessedJob);
+                var jobStatistics = Storage.JobLoader.GetJobStatistics();
+                SuperposeSignalRContext.GetHubContext().Clients.All.jobStatisticsCompleted(jobStatistics);
+                ReportDelayInProgress = false;
+            });
+        };
+        private AppFunc Next { get; }
+        private IJobRunner Runner { get;  }
+
+        public static bool ReportDelayInProgress { set; get; }
+        public static string LastReportedProcessedJob = null;
 
         public async Task Invoke(IDictionary<string, object> environment)
         {

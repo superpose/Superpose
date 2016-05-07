@@ -43,25 +43,20 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
 
     chat.client.jobStatisticsCompleted = function(response) {
         $timeout(function() {
-
-            $scope.statictics = response;
+            $scope.statictics = response || {
+                TotalDeletedJobs: 0,
+                TotalFailedJobs: 0,
+                TotalNumberOfJobs: 0,
+                TotalProcessingJobs: 0,
+                TotalQueuedJobs: 0,
+                TotalSuccessfullJobs: 0,
+                TotalUnknownJobs: 0
+            };
         });
     };
     // Start the connection.
     $.connection.hub.start().done(function() {
-        chat.server.getJobStatistics().done(function(response) {
-            $timeout(function() {
-                $scope.statictics = response || {
-                    TotalDeletedJobs: 0,
-                    TotalFailedJobs: 0,
-                    TotalNumberOfJobs: 0,
-                    TotalProcessingJobs: 0,
-                    TotalQueuedJobs: 0,
-                    TotalSuccessfullJobs: 0,
-                    TotalUnknownJobs: 0
-                };
-            });
-        });
+        chat.server.getJobStatistics();
     });
 
     $scope.queueSampleJob = function() {

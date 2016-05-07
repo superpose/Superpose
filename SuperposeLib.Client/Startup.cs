@@ -1,5 +1,6 @@
 ﻿using Owin;
 using Superpose.Owin.Storage.InMemory;
+using Superpose.Owin.Storage.LiteDB;
 using SuperposeLib.Owin;
 
 namespace SuperposeLib.Client
@@ -8,7 +9,8 @@ namespace SuperposeLib.Client
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseSuperposeInMemoryStorage();
+           // app.UseSuperposeLiteDbStorage();
+           app.UseSuperposeInMemoryStorage();
             app.UseSuperposeServer();
             app.UseSuperposeDashboard();
         }

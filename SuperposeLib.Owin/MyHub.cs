@@ -13,8 +13,8 @@ namespace SuperposeLib.Owin
             for (int i = 0; i < total; i++)
             {
                 JobHandler.EnqueueJob<TestJob>();
-                GetJobStatistics();
             }
+            GetJobStatistics();
         }
 
         public void GetJobStatistics()
@@ -32,7 +32,7 @@ namespace SuperposeLib.Owin
     {
         protected override void Execute()
         {
-            Console.WriteLine("woooo!");
+           // Console.WriteLine("woooo!");
         }
     }
 

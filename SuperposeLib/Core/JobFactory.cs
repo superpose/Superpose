@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
 using SuperposeLib.Extensions;
@@ -47,10 +49,28 @@ namespace SuperposeLib.Core
             return jobId;
         }
 
+        private static readonly Dictionary<string,AJob> CachedInstances=new Dictionary<string, AJob>(); 
         public JobLoad InstantiateJobComponent(IJobLoad jobLoad)
         {
-            var load = (JobLoad) jobLoad;
-            load.Job = (AJob) Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
+            var load = (JobLoad)jobLoad;
+            try
+            {
+                if (CachedInstances.ContainsKey(jobLoad.JobTypeFullName) && CachedInstances[jobLoad.JobTypeFullName]!=null)
+                {
+                    load.Job = CachedInstances[jobLoad.JobTypeFullName];
+                }
+                else
+                {
+                   var job = (AJob)Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
+                    CachedInstances.Add(jobLoad.JobTypeFullName,job);
+                    load.Job = job;
+                }
+                
+            }
+            catch (Exception e)
+            {
+                load.Job = new CoreJobThatFails(e, jobLoad.JobTypeFullName);
+            }
             return load;
         }
 
@@ -161,6 +181,27 @@ namespace SuperposeLib.Core
                 // throw e;
             }
             return null;
+        }
+    }
+
+    public class CoreJobThatFails : AJob
+    {
+        private Exception Exception { set; get; }
+        private string JobTypeFullName { set; get; }
+
+        public override SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)
+        {
+            return SuperVisionDecision.Fail;
+        }
+
+        public CoreJobThatFails(Exception exception, string jobTypeFullName)
+        {
+            Exception = exception;
+            JobTypeFullName = jobTypeFullName;
+        }
+        protected override void Execute()
+        {
+            throw new Exception("Unable to run job "+ JobTypeFullName,Exception);
         }
     }
 }
