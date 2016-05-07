@@ -13,10 +13,7 @@ namespace SuperposeLib.Client
     {
         private static void Main(string[] args)
         {
-            Task.Delay(TimeSpan.FromSeconds(15)).ContinueWith(n =>
-            {
-                JobHandler.EnqueueJob<SampleJob>();
-            });
+           
             OwinServer.StartServer();
         }
     }
