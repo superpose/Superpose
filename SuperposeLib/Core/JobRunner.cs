@@ -36,6 +36,9 @@ namespace SuperposeLib.Core
         {
              JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
+            var queue = SuperposeGlobalConfiguration.JobQueue;
+                    
+
             try
             {
 
@@ -45,16 +48,17 @@ namespace SuperposeLib.Core
                     .LoadJobsByJobStateTypeAndTimeToRun(queueName,
                         JobStateType.Queued,
                         JobFactory.Time.MinValue,
-                        JobFactory.Time.UtcNow.AddMinutes(1), 100, 0);
+                        JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
                 var hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
 
                 if (hasNoWorkToDo)
                 {
-                    Task.Delay(TimeSpan.FromSeconds(1)).ContinueWith(c => Run(onRunning, runningCompleted));
+                    Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval)).ContinueWith(c => Run(onRunning, runningCompleted));
                 }
                 else
                 {
-                    ParallelDoSomeWork(100, onRunning, runningCompleted, jobsIds);
+                   
+                    ParallelDoSomeWork(queue.WorkerPoolCount, onRunning, runningCompleted, jobsIds);
                     Run(onRunning, runningCompleted);
                 }
 

@@ -1,18 +1,18 @@
-﻿ <!-- left, vertical navbar & content -->
+﻿<!-- left, vertical navbar & content -->
 
 <!-- left, vertical navbar -->
-   
+
 <!-- content -->
 
 <ul class="nav navbar-collapse collapse bootstrap-admin-navbar-side">
-   
-   
+
+
     <li>
         <a ><span class="badge pull-right label-{{statictics.TotalNumberOfJobs?'info':'default'}}">{{statictics.TotalNumberOfJobs}}</span> Total</a>
     </li>
     <li>
-    <a><span class="badge pull-right label-{{statictics.TotalQueuedJobs?'primary':'default'}}">{{statictics.TotalQueuedJobs}}</span> Queued</a>
-</li>
+        <a><span class="badge pull-right label-{{statictics.TotalQueuedJobs?'primary':'default'}}">{{statictics.TotalQueuedJobs}}</span> Queued</a>
+    </li>
     <li>
         <a ><span class="badge pull-right label-{{statictics.TotalProcessingJobs?'warning':'default'}}">{{statictics.TotalProcessingJobs}}</span> Processing</a>
     </li>
@@ -27,11 +27,27 @@
         <a ><span class="badge pull-right label-{{statictics.TotalUnknownJobs?'warning':'default'}}">{{statictics.TotalUnknownJobs}}</span> Unknown</a>
     </li>
     <li>
-    <a><span class="badge pull-right label-{{statictics.TotalDeletedJobs?'warning':'default'}}">{{statictics.TotalDeletedJobs}}</span> Deleted</a>
-</li>
+        <a><span class="badge pull-right label-{{statictics.TotalDeletedJobs?'warning':'default'}}">{{statictics.TotalDeletedJobs}}</span> Deleted</a>
+    </li>
     <li class="active">
         <a style="cursor: pointer" ng-click="queueSampleJob()"><i class="glyphicon glyphicon-chevron-right"></i>Queue Sample Job</a>
     </li>
-   
+    <li ng-show="jobExecuting">
+        <a >
+            <div class="alert alert-success">
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                Executing {{jobExecuting}}
+            </div>
+        </a>
+    </li>
+    <!--
+    <li >
+        <a style="cursor: pointer" ng-click="setQueueMaxNumberOfJobsPerLoad()"><i class="glyphicon glyphicon-chevron-right"></i>Update Max Job PerLoad</a>
+    </li>
+    <li >
+        <a style="cursor: pointer" ng-click="setQueueStorgePollSecondsInterval()"><i class="glyphicon glyphicon-chevron-right"></i>Update Poll Interval</a>
+    </li>
+    <li >
+        <a style="cursor: pointer" ng-click="setQueueWorkerPoolCount()"><i class="glyphicon glyphicon-chevron-right"></i>Update Pool Count</a>
+    </li>-->
 </ul>
-   

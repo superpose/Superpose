@@ -45,8 +45,57 @@
 <div class="container" ng-controller="ActorsCtrl">
     <div class="row">
         <div class="col-md-2 bootstrap-admin-col-left" ng-include src="'partials/side_menu.html'"> </div>
-        <div class="col-md-10" ng-view> </div>
+        <div class="col-md-7" ng-view> </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-sm-12">
+
+
+                    <div class="bootstrap-admin-login-form">
+                        <span>Worker Pool Count</span>
+                        <div class="form-group">
+                            <input class="form-control" type="text" ng-model="jobQueue.WorkerPoolCount">
+                        </div>
+                        <span>Max Number Of Jobs Per Load</span>
+                        <div class="form-group">
+                            <input class="form-control" type="text" ng-model="jobQueue.MaxNumberOfJobsPerLoad">
+                        </div>
+                        <span>Storge Poll Seconds Interval</span>
+                        <div class="form-group">
+                            <input class="form-control" type="text" ng-model="jobQueue.StorgePollSecondsInterval">
+                        </div>
+                        <button class="btn btn-lg btn-primary" ng-click="updateCurrentQueue()">Update</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    
+                    <form method="post" action="about.html" class="bootstrap-admin-login-form">
+                        <h1>Login</h1>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="email" placeholder="E-mail">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="remember_me">
+                                Remember me
+                            </label>
+                        </div>
+                        <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </div>
 <!-- footer -->
 <div class="navbar navbar-footer" ng-include src="'partials/footer.html'"></div>

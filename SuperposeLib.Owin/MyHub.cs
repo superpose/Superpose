@@ -6,12 +6,34 @@ using SuperposeLib.Core;
 
 namespace SuperposeLib.Owin
 {
+    // SuperposeGlobalConfiguration.JobQueue
     public class MyHub : Hub
     {
+
+        public void GetCurrentQueue()
+        {
+            Clients.All.currentQueue(SuperposeGlobalConfiguration.JobQueue);
+        }
+        public void SetQueueMaxNumberOfJobsPerLoad(int maxNumberOfJobsPerLoad)
+        {
+            SuperposeGlobalConfiguration.JobQueue.MaxNumberOfJobsPerLoad = maxNumberOfJobsPerLoad;
+            GetCurrentQueue();
+        }
+        public void SetQueueStorgePollSecondsInterval(int storgePollSecondsInterval)
+        {
+            SuperposeGlobalConfiguration.JobQueue.StorgePollSecondsInterval = storgePollSecondsInterval;
+            GetCurrentQueue();
+        }
+        public void SetQueueWorkerPoolCount(int workerPoolCount)
+        {
+            SuperposeGlobalConfiguration.JobQueue.WorkerPoolCount = workerPoolCount;
+            GetCurrentQueue();
+        }
+
         public void QueueSampleJob()
         {
-            int total = 1000000;
-            for (int i = 0; i < total; i++)
+            const int total = 1000;
+            for (var i = 0; i < total; i++)
             {
                 JobHandler.EnqueueJob<TestJob>();
             }
@@ -25,7 +47,6 @@ namespace SuperposeLib.Owin
                 var jobStatistics = storage.JobLoader.GetJobStatistics();
                 Clients.All.jobStatisticsCompleted(jobStatistics);
             }
-
         }
     }
 

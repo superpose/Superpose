@@ -37,7 +37,8 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
     var chat = $.connection.myHub;
     chat.client.processing = function(response) {
         $timeout(function() {
-            $scope.jobExecuting=response;
+            $scope.jobExecuting = response;
+            
         });
     };
 
@@ -57,10 +58,35 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
     // Start the connection.
     $.connection.hub.start().done(function() {
         chat.server.getJobStatistics();
+        chat.server.getCurrentQueue();
     });
-
+    $scope.jobQueue = {};
     $scope.queueSampleJob = function() {
         chat.server.queueSampleJob();
     };
 
+    chat.client.currentQueue = function (response) {
+        $timeout(function () {
+            $scope.jobQueue = response;
+            console.log(response);
+        });
+    };
+    $scope.getCurrentQueue = function () {
+        chat.server.getCurrentQueue();
+    };
+    
+    $scope.setQueueMaxNumberOfJobsPerLoad = function () {
+        chat.server.setQueueMaxNumberOfJobsPerLoad($scope.jobQueue.MaxNumberOfJobsPerLoad);
+    };
+    $scope.setQueueStorgePollSecondsInterval = function () {
+        chat.server.setQueueStorgePollSecondsInterval($scope.jobQueue.StorgePollSecondsInterval);
+    };
+    $scope.setQueueWorkerPoolCount = function () {
+        chat.server.setQueueWorkerPoolCount($scope.jobQueue.WorkerPoolCount);
+    };
+    $scope.updateCurrentQueue=function() {
+        $scope.setQueueWorkerPoolCount();
+        $scope.setQueueStorgePollSecondsInterval();
+        $scope.setQueueMaxNumberOfJobsPerLoad();
+    }
 });
