@@ -66,6 +66,21 @@ namespace SuperposeLib.Core
             return EnqueueJob<T>(new DefaultJobQueue(), continuation);
         }
 
+
+        public static string EnqueueJob(JobQueue queue,
+            Func<JobContinuationHandler, List<string>> continuation)
+        {
+            return EnqueueJob<PilotJob>(queue, continuation);
+        }
+
+        public static string EnqueueJob(
+            Func<JobContinuationHandler, List<string>> continuation) 
+        {
+            return EnqueueJob<PilotJob>(new DefaultJobQueue(), continuation);
+        }
+
+
+
         public static string EnqueueJob<T, TCommand>(TCommand command,
             Func<JobContinuationHandler, List<string>> continuation ) where T : AJob<TCommand>
             where TCommand : AJobCommand
