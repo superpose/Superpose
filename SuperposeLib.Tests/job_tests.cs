@@ -88,7 +88,7 @@ namespace SuperposeLib.Tests
                 var jobId = factory.QueueJob(typeof (TestJob));
                 var jobLoad = factory.GetJobLoad(jobId);
                 factory.InstantiateJobComponent(jobLoad);
-                var result = jobLoad.Job.RunJob();
+                var result = jobLoad.Job.RunJob(null);
                 Assert.IsTrue(result.IsSuccessfull);
             }
         }

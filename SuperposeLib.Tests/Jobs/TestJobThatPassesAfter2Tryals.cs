@@ -10,7 +10,7 @@ namespace SuperposeLib.Tests.Jobs
             return totalNumberOfHistoricFailures > 2 ? SuperVisionDecision.Pass : SuperVisionDecision.ReQueue;
         }
 
-        protected override void Execute()
+        protected override void Execute(object command)
         {
             throw new Exception();
         }

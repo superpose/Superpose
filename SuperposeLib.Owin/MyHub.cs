@@ -59,7 +59,7 @@ namespace SuperposeLib.Owin
             return SuperVisionDecision.Fail;
         }
 
-        protected override void Execute()
+        protected override void Execute(object command)
         { 
             if(DateTime.Now.Second%19==0)
             throw  new Exception();

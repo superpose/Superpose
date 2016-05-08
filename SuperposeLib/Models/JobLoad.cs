@@ -20,5 +20,6 @@ namespace SuperposeLib.Models
         public DateTime? Started { get; set; }
         public DateTime? Ended { get; set; }
         public List<JobExecutionStatus> PreviousJobExecutionStatusList { get; set; }
+        public object Command { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
+using SuperposeLib.Core.Jobs;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
@@ -27,17 +28,18 @@ namespace SuperposeLib.Core
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
 
-        public string QueueJob(Type jobType, JobQueue jobQueue = null)
+        public string QueueJob(Type jobType, object command=null, JobQueue jobQueue = null)
         {
-            return ScheduleJob(jobType, Time.UtcNow, jobQueue);
+            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
         }
 
-        public string ScheduleJob(Type jobType, DateTime? scheduleTime, JobQueue jobQueue = null)
+        public string ScheduleJob(Type jobType, object command=null, DateTime? scheduleTime=null, JobQueue jobQueue = null)
         {
             jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
             {
+                Command=command,
                 JobQueue = jobQueue,
                 JobQueueName = jobQueue.GetType().Name,
                 TimeToRun = scheduleTime,
@@ -139,7 +141,7 @@ namespace SuperposeLib.Core
             
 
             jobLoad = InstantiateJobComponent(jobLoad);
-            var result = jobLoad.Job.RunJob();
+            var result = jobLoad.Job.RunJob(jobLoad.Command);
 
 
 
@@ -177,28 +179,6 @@ namespace SuperposeLib.Core
                 // throw e;
             }
             return null;
-        }
-    }
-
-    public class CoreJobThatFails : AJob
-    {
-        public CoreJobThatFails(Exception exception, string jobTypeFullName)
-        {
-            Exception = exception;
-            JobTypeFullName = jobTypeFullName;
-        }
-
-        private Exception Exception { get; }
-        private string JobTypeFullName { get; }
-
-        public override SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)
-        {
-            return SuperVisionDecision.Fail;
-        }
-
-        protected override void Execute()
-        {
-            throw new Exception("Unable to run job " + JobTypeFullName, Exception);
         }
     }
 }
