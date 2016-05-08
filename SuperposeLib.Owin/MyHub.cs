@@ -36,7 +36,8 @@ namespace SuperposeLib.Owin
           
             for (var i = 0; i < total; i++)
             {
-                Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
+                JobHandler.EnqueueJob<TestJob>();
+                // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
             }
             GetJobStatistics();
         }
@@ -63,7 +64,7 @@ namespace SuperposeLib.Owin
             if(DateTime.Now.Second%19==0)
             throw  new Exception();
 
-            Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(10)));
+          //  Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(10)));
             // Console.WriteLine("woooo!");
         }
     }
