@@ -51,7 +51,7 @@ namespace SuperposeLib.Core
             var jobLoad = new JobLoad
             {
                 JobCommandTypeFullName = command?.GetType().AssemblyQualifiedName,
-                Command = JsonConvert.SerializeObject(command),
+                Command = JobConverter.SerializeJobCommand(command),
                 JobQueue = jobQueue,
                 JobQueueName = jobQueue.GetType().Name,
                 TimeToRun = scheduleTime,
@@ -60,7 +60,7 @@ namespace SuperposeLib.Core
                 JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown)
             };
             jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, SuperVisionDecision.Unknown);
-            JobStorage.JobSaver.SaveNew(JobConverter.Serialize(jobLoad), jobId);
+            JobStorage.JobSaver.SaveNew(JobConverter.SerializeJobLoad(jobLoad), jobId);
             return jobId;
         }
 
@@ -197,7 +197,7 @@ namespace SuperposeLib.Core
             try
             {
                 jobLoad.Job = null;
-                JobStorage.JobSaver.Update(JobConverter.Serialize(jobLoad), jobLoad.Id);
+                JobStorage.JobSaver.Update(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
                 canUpdate = true;
             }
             catch (Exception e)
@@ -216,7 +216,7 @@ namespace SuperposeLib.Core
             var updateStorageToProcessing = false;
             try
             {
-                JobStorage.JobSaver.Update(JobConverter.Serialize(jobLoad), jobLoad.Id);
+                JobStorage.JobSaver.Update(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
                 updateStorageToProcessing = true;
             }
             catch (Exception e)

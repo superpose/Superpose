@@ -2,6 +2,6 @@
 {
     public interface IJobSerializer
     {
-        string Execute<TJob>(TJob jobLoad) where TJob : IJobLoad;
+        string Execute(object jobLoad);
     }
 }

@@ -5,8 +5,8 @@
         IJobParser JobParser { set; get; }
         IJobSerializer JobSerializer { set; get; }
 
-        string Serialize(IJobLoad jobLoad);
-
+        string SerializeJobLoad(IJobLoad jobLoad);
+        string SerializeJobCommand(IJobCommand jobLoad);
         IJobLoad Parse(string data);
     }
 }

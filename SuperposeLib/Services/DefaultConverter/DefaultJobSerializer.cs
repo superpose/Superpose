@@ -7,7 +7,7 @@ namespace SuperposeLib.Services.DefaultConverter
 {
     public class DefaultJobSerializer : IJobSerializer
     {
-        public string Execute<TJob>(TJob jobLoad) where TJob : IJobLoad
+        public string Execute(object jobLoad) 
         {
             return JsonConvert.SerializeObject(jobLoad);
         }

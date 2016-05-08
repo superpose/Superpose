@@ -22,7 +22,7 @@ namespace SuperposeLib.Tests
         {
             IJobConverter converter = new DefaultJobConverter(new DefaultJobParser(), new DefaultJobSerializer());
             var serializedData =
-                converter.Serialize(new JobLoad {JobTypeFullName = typeof (TestJob).AssemblyQualifiedName});
+                converter.SerializeJobLoad(new JobLoad {JobTypeFullName = typeof (TestJob).AssemblyQualifiedName});
             var load = converter.Parse(serializedData);
             Assert.AreEqual(load.JobTypeFullName, typeof (TestJob).AssemblyQualifiedName);
         }
