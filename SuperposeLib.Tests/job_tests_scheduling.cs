@@ -23,7 +23,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddSeconds(3));
+                var jobId = factory.ScheduleJob(typeof (TestJob),null, DateTime.UtcNow.AddSeconds(3));
                 Thread.Sleep(3000);
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);
@@ -47,7 +47,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddSeconds(3));
+                var jobId = factory.ScheduleJob(typeof (TestJob),null, DateTime.UtcNow.AddSeconds(3));
 
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNull(result);
@@ -70,7 +70,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter, new VirtualTime(DateTime.UtcNow.AddSeconds(4)));
-                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddSeconds(3));
+                var jobId = factory.ScheduleJob(typeof (TestJob),null, DateTime.UtcNow.AddSeconds(3));
 
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);
@@ -94,7 +94,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter, new VirtualTime(DateTime.UtcNow.AddYears(4)));
-                var jobId = factory.ScheduleJob(typeof (TestJob), DateTime.UtcNow.AddYears(3));
+                var jobId = factory.ScheduleJob(typeof (TestJob),null, DateTime.UtcNow.AddYears(3));
 
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);

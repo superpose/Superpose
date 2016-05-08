@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using Newtonsoft.Json;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
 using SuperposeLib.Core.Jobs;
@@ -26,27 +30,28 @@ namespace SuperposeLib.Core
         public IJobConverter JobConverter { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
-        public string QueueJob<T>(object command = null, JobQueue jobQueue = null)
+        public string QueueJob<T>(IJobCommand command = null, JobQueue jobQueue = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
         }
-        public string QueueJob(Type jobType, object command = null, JobQueue jobQueue = null)
+        public string QueueJob(Type jobType, IJobCommand command = null, JobQueue jobQueue = null)
         {
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
         }
-        public string ScheduleJob<T>(object command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        public string ScheduleJob<T>(IJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, scheduleTime, jobQueue);
         }
-        public string ScheduleJob(Type jobType, object command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        public string ScheduleJob(Type jobType, IJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
         {
             jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
             {
-                Command = command,
+                JobCommandTypeFullName = command?.GetType().AssemblyQualifiedName,
+                Command = JsonConvert.SerializeObject(command),
                 JobQueue = jobQueue,
                 JobQueueName = jobQueue.GetType().Name,
                 TimeToRun = scheduleTime,
@@ -58,26 +63,66 @@ namespace SuperposeLib.Core
             JobStorage.JobSaver.SaveNew(JobConverter.Serialize(jobLoad), jobId);
             return jobId;
         }
+
+        public static string RunMethodName { set; get; }
+       
+
+        static string GetRunJobMethodName() 
+        {
+            if (RunMethodName != null) return RunMethodName;
+            Expression<Action<PrivateJob>> action=(p) => p.RunJob(null);
+            var methodCallExpression = action.Body as MethodCallExpression;
+            if (methodCallExpression != null)
+                RunMethodName=methodCallExpression.Method.Name;
+            return RunMethodName;
+        }
         public JobLoad InstantiateJobComponent(IJobLoad jobLoad)
         {
-            var load = (JobLoad) jobLoad;
+            var load = (JobLoad)jobLoad;
+            try
+            {
+                var job = (AJob)Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
+
+                load.Job = job;
+            }
+            catch (Exception e)
+            {
+                load.Job = new CoreJobThatFails(e, jobLoad.JobTypeFullName);
+            }
+            return load;
+        }
+
+        public JobResult InstantiateAndRunJob(IJobLoad jobLoad)
+        {
+            var result=new JobResult();
             try
             {
                 if (jobLoad?.JobTypeFullName != null)
                 {
                     var type = Type.GetType(jobLoad.JobTypeFullName);
+                    var commandType = string.IsNullOrEmpty(jobLoad.JobCommandTypeFullName)?null: Type.GetType(jobLoad.JobCommandTypeFullName);
                     if (type != null)
                     {
-                        var job = (AJob) Activator.CreateInstance(type);
-                        load.Job = job;
+                        var method = type.GetMethod(GetRunJobMethodName());
+                        if (commandType == null)
+                        {
+                            result = (JobResult)method.Invoke(Activator.CreateInstance(type), new[] { new DefaultJobCommand(),  });
+                        }
+                        else
+                        {
+                       var command =  JsonConvert.DeserializeObject(jobLoad.Command, commandType);
+                        result = (JobResult) method.Invoke(Activator.CreateInstance(type), new[] { command });
+                   
+                        }
                     }
                 }
             }
             catch (Exception e)
             {
-                load.Job = new CoreJobThatFails(e, jobLoad?.JobTypeFullName);
+                var Job = new CoreJobThatFails(e, jobLoad?.JobTypeFullName);
+                 result = Job.RunJob(null);
             }
-            return load;
+            return result;
         }
         public JobLoad GetJobLoad(string jobId)
         {
@@ -119,9 +164,7 @@ namespace SuperposeLib.Core
             if (!TryUpdateStorageBeforeJobExecutuinStarts(ref jobLoad))
                 return null;
 
-            jobLoad = InstantiateJobComponent(jobLoad);
-            var result = jobLoad.Job.RunJob(jobLoad.Command);
-
+            var result  = InstantiateAndRunJob(jobLoad);
 
             if (!TryUpdateStorageAfterJobExecutionEnds(result, ref jobLoad))
                 return null;
@@ -138,6 +181,7 @@ namespace SuperposeLib.Core
             {
                 try
                 {
+                    jobLoad.Job = InstantiateJobComponent(jobLoad).Job;
                     result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception,
                         jobLoad.HistoricFailureCount());
                 }

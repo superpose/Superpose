@@ -9,5 +9,7 @@ namespace Superpose.StorageInterface
         string Id { get; set; } 
         JobQueue JobQueue { set; get; }
         string JobQueueName { set; get; }
+        string Command { get; set; }
+        string JobCommandTypeFullName { set; get; }
     }
 }

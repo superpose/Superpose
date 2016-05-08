@@ -1,18 +1,32 @@
 using System;
+using Superpose.StorageInterface;
 using SuperposeLib.Models;
 using SuperposeLib.Services.DefaultConverter;
 
 namespace SuperposeLib.Core
 {
-
-    public abstract class AJob: AJob<object>
+    class PrivateJob:  AJob<DefaultJobCommand>
     {
-
+       protected override void Execute(DefaultJobCommand command)
+       {
+           throw new NotImplementedException();
+       }
     }
 
-    public abstract class AJob<T>
+
+    public abstract class AJob: AJob<DefaultJobCommand>
     {
-        protected abstract void Execute(T command);
+        protected override void Execute(DefaultJobCommand command = null)
+        {
+            Execute();
+        }
+
+        protected abstract void Execute();
+    }
+
+    public abstract class AJob<T> where T:IJobCommand
+    {
+        protected abstract void Execute(T command=default(T));
 
         public virtual SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)
         {

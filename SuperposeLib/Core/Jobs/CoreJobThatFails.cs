@@ -1,4 +1,5 @@
 using System;
+using Superpose.StorageInterface;
 
 namespace SuperposeLib.Core.Jobs
 {
@@ -18,7 +19,7 @@ namespace SuperposeLib.Core.Jobs
             return SuperVisionDecision.Fail;
         }
 
-        protected override void Execute(object command)
+        protected override void Execute()
         {
             throw new Exception("Unable to run job " + JobTypeFullName, Exception);
         }

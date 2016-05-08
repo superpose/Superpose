@@ -1,4 +1,5 @@
 using System;
+using Superpose.StorageInterface;
 using SuperposeLib.Core;
 
 namespace SuperposeLib.Tests.Jobs
@@ -10,7 +11,7 @@ namespace SuperposeLib.Tests.Jobs
             return totalNumberOfHistoricFailures > 2 ? SuperVisionDecision.Pass : SuperVisionDecision.ReQueue;
         }
 
-        protected override void Execute(object command)
+        protected override void Execute()
         {
             throw new Exception();
         }

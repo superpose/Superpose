@@ -20,7 +20,7 @@ namespace SuperposeLib.Client
 
     public class SampleJob : AJob
     {
-        protected override void Execute(object command)
+        protected override void Execute()
         {
             SuperposeSignalRContext.GetHubContext().Clients.All.AddMessage("Just Ran!");
         }

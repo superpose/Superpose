@@ -9,14 +9,16 @@ namespace SuperposeLib.Interfaces.JobThings
         ITime Time { set; get; }
 
         IJobStorage JobStorage { set; get; }
-        string QueueJob(Type jobType, object command=null, JobQueue jobQueue = null);
+        string QueueJob(Type jobType, IJobCommand command =null, JobQueue jobQueue = null);
         JobLoad GetJobLoad(string jobId);
-        string QueueJob<T>(object command = null, JobQueue jobQueue = null);
+        string QueueJob<T>(IJobCommand command = null, JobQueue jobQueue = null);
         IJobLoad ProcessJob(string jobId);
 
-        string ScheduleJob<T>(object command = null, DateTime? scheduleTime = null,
+        string ScheduleJob<T>(IJobCommand command = null, DateTime? scheduleTime = null,
             JobQueue jobQueue = null);
+
         JobLoad InstantiateJobComponent(IJobLoad jobLoad);
-        string ScheduleJob(Type type, object command=null, DateTime? scheduleTime=null, JobQueue jobQueue = null);
+        JobResult InstantiateAndRunJob(IJobLoad jobLoad);
+        string ScheduleJob(Type type, IJobCommand command =null, DateTime? scheduleTime=null, JobQueue jobQueue = null);
     }
 }
