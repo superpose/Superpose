@@ -32,7 +32,7 @@ namespace SuperposeLib.Owin
 
         public void QueueSampleJob()
         {
-            const int total = 1000;
+            const int total = 1000000;
             for (var i = 0; i < total; i++)
             {
                 JobHandler.EnqueueJob<TestJob>();
