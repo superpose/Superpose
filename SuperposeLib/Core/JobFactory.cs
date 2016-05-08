@@ -22,24 +22,31 @@ namespace SuperposeLib.Core
 
             MaxWaitSecondsBeforeOverridingCurrentProcessingJob = 2*60;
         }
-
         public int MaxWaitSecondsBeforeOverridingCurrentProcessingJob { set; get; }
         public IJobConverter JobConverter { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
-
-        public string QueueJob(Type jobType, object command=null, JobQueue jobQueue = null)
+        public string QueueJob<T>(object command = null, JobQueue jobQueue = null)
+        {
+            var jobType = typeof (T);
+            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
+        }
+        public string QueueJob(Type jobType, object command = null, JobQueue jobQueue = null)
         {
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
         }
-
-        public string ScheduleJob(Type jobType, object command=null, DateTime? scheduleTime=null, JobQueue jobQueue = null)
+        public string ScheduleJob<T>(object command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        {
+            var jobType = typeof (T);
+            return ScheduleJob(jobType, command, scheduleTime, jobQueue);
+        }
+        public string ScheduleJob(Type jobType, object command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
         {
             jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
             {
-                Command=command,
+                Command = command,
                 JobQueue = jobQueue,
                 JobQueueName = jobQueue.GetType().Name,
                 TimeToRun = scheduleTime,
@@ -51,23 +58,27 @@ namespace SuperposeLib.Core
             JobStorage.JobSaver.SaveNew(JobConverter.Serialize(jobLoad), jobId);
             return jobId;
         }
-
         public JobLoad InstantiateJobComponent(IJobLoad jobLoad)
         {
             var load = (JobLoad) jobLoad;
             try
             {
-                var job = (AJob) Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
-
-                load.Job = job;
+                if (jobLoad?.JobTypeFullName != null)
+                {
+                    var type = Type.GetType(jobLoad.JobTypeFullName);
+                    if (type != null)
+                    {
+                        var job = (AJob) Activator.CreateInstance(type);
+                        load.Job = job;
+                    }
+                }
             }
             catch (Exception e)
             {
-                load.Job = new CoreJobThatFails(e, jobLoad.JobTypeFullName);
+                load.Job = new CoreJobThatFails(e, jobLoad?.JobTypeFullName);
             }
             return load;
         }
-
         public JobLoad GetJobLoad(string jobId)
         {
             JobLoad jobLoad;
@@ -98,53 +109,27 @@ namespace SuperposeLib.Core
 
             return jobLoad;
         }
-
         public IJobLoad ProcessJob(string jobId)
         {
             var jobLoad = GetJobLoad(jobId);
 
-            if (jobLoad == null) return null;
-            var now = Time.UtcNow;
-            var aboutTime = jobLoad.TimeToRun != null && now >= jobLoad.TimeToRun.Value;
-            var itsTimeToProcess = jobLoad.TimeToRun == null || aboutTime;
+            if (!IsEligibleToRun(jobLoad, Time))
+                return null;
 
-            var jobIsInQueue = jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Queued);
-
-            var canOverideCurrentlyProcessing = jobLoad.JobStateTypeName ==
-                                                Enum.GetName(typeof (JobStateType), JobStateType.Processing) &&
-                                                (jobLoad.Started == null ||
-                                                 ((Time.UtcNow - jobLoad.Started.Value).TotalMinutes >
-                                                  MaxWaitSecondsBeforeOverridingCurrentProcessingJob));
-
-            var canProcess = itsTimeToProcess && (jobIsInQueue || canOverideCurrentlyProcessing);
-
-            if (!canProcess) return null;
-
-            jobLoad.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
-            jobLoad.Started = Time.UtcNow;
-
-            jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, SuperVisionDecision.Unknown);
-
-            //persist
-            var updateStorageToProcessing = false;
-            try
-            {
-                JobStorage.JobSaver.Update(JobConverter.Serialize(jobLoad), jobLoad.Id);
-                updateStorageToProcessing = true;
-            }
-            catch (Exception e)
-            {
-                //failed to update after load
-                //throw e;
-            }
-            if (!updateStorageToProcessing) return null;
-            
+            if (!TryUpdateStorageBeforeJobExecutuinStarts(ref jobLoad))
+                return null;
 
             jobLoad = InstantiateJobComponent(jobLoad);
             var result = jobLoad.Job.RunJob(jobLoad.Command);
 
 
+            if (!TryUpdateStorageAfterJobExecutionEnds(result, ref jobLoad))
+                return null;
 
+            return jobLoad;
+        }
+        private bool TryUpdateStorageAfterJobExecutionEnds(JobResult result, ref JobLoad jobLoad)
+        {
             jobLoad.PreviousJobExecutionStatusList.Add(result.IsSuccessfull
                 ? JobExecutionStatus.Passed
                 : JobExecutionStatus.Failed);
@@ -162,23 +147,57 @@ namespace SuperposeLib.Core
                     result.SuperVisionException = se;
                 }
             }
-
-
             jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, result.SuperVisionDecision);
 
+            var canUpdate = false;
             try
             {
                 jobLoad.Job = null;
                 JobStorage.JobSaver.Update(JobConverter.Serialize(jobLoad), jobLoad.Id);
-
-                return jobLoad;
+                canUpdate = true;
             }
             catch (Exception e)
             {
-                //failed to update after processing
-                // throw e;
+                canUpdate = false;
             }
-            return null;
+            return canUpdate;
+        }
+        private bool TryUpdateStorageBeforeJobExecutuinStarts(ref JobLoad jobLoad)
+        {
+            jobLoad.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
+            jobLoad.Started = Time.UtcNow;
+
+            jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, SuperVisionDecision.Unknown);
+
+            var updateStorageToProcessing = false;
+            try
+            {
+                JobStorage.JobSaver.Update(JobConverter.Serialize(jobLoad), jobLoad.Id);
+                updateStorageToProcessing = true;
+            }
+            catch (Exception e)
+            {
+            }
+            return updateStorageToProcessing;
+        }
+        private bool IsEligibleToRun(IJobLoad jobLoad, ITime time)
+        {
+            if (jobLoad == null)
+                return false;
+
+            var aboutTime = jobLoad.TimeToRun != null && time.UtcNow >= jobLoad.TimeToRun.Value;
+            var itsTimeToProcess = jobLoad.TimeToRun == null || aboutTime;
+
+            var jobIsInQueue = jobLoad.JobStateTypeName == JobStateType.Queued.GetJobStateTypeName();
+
+            var canOverideCurrentlyProcessing = jobLoad.JobStateTypeName ==
+                                                Enum.GetName(typeof (JobStateType), JobStateType.Processing) &&
+                                                (jobLoad.Started == null ||
+                                                 ((time.UtcNow - jobLoad.Started.Value).TotalMinutes >
+                                                  MaxWaitSecondsBeforeOverridingCurrentProcessingJob));
+
+            var canProcess = itsTimeToProcess && (jobIsInQueue || canOverideCurrentlyProcessing);
+            return canProcess;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Superpose.StorageInterface;
+using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
 
@@ -39,7 +40,7 @@ namespace SuperposeLib.Core
 
                     if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Unknown))
                     {
-                        nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
+                        nextState.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
                     }
 
                     if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Queued))
@@ -59,11 +60,11 @@ namespace SuperposeLib.Core
                     {
                         if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Unknown)
                         {
-                            nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
+                            nextState.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
                         }
                         if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Passed)
                         {
-                            nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Successfull);
+                            nextState.JobStateTypeName = JobStateType.Successfull.GetJobStateTypeName();
                         }
                         if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Failed)
                         {
@@ -79,7 +80,7 @@ namespace SuperposeLib.Core
                             if (superVisionDecision != SuperVisionDecision.Fail &&
                                 superVisionDecision != SuperVisionDecision.Pass)
                             {
-                                nextState.JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Queued);
+                                nextState.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
                             }
                         }
                     }

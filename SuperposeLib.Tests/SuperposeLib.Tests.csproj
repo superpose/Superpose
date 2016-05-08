@@ -84,6 +84,7 @@
     <Compile Include="job_tests_job_runner.cs" />
     <Compile Include="job_tests_multiple_jobs_queuing.cs" />
     <Compile Include="job_tests_scheduling.cs" />
+    <Compile Include="job_with_command.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TEST.cs" />
