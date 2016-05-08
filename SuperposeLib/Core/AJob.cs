@@ -5,18 +5,18 @@ using SuperposeLib.Services.DefaultConverter;
 
 namespace SuperposeLib.Core
 {
-    class PrivateJob:  AJob<DefaultJobCommand>
+    class PrivateJob:  AJob<DefaultAJobCommand>
     {
-       protected override void Execute(DefaultJobCommand command)
+       protected override void Execute(DefaultAJobCommand command)
        {
            throw new NotImplementedException();
        }
     }
 
 
-    public abstract class AJob: AJob<DefaultJobCommand>
+    public abstract class AJob: AJob<DefaultAJobCommand>
     {
-        protected override void Execute(DefaultJobCommand command = null)
+        protected override void Execute(DefaultAJobCommand command = null)
         {
             Execute();
         }
@@ -24,7 +24,7 @@ namespace SuperposeLib.Core
         protected abstract void Execute();
     }
 
-    public abstract class AJob<T> where T:IJobCommand
+    public abstract class AJob<T> where T:AJobCommand
     {
         protected abstract void Execute(T command=default(T));
 

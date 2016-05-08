@@ -30,21 +30,28 @@ namespace SuperposeLib.Core
         public IJobConverter JobConverter { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
-        public string QueueJob<T>(IJobCommand command = null, JobQueue jobQueue = null)
+        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
         }
-        public string QueueJob(Type jobType, IJobCommand command = null, JobQueue jobQueue = null)
+        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null)
         {
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
         }
-        public string ScheduleJob<T>(IJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, scheduleTime, jobQueue);
         }
-        public string ScheduleJob(Type jobType, IJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        public string ScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        {
+            var jobLoad = PrepareScheduleJob(jobType, command, scheduleTime, jobQueue);
+            JobStorage.JobSaver.SaveNew(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
+            return jobLoad.Id;
+        }
+
+        public JobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null)
         {
             jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
@@ -59,9 +66,8 @@ namespace SuperposeLib.Core
                 Id = jobId,
                 JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown)
             };
-            jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, SuperVisionDecision.Unknown);
-            JobStorage.JobSaver.SaveNew(JobConverter.SerializeJobLoad(jobLoad), jobId);
-            return jobId;
+            jobLoad = (JobLoad)  JobStateTransitionFactory.GetNextState(jobLoad, SuperVisionDecision.Unknown);
+            return jobLoad;
         }
 
         public static string RunMethodName { set; get; }
@@ -106,7 +112,7 @@ namespace SuperposeLib.Core
                         var method = type.GetMethod(GetRunJobMethodName());
                         if (commandType == null)
                         {
-                            result = (JobResult)method.Invoke(Activator.CreateInstance(type), new[] { new DefaultJobCommand(),  });
+                            result = (JobResult)method.Invoke(Activator.CreateInstance(type), new[] { new DefaultAJobCommand(),  });
                         }
                         else
                         {
@@ -191,7 +197,7 @@ namespace SuperposeLib.Core
                     result.SuperVisionException = se;
                 }
             }
-            jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, result.SuperVisionDecision);
+            jobLoad = (JobLoad)  JobStateTransitionFactory.GetNextState(jobLoad, result.SuperVisionDecision);
 
             var canUpdate = false;
             try
@@ -211,7 +217,7 @@ namespace SuperposeLib.Core
             jobLoad.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
             jobLoad.Started = Time.UtcNow;
 
-            jobLoad = (JobLoad) new JobStateTransitionFactory().GetNextState(jobLoad, SuperVisionDecision.Unknown);
+            jobLoad = (JobLoad)  JobStateTransitionFactory.GetNextState(jobLoad, SuperVisionDecision.Unknown);
 
             var updateStorageToProcessing = false;
             try

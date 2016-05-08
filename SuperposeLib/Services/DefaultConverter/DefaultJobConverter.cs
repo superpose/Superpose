@@ -23,9 +23,9 @@ namespace SuperposeLib.Services.DefaultConverter
             return JobSerializer.Execute(jobLoad);
         }
 
-        public string SerializeJobCommand(IJobCommand jobLoad)
+        public string SerializeJobCommand(AJobCommand aJobLoad)
         {
-            return JobSerializer.Execute(jobLoad);
+            return JobSerializer.Execute(aJobLoad);
         }
 
         public IJobLoad Parse(string data)

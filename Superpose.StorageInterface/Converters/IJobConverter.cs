@@ -6,7 +6,7 @@
         IJobSerializer JobSerializer { set; get; }
 
         string SerializeJobLoad(IJobLoad jobLoad);
-        string SerializeJobCommand(IJobCommand jobLoad);
+        string SerializeJobCommand(AJobCommand aJobLoad);
         IJobLoad Parse(string data);
     }
 }

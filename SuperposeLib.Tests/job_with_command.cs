@@ -52,7 +52,7 @@ namespace SuperposeLib.Tests
         }
     }
 
-    public class TestCommand:IJobCommand
+    public class TestCommand:AJobCommand
     {
         public string MyName { set; get; }
     }

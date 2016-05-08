@@ -10,7 +10,7 @@ namespace SuperposeLib.Core
 {
     public class JobStateTransitionFactory
     {
-        public IJobLoad GetNextState(IJobLoad jobLoad, SuperVisionDecision superVisionDecision)
+        public static IJobLoad GetNextState(IJobLoad jobLoad, SuperVisionDecision superVisionDecision)
         {
             IJobState nextState = new JobState
             {

@@ -10,13 +10,4 @@ namespace Superpose.StorageInterface
         public int TotalFailedJobs { set; get; }
         public int TotalUnknownJobs { set; get; }
     }
-    public interface IJobCommand
-    {
-
-    }
-
-    public class DefaultJobCommand : IJobCommand
-    {
-
-    }
 }

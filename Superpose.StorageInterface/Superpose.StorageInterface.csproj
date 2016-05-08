@@ -44,7 +44,9 @@
     <Compile Include="Converters\IJobConverterFactory.cs" />
     <Compile Include="Converters\IJobParser.cs" />
     <Compile Include="Converters\IJobSerializer.cs" />
+    <Compile Include="DefaultJobCommand.cs" />
     <Compile Include="DefaultJobQueue.cs" />
+    <Compile Include="AJobCommand.cs" />
     <Compile Include="IJobLoad.cs" />
     <Compile Include="IJobState.cs" />
     <Compile Include="JobExecutionStatus.cs" />
