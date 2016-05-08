@@ -6,6 +6,10 @@ namespace SuperposeLib.Models
 {
     public class JobLoad : JobPartOfJobLoad, IJobLoad
     {
+        public JobLoad()
+        {
+            NextCommand=new List<string>();
+        }
         public string Queue { get; set; }
         public DateTime? TimeToRun { get; set; }
         public string JobTypeFullName { get; set; }
@@ -14,7 +18,7 @@ namespace SuperposeLib.Models
         public string JobQueueName { get; set; }
         public string Command { get; set; }
         public string JobCommandTypeFullName { get; set; }
-        public string NextCommand { get; set; }
+        public List<string> NextCommand { get; set; }
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }
         public DateTime? Ended { get; set; }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
@@ -38,26 +40,26 @@ namespace SuperposeLib.Core
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
 
-        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null, string nextJob = null)
+        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null, List<string> nextJob = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
 
-        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null, string nextJob = null)
+        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null, List<string> nextJob = null)
         {
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
 
         public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null,
-            string nextJob = null)
+             List<string> nextJob = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
         }
 
         public string ScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,
-            JobQueue jobQueue = null, string nextJob = null)
+            JobQueue jobQueue = null, List<string> nextJob = null)
         {
             var result = PrepareScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
             JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
@@ -65,8 +67,9 @@ namespace SuperposeLib.Core
         }
 
         public SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null,
-            DateTime? scheduleTime = null, JobQueue jobQueue = null, string nextJob = null)
+            DateTime? scheduleTime = null, JobQueue jobQueue = null, List<string> nextJob = null)
         {
+            nextJob = nextJob ?? new List<string>();
             jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
@@ -222,29 +225,41 @@ namespace SuperposeLib.Core
             }
             jobLoad = (JobLoad) JobStateTransitionFactory.GetNextState(jobLoad, result.SuperVisionDecision);
 
-            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() &&
-                !string.IsNullOrEmpty(jobLoad.NextCommand))
+            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() && jobLoad.NextCommand!=null &&
+                !string.IsNullOrEmpty(jobLoad.NextCommand.FirstOrDefault()))
             {
                 try
                 {
-                    var nextJobLoad = JobConverter.JobParser.Execute(jobLoad.NextCommand);
+                    var head = jobLoad.NextCommand.FirstOrDefault();
+                    var tail = jobLoad.NextCommand.Count > 1
+                        ? jobLoad.NextCommand.Skip(1).Take(jobLoad.NextCommand.Count - 1).ToList():null;
+
+                    var nextJobLoad = JobConverter.JobParser.Execute(head);
                     if (!string.IsNullOrEmpty(nextJobLoad?.Id))
                     {
                         try
                         {
-                            JobStorage.JobSaver.SaveNew(jobLoad.NextCommand, nextJobLoad.Id);
+                            
+                            JobStorage.JobSaver.SaveNew(head, nextJobLoad.Id);
+                            if (tail != null)
+                            {
+                                JobHandler.EnqueueJob<PilotJob>(continuation => tail);
+                            }
+                          
                         }
                         catch (Exception)
                         {
                             return false;
                         }
                     }
+                    jobLoad.NextCommand = tail;
                 }
                 catch (Exception)
                 {
                     // failed to proc continuation
                 }
             }
+
 
             return FinallyUpdateCurrentJobStorage(jobLoad);
         }

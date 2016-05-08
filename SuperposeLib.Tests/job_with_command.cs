@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
@@ -44,7 +45,47 @@ namespace SuperposeLib.Tests
 
 
         [TestMethod]
-        public void test_using_owin_mulitple_continuation_job()
+        public void test_using_owin_mulitple_continuation_job2()
+        {
+            const string baseAddress = "http://*:8118/";
+            using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
+            {
+                Console.WriteLine("Server started");
+                var command1 = new TestCommand { MyName = "tester1" };
+                var command2 = new TestCommand { MyName = "tester2" };
+                var command3 = new TestCommand { MyName = "tester3" };
+                var command4 = new TestCommand { MyName = "tester4" };
+
+
+                var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(command1,
+                    (continuation) => new List<string>()
+                    {
+                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command2),
+                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command3),
+                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command4)
+                    });
+
+
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(15)));
+                EnsureJobHasRun(jobId);
+
+                var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
+                var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
+
+                IJobFactory factory = new JobFactory(storage, converter);
+                var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
+                Assert.AreEqual(statistics.TotalNumberOfJobs, 6);
+                Assert.AreEqual(statistics.TotalSuccessfullJobs, 6);
+                Assert.AreEqual(statistics.TotalFailedJobs, 0);
+                Assert.AreEqual(statistics.TotalProcessingJobs, 0);
+            }
+        }
+
+
+
+
+        [TestMethod]
+        public void test_using_owin_mulitple_continuation_job1()
         {
             const string baseAddress = "http://*:8118/";
             using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
