@@ -12,22 +12,28 @@ namespace SuperposeLib.Core
         public static string EnqueueJob(Expression<Action> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
-            return EnqueueJob(null, operation, continuation);
+            return EnqueueJob_(null, operation, continuation);
         }
 
         public static string EnqueueJob<T>(Expression<Action<T>> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
-            return EnqueueJob(null, operation, continuation);
+            return EnqueueJob_(null, operation, continuation);
         }
 
         public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
-            return EnqueueJob(operation, continuation);
+            return EnqueueJob_(queue,operation, continuation);
         }
 
-        public static string EnqueueJob(JobQueue queue, Expression operation,
+        public static string EnqueueJob(JobQueue queue, Expression<Action> operation,
+            Func<JobContinuationHandler, string> continuation = null)
+        {
+            return EnqueueJob_(queue,operation, continuation);
+        }
+
+        protected static string EnqueueJob_(JobQueue queue, Expression operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
             var serializer = new ExpressionSerializer(new JsonSerializer());

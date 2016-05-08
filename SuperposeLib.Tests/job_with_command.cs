@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Owin;
@@ -57,13 +58,13 @@ namespace SuperposeLib.Tests
 
                 var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(command1,
                     continuation2 => continuation2.EnqueueJob<JobWithCommand, TestCommand>(command2,
-                        continuation3 => continuation3.EnqueueJob<JobWithCommand, TestCommand>(command2,
-                            continuation4 => continuation4.EnqueueJob<JobWithCommand, TestCommand>(command2)
+                        continuation3 => continuation3.EnqueueJob<JobWithCommand, TestCommand>(command3,
+                            continuation4 => continuation4.EnqueueJob<JobWithCommand, TestCommand>(command4)
                             )
                         )
                     );
-
-                AssertAwait(() => EnsureJobHasRun(jobId), 5000);
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(15)));
+                EnsureJobHasRun(jobId);
 
                 var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
                 var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();

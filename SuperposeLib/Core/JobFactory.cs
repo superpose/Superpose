@@ -187,7 +187,6 @@ namespace SuperposeLib.Core
             if (!TryUpdateStorageAfterJobExecutionEnds(result, ref jobLoad))
                 return null;
 
-
             return jobLoad;
         }
 

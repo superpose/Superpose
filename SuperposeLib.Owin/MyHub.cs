@@ -31,6 +31,11 @@ namespace SuperposeLib.Owin
             GetCurrentQueue();
         }
 
+        public class MyQueue : JobQueue
+        {
+
+        }
+
         public void QueueSampleJob()
         {
             const int total = 1000000;
