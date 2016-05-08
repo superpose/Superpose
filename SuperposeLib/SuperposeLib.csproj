@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AJob.cs" />
+    <Compile Include="Core\JobContinuationHandler.cs" />
     <Compile Include="Core\Jobs\CoreJobThatFails.cs" />
     <Compile Include="Core\IJobRunner.cs" />
     <Compile Include="Core\JobHandler.cs" />

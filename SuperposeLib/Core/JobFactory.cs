@@ -37,34 +37,35 @@ namespace SuperposeLib.Core
         public IJobConverter JobConverter { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
-        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null)
+        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null, string nextJob = null)
         {
             var jobType = typeof (T);
-            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
+            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
-        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null)
+        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null, string nextJob = null)
         {
-            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue);
+            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
-        public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null, string nextJob = null)
         {
             var jobType = typeof (T);
-            return ScheduleJob(jobType, command, scheduleTime, jobQueue);
+            return ScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
         }
-        public string ScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null)
+        public string ScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,JobQueue jobQueue = null,string nextJob=null)
         {
-            var result = PrepareScheduleJob(jobType, command, scheduleTime, jobQueue);
+            var result = PrepareScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
             JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
             return result.JobLoad.Id;
         }
 
-        public SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null)
+        public SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null,string nextJob=null)
         {
             jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
             {
                 JobCommandTypeFullName = command?.GetType().AssemblyQualifiedName,
+                NextCommand = nextJob,
                 Command = JobConverter.SerializeJobCommand(command),
                 JobQueue = jobQueue,
                 JobQueueName = jobQueue.GetType().Name,

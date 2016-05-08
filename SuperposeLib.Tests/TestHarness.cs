@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.Storage.InMemory;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
@@ -25,6 +26,33 @@ namespace SuperposeLib.Tests
         public void TeardownMethod()
         {
             StorageFactory.CreateJobStorage().JobStorageReseter.ReSet();
+        }
+        public void AssertAwait(Action action, int durationMilliseconds, int sleepIntervalMilliseconds = 50)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            var now = DateTime.Now;
+            var passed = false;
+            var lastException = new Exception();
+           
+            while ((DateTime.Now - now).TotalMilliseconds <= durationMilliseconds)
+            {
+                try
+                {
+                    action();
+                    passed = true;
+                    break;
+                }
+                catch (Exception e)
+                {
+                    lastException = e;
+                }
+                System.Threading.Thread.Sleep(sleepIntervalMilliseconds);
+            }
+            if (!passed)
+            {
+                throw new Exception("Could not pass in " + durationMilliseconds + " ms ", lastException);
+            }
+           
         }
     }
 }

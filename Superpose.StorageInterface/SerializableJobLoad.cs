@@ -16,6 +16,7 @@ namespace Superpose.StorageInterface
         public string JobQueueName { get; set; }
         public string Command { get; set; }
         public string JobCommandTypeFullName { get; set; }
+        public string NextCommand { get; set; }
         public string Queue { get; set; }
     }
 }

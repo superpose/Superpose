@@ -5,8 +5,6 @@ using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Models
 {
-    
-
     public class JobLoad : JobPartOfJobLoad, IJobLoad
     {
         public DateTime? TimeToRun { get; set; }
@@ -16,6 +14,7 @@ namespace SuperposeLib.Models
         public string JobQueueName { get; set; }
         public string Command { get; set; }
         public string JobCommandTypeFullName { get; set; }
+        public string NextCommand { get; set; }
         public string Queue { get; set; }
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }
