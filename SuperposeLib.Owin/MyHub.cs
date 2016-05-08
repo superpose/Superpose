@@ -37,7 +37,8 @@ namespace SuperposeLib.Owin
 
             for (var i = 0; i < total; i++)
             {
-                JobHandler.EnqueueJob<TestJob>();
+                JobHandler.EnqueueJob(() => Console.WriteLine("what up"));
+                //JobHandler.EnqueueJob<TestJob>();
                 // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
             }
             GetJobStatistics();

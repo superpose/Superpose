@@ -213,8 +213,7 @@ namespace SuperposeLib.Core
                 try
                 {
                     jobLoad.Job = InstantiateJobComponent(jobLoad).Job;
-                    result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception,
-                        jobLoad.HistoricFailureCount());
+                    result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception,jobLoad.HistoricFailureCount());
                 }
                 catch (Exception se)
                 {
