@@ -7,7 +7,7 @@ using Superpose.StorageInterface;
 
 namespace Superpose.Storage.LiteDB
 {
-    public class LiteDBJobLoader : IJobLoader
+    public class LiteDbJobLoader : IJobLoader
     {
         public string LoadJobById(string jobId)
         {
@@ -56,13 +56,13 @@ namespace Superpose.Storage.LiteDB
             return result;
         }
 
-        public List<string> LoadJobsByJobType(Type jobType, int take, int skip)
+        public List<string> LoadJobsByJobType(string queueName, Type jobType, int take, int skip)
         {
             List<string> collection = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
-                    .Find(x => x.JobTypeFullName == jobType.AssemblyQualifiedName)
+                    .Find(x => x.JobTypeFullName == jobType.AssemblyQualifiedName && x.JobQueueName== queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Id)
@@ -72,13 +72,13 @@ namespace Superpose.Storage.LiteDB
             return collection;
         }
 
-        public List<string> LoadJobsByJobStateType(JobStateType stateType, int take, int skip)
+        public List<string> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
         {
             List<string> collection = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
-                    .Find(x => x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType))
+                    .Find(x => x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Id)
@@ -88,13 +88,13 @@ namespace Superpose.Storage.LiteDB
             return collection;
         }
 
-        public List<string> LoadJobsByTimeToRun(DateTime @from, DateTime to, int take, int skip)
+        public List<string> LoadJobsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
         {
             List<string> collection = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
-                    .Find(x => x.TimeToRun >= @from && x.TimeToRun <= to)
+                    .Find(x => x.TimeToRun >= @from && x.TimeToRun <= to && x.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Id)
@@ -103,7 +103,7 @@ namespace Superpose.Storage.LiteDB
             return collection;
         }
 
-        public List<string> LoadJobsByJobStateTypeAndTimeToRun(JobStateType stateType, DateTime @from, DateTime to,
+        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from, DateTime to,
             int take, int skip)
         {
             List<string> collection = null;
@@ -113,7 +113,7 @@ namespace Superpose.Storage.LiteDB
                     .Find(
                         x =>
                             x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.TimeToRun >= @from &&
-                            x.TimeToRun <= to);
+                            x.TimeToRun <= to && x.JobQueueName == queueName);
 
                 collection = collectionTmp.Select(x => x.Id).Take(take).Skip(skip).ToList();
             });

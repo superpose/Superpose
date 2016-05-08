@@ -7,5 +7,7 @@ namespace Superpose.StorageInterface
         public static IJobConverterFactory JobConverterFactory { set; get; }
     
         public static IJobStoragefactory StorageFactory { set; get; }
+
+        public static JobQueue JobQueue = new DefaultJobQueue();
     }
 }

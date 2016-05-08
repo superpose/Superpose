@@ -14,6 +14,8 @@ namespace SuperposeLib.Tests
         [TestInitialize]
         public void SetUpMethod()
         {
+
+            
             StorageFactory = new InMemoryJobStoragefactory();
             // StorageFactory = new LiteDBJobStoragefactory();
             ConverterFactory = new DefaultJobConverterFactory();

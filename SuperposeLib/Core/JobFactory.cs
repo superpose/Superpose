@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
 using SuperposeLib.Extensions;
@@ -29,16 +27,19 @@ namespace SuperposeLib.Core
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
 
-        public string QueueJob(Type jobType)
+        public string QueueJob(Type jobType, JobQueue jobQueue = null)
         {
-            return ScheduleJob(jobType, Time.UtcNow);
+            return ScheduleJob(jobType, Time.UtcNow, jobQueue);
         }
 
-        public string ScheduleJob(Type jobType, DateTime? scheduleTime)
+        public string ScheduleJob(Type jobType, DateTime? scheduleTime, JobQueue jobQueue = null)
         {
+            jobQueue = jobQueue ?? new DefaultJobQueue();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
             {
+                JobQueue = jobQueue,
+                JobQueueName = jobQueue.GetType().Name,
                 TimeToRun = scheduleTime,
                 JobTypeFullName = jobType.AssemblyQualifiedName,
                 Id = jobId,
@@ -49,23 +50,14 @@ namespace SuperposeLib.Core
             return jobId;
         }
 
-       // private static readonly Dictionary<string,AJob> CachedInstances=new Dictionary<string, AJob>(); 
         public JobLoad InstantiateJobComponent(IJobLoad jobLoad)
         {
-            var load = (JobLoad)jobLoad;
+            var load = (JobLoad) jobLoad;
             try
             {
-                //if (CachedInstances.ContainsKey(jobLoad.JobTypeFullName) && CachedInstances[jobLoad.JobTypeFullName]!=null)
-                //{
-                //    load.Job = CachedInstances[jobLoad.JobTypeFullName];
-                //}
-                //else
-                //{
-                   var job = (AJob)Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
-                   // CachedInstances.Add(jobLoad.JobTypeFullName,job);
-                    load.Job = job;
-                //}
-                
+                var job = (AJob) Activator.CreateInstance(Type.GetType(jobLoad.JobTypeFullName));
+
+                load.Job = job;
             }
             catch (Exception e)
             {
@@ -144,9 +136,13 @@ namespace SuperposeLib.Core
                 //throw e;
             }
             if (!updateStorageToProcessing) return null;
+            
 
             jobLoad = InstantiateJobComponent(jobLoad);
             var result = jobLoad.Job.RunJob();
+
+
+
             jobLoad.PreviousJobExecutionStatusList.Add(result.IsSuccessfull
                 ? JobExecutionStatus.Passed
                 : JobExecutionStatus.Failed);
@@ -186,22 +182,23 @@ namespace SuperposeLib.Core
 
     public class CoreJobThatFails : AJob
     {
-        private Exception Exception { set; get; }
-        private string JobTypeFullName { set; get; }
+        public CoreJobThatFails(Exception exception, string jobTypeFullName)
+        {
+            Exception = exception;
+            JobTypeFullName = jobTypeFullName;
+        }
+
+        private Exception Exception { get; }
+        private string JobTypeFullName { get; }
 
         public override SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)
         {
             return SuperVisionDecision.Fail;
         }
 
-        public CoreJobThatFails(Exception exception, string jobTypeFullName)
-        {
-            Exception = exception;
-            JobTypeFullName = jobTypeFullName;
-        }
         protected override void Execute()
         {
-            throw new Exception("Unable to run job "+ JobTypeFullName,Exception);
+            throw new Exception("Unable to run job " + JobTypeFullName, Exception);
         }
     }
 }

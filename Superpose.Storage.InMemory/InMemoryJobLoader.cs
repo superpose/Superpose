@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
+using SuperposeLib.Services.InMemoryStorage;
 
-namespace SuperposeLib.Services.InMemoryStorage
+namespace Superpose.Storage.InMemory
 {
     public class InMemoryJobLoader : IJobLoader
     {
@@ -44,53 +45,53 @@ namespace SuperposeLib.Services.InMemoryStorage
             };
         }
 
-        public List<string> LoadJobsByJobType(Type jobType, int take, int skip)
+        public List<string> LoadJobsByJobType(string queueName, Type jobType, int take, int skip)
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
-                    x => x.Value.JobTypeFullName == jobType.AssemblyQualifiedName)
+                    x => x.Value.JobTypeFullName == jobType.AssemblyQualifiedName && x.Value.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Key)
                     .ToList();
         }
 
-        public List<string> LoadJobsByJobStateType(JobStateType stateType, int take, int skip)
+        public List<string> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
-                    x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType))
+                    x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.Value.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Key)
                     .ToList();
         }
 
-        public List<string> LoadJobsByTimeToRun(DateTime @from, DateTime to, int take, int skip)
+        public List<string> LoadJobsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
         {
             return InMemoryJobStorageMemoryStore.MemoryStore.Where
-                (x => x.Value.TimeToRun >= @from && x.Value.TimeToRun <= to)
+                (x => x.Value.TimeToRun >= @from && x.Value.TimeToRun <= to && x.Value.JobQueueName == queueName)
                 .Take(take)
                 .Skip(skip)
                 .Select(x => x.Key)
                 .ToList();
         }
 
-        public List<string> LoadJobsByJobStateTypeAndTimeToRun(JobStateType stateType, DateTime @from, DateTime to,
+        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from, DateTime to,
             int take, int skip)
         {
             return InMemoryJobStorageMemoryStore.MemoryStore
                 .Where(x =>
                     x.Value.TimeToRun >= @from
                     && x.Value.TimeToRun <= to &&
-                    x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType))
+                    x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.Value.JobQueueName == queueName)
                 .Skip(skip)
                 .Take(take)
                 .Select(x => x.Key)
                 .ToList();
         }
 
-        public List<string> LoadJobsByIds(List<string> ids)
+        public List<string> LoadJobsByIds( List<string> ids)
         {
             return ids.Select(LoadJobById).ToList();
         }

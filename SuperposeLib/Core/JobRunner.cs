@@ -35,13 +35,14 @@ namespace SuperposeLib.Core
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
              JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
+            var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             try
             {
 
                 var jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
-                    .LoadJobsByJobStateTypeAndTimeToRun(
+                    .LoadJobsByJobStateTypeAndTimeToRun(queueName,
                         JobStateType.Queued,
                         JobFactory.Time.MinValue,
                         JobFactory.Time.UtcNow.AddMinutes(1), 100, 0);
@@ -53,7 +54,6 @@ namespace SuperposeLib.Core
                 }
                 else
                 {
-                    //Environment.ProcessorCount
                     ParallelDoSomeWork(100, onRunning, runningCompleted, jobsIds);
                     Run(onRunning, runningCompleted);
                 }
@@ -64,20 +64,17 @@ namespace SuperposeLib.Core
             {
                 return false;
             }
-            
         }
 
         private void ParallelDoSomeWork(int maxDegreeOfParallelism,Action<string> onRunning, Action<string> runningCompleted, List<string> jobsIds)
         {
-           
+          
             Parallel.ForEach( jobsIds, new ParallelOptions
             {
                 MaxDegreeOfParallelism = maxDegreeOfParallelism
             }, (jobsId) =>
             {
-               // Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(1)));
                 DoSomeWork(onRunning, runningCompleted, jobsId);
-
             });
         }
 
