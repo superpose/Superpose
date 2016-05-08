@@ -33,9 +33,10 @@ namespace SuperposeLib.Owin
         public void QueueSampleJob()
         {
             const int total = 1000000;
+          
             for (var i = 0; i < total; i++)
             {
-                JobHandler.EnqueueJob<TestJob>();
+                Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
             }
             GetJobStatistics();
         }
@@ -52,10 +53,17 @@ namespace SuperposeLib.Owin
 
     public class TestJob:AJob
     {
-        protected override void Execute()
+        public override SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)
         {
-           // throw  new Exception();
-            Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(100)));
+            return SuperVisionDecision.Fail;
+        }
+
+        protected override void Execute()
+        { 
+            if(DateTime.Now.Second%19==0)
+            throw  new Exception();
+
+            Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(10)));
             // Console.WriteLine("woooo!");
         }
     }
@@ -64,6 +72,7 @@ namespace SuperposeLib.Owin
     {
         public static IHubContext GetHubContext()
         {
+
             return GlobalHost.ConnectionManager.GetHubContext<MyHub>();
         }
     }
