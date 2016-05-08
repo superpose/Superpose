@@ -1,11 +1,42 @@
 using System;
+using System.Linq.Expressions;
+using Serialize.Linq.Serializers;
 using Superpose.StorageInterface;
+using SuperposeLib.Core.Jobs;
 using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Core
 {
     public class JobHandler
     {
+
+        public static string EnqueueJob(Expression<Action> operation,Func<JobContinuationHandler, string> continuation = null)
+        {
+            return EnqueueJob(null, operation, continuation);
+
+        }
+
+        public static string EnqueueJob<T>( Expression<Action<T>> operation, Func<JobContinuationHandler, string> continuation = null)
+        {
+            return EnqueueJob(null, operation, continuation);
+
+        }
+        public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation, Func<JobContinuationHandler, string> continuation = null)
+        {
+            return EnqueueJob( operation, continuation);
+
+        }
+
+        public static string EnqueueJob(JobQueue queue, Expression operation, Func<JobContinuationHandler, string> continuation = null)
+        {
+            var serializer = new ExpressionSerializer(new Serialize.Linq.Serializers.JsonSerializer());
+            
+            var serialized=serializer.SerializeText(operation);
+
+          return  EnqueueJob<LinqJob, LinqJobCommand>(new LinqJobCommand() {ExpressionString = serialized, Context = null}, queue,
+                continuation);
+
+        }
 
         public static string EnqueueJob<T>(Func<JobContinuationHandler, string> continuation = null) where T : AJob
         {

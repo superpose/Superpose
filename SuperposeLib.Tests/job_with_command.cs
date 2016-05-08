@@ -1,8 +1,11 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.Owin.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Owin;
+using Serialize.Linq.Serializers;
 using Superpose.Owin.Storage.InMemory;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
@@ -10,12 +13,46 @@ using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Owin;
 using SuperposeLib.Tests.Jobs;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace SuperposeLib.Tests
 {
     [TestClass]
     public class job_with_command : TestHarness
     {
+
+        [TestMethod]
+        public void test_expression()
+        {
+            
+
+                const string baseAddress = "http://*:8118/";
+                using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
+                {
+                    var jobId = JobHandler.EnqueueJob(() => Console.WriteLine("yay!"));
+
+                    var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
+                    var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
+
+                    IJobFactory factory = new JobFactory(storage, converter);
+                    AssertAwait(() =>
+                    {
+                        var existingResult = factory.GetJobLoad(jobId);
+
+                        Assert.IsNotNull(existingResult);
+                        Assert.AreEqual(existingResult.Id, jobId);
+                        var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
+                        Assert.AreEqual(statistics.TotalNumberOfJobs, 1);
+                        Assert.AreEqual(statistics.TotalSuccessfullJobs, 1);
+                        Assert.AreEqual(statistics.TotalFailedJobs, 0);
+                        Assert.AreEqual(statistics.TotalProcessingJobs, 0);
+                    }, 10000);
+
+
+                  
+                }
+           
+        }
 
         public class TestStartup
         {
@@ -74,10 +111,10 @@ namespace SuperposeLib.Tests
             using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
             {
                 Console.WriteLine("Server started");
-                var command1 = new TestCommand() {MyName = "tester1"};
+                var command1 = new TestCommand() { MyName = "tester1" };
                 var command2 = new TestCommand() { MyName = "tester2" };
 
-                var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(command1, 
+                var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(command1,
                             (continuation) => continuation.EnqueueJob<JobWithCommand, TestCommand>(command2));
 
                 AssertAwait(() => EnsureJobHasRun(jobId), 5000);
@@ -123,14 +160,14 @@ namespace SuperposeLib.Tests
 
             var existingResult = factory.GetJobLoad(jobId);
 
-            Assert.AreEqual(existingResult.JobTypeFullName, typeof (JobWithCommand).AssemblyQualifiedName);
+            Assert.AreEqual(existingResult.JobTypeFullName, typeof(JobWithCommand).AssemblyQualifiedName);
             Assert.AreEqual(existingResult.Id, jobId);
             Assert.IsNotNull(existingResult);
             Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 1);
             Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Passed);
             Assert.AreEqual(existingResult.JobStateTypeName, JobStateType.Successfull.GetJobStateTypeName());
 
-          
+
         }
 
 
@@ -141,7 +178,7 @@ namespace SuperposeLib.Tests
             using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
             {
                 Console.WriteLine("Server started");
-                var jobId= JobHandler.EnqueueJob<JobWithCommand,TestCommand>(new TestCommand() { MyName = "tester" });
+                var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(new TestCommand() { MyName = "tester" });
                 var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
                 var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
                 var runner = new JobRunner(storage, converter);
@@ -168,7 +205,7 @@ namespace SuperposeLib.Tests
 
             }
 
-            
+
         }
 
 
@@ -181,7 +218,7 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.CreateJobStorage())
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                var jobId = factory.QueueJob<JobWithCommand>(new TestCommand() {MyName = "tester"});
+                var jobId = factory.QueueJob<JobWithCommand>(new TestCommand() { MyName = "tester" });
 
                 var runner = new JobRunner(storage, converter);
                 var result = runner.Run(null, null);
@@ -189,12 +226,12 @@ namespace SuperposeLib.Tests
                 Assert.IsTrue(result);
                 var existingResult = factory.GetJobLoad(jobId);
 
-                Assert.AreEqual(existingResult.JobTypeFullName,typeof (JobWithCommand).AssemblyQualifiedName);
+                Assert.AreEqual(existingResult.JobTypeFullName, typeof(JobWithCommand).AssemblyQualifiedName);
                 Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
                 Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 1);
                 Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Passed);
-                Assert.AreEqual(existingResult.JobStateTypeName,JobStateType.Successfull.GetJobStateTypeName());
+                Assert.AreEqual(existingResult.JobStateTypeName, JobStateType.Successfull.GetJobStateTypeName());
 
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                 Assert.AreEqual(statistics.TotalNumberOfJobs, 1);
@@ -206,7 +243,7 @@ namespace SuperposeLib.Tests
 
     }
 
-    public class JobWithCommand:AJob<TestCommand>
+    public class JobWithCommand : AJob<TestCommand>
     {
         protected override void Execute(TestCommand command)
         {
@@ -214,7 +251,7 @@ namespace SuperposeLib.Tests
         }
     }
 
-    public class TestCommand:AJobCommand
+    public class TestCommand : AJobCommand
     {
         public string MyName { set; get; }
     }
