@@ -1,5 +1,6 @@
 ﻿using System;
 using Superpose.StorageInterface;
+using SuperposeLib.Core;
 using SuperposeLib.Models;
 
 namespace SuperposeLib.Interfaces.JobThings
@@ -21,7 +22,7 @@ namespace SuperposeLib.Interfaces.JobThings
         JobResult InstantiateAndRunJob(IJobLoad jobLoad);
         string ScheduleJob(Type type, AJobCommand command =null, DateTime? scheduleTime=null, JobQueue jobQueue = null);
 
-        JobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,
+        SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,
             JobQueue jobQueue = null);
     }
 }
