@@ -69,7 +69,7 @@ namespace SuperposeLib.Core
                 Command = JobConverter.SerializeJobCommand(command),
                 JobQueue = jobQueue,
                 JobQueueName = jobQueue.GetType().Name,
-                TimeToRun = scheduleTime,
+                TimeToRun = scheduleTime?? Time.UtcNow,
                 JobTypeFullName = jobType.AssemblyQualifiedName,
                 Id = jobId,
                 JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown)
@@ -187,6 +187,8 @@ namespace SuperposeLib.Core
             if (!TryUpdateStorageAfterJobExecutionEnds(result, ref jobLoad))
                 return null;
 
+            
+
             return jobLoad;
         }
         private bool TryUpdateStorageAfterJobExecutionEnds(JobResult result, ref JobLoad jobLoad)
@@ -211,7 +213,36 @@ namespace SuperposeLib.Core
             }
             jobLoad = (JobLoad)  JobStateTransitionFactory.GetNextState(jobLoad, result.SuperVisionDecision);
 
-            var canUpdate = false;
+            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() && !string.IsNullOrEmpty(jobLoad.NextCommand))
+            {
+                try
+                {
+                    var nextJobLoad = JobConverter.JobParser.Execute(jobLoad.NextCommand);
+                    if (!string.IsNullOrEmpty(nextJobLoad?.Id))
+                    {
+                        try
+                        {
+                            JobStorage.JobSaver.SaveNew(jobLoad.NextCommand, nextJobLoad.Id);
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                 // failed to proc continuation
+                }
+               
+            }
+
+            return FinallyUpdateCurrentJobStorage(jobLoad);
+        }
+
+        private bool FinallyUpdateCurrentJobStorage(JobLoad jobLoad)
+        {
+            bool canUpdate;
             try
             {
                 jobLoad.Job = null;
@@ -224,6 +255,7 @@ namespace SuperposeLib.Core
             }
             return canUpdate;
         }
+
         private bool TryUpdateStorageBeforeJobExecutuinStarts(ref JobLoad jobLoad)
         {
             jobLoad.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
