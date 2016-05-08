@@ -5,6 +5,7 @@ namespace Superpose.StorageInterface
 {
     public class SerializableJobLoad : IJobLoad
     {
+        public string Queue { get; set; }
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }
         public DateTime? Ended { get; set; }
@@ -17,6 +18,5 @@ namespace Superpose.StorageInterface
         public string Command { get; set; }
         public string JobCommandTypeFullName { get; set; }
         public string NextCommand { get; set; }
-        public string Queue { get; set; }
     }
 }

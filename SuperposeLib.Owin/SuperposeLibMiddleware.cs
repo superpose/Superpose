@@ -10,20 +10,9 @@ namespace SuperposeLib.Owin
 {
     public class SuperposeLibServerMiddleware
     {
-        public SuperposeLibServerMiddleware(AppFunc next)
-        {
-            Next = next;
-            SuperposeGlobalConfiguration.JobConverterFactory = SuperposeGlobalConfiguration.JobConverterFactory ??
-                                                              new DefaultJobConverterFactory();
-                var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
-                 Storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
-                Runner = new JobRunner(Storage, converter);
-                Runner.Run(UiNotifyer, UiNotifyer);
-        }
+        public static string LastReportedProcessedJob;
 
-        public static IJobStorage Storage { get; set; }
-
-        public Action<string> UiNotifyer = (jobId) =>
+        public Action<string> UiNotifyer = jobId =>
         {
             LastReportedProcessedJob = jobId;
 
@@ -32,7 +21,7 @@ namespace SuperposeLib.Owin
                 return;
             }
             ReportDelayInProgress = true;
-            Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith((n) =>
+            Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(n =>
             {
                 SuperposeSignalRContext.GetHubContext().Clients.All.Processing(LastReportedProcessedJob);
                 var jobStatistics = Storage.JobLoader.GetJobStatistics();
@@ -40,11 +29,23 @@ namespace SuperposeLib.Owin
                 ReportDelayInProgress = false;
             });
         };
+
+        public SuperposeLibServerMiddleware(AppFunc next)
+        {
+            Next = next;
+            SuperposeGlobalConfiguration.JobConverterFactory = SuperposeGlobalConfiguration.JobConverterFactory ??
+                                                               new DefaultJobConverterFactory();
+            var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
+            Storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
+            Runner = new JobRunner(Storage, converter);
+            Runner.Run(UiNotifyer, UiNotifyer);
+        }
+
+        public static IJobStorage Storage { get; set; }
         private AppFunc Next { get; }
-        private IJobRunner Runner { get;  }
+        private IJobRunner Runner { get; }
 
         public static bool ReportDelayInProgress { set; get; }
-        public static string LastReportedProcessedJob = null;
 
         public async Task Invoke(IDictionary<string, object> environment)
         {

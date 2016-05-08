@@ -11,7 +11,8 @@
  *
  * http://cameronspear.com/blog/twitter-bootstrap-dropdown-on-hover-plugin/
  */
-;(function($, window, undefined) {
+;
+(function($, window, undefined) {
     // outside the scope of the jQuery plugin to
     // keep track of all dropdowns
     var $allDropdowns = $();
@@ -32,49 +33,49 @@
                     instantlyCloseOthers: true
                 },
                 data = {
-                    delay: $(this).data('delay'),
-                    instantlyCloseOthers: $(this).data('close-others')
+                    delay: $(this).data("delay"),
+                    instantlyCloseOthers: $(this).data("close-others")
                 },
                 settings = $.extend(true, {}, defaults, options, data),
                 timeout;
 
             $parent.hover(function(event) {
                 // so a neighbor can't open the dropdown
-                if(!$parent.hasClass('open') && !$this.is(event.target)) {
+                if (!$parent.hasClass("open") && !$this.is(event.target)) {
                     return true;
                 }
 
-                if(settings.instantlyCloseOthers === true)
-                    $allDropdowns.removeClass('open');
+                if (settings.instantlyCloseOthers === true)
+                    $allDropdowns.removeClass("open");
 
                 window.clearTimeout(timeout);
-                $parent.addClass('open');
+                $parent.addClass("open");
             }, function() {
                 timeout = window.setTimeout(function() {
-                    $parent.removeClass('open');
+                    $parent.removeClass("open");
                 }, settings.delay);
             });
 
             // this helps with button groups!
             $this.hover(function() {
-                if(settings.instantlyCloseOthers === true)
-                    $allDropdowns.removeClass('open');
+                if (settings.instantlyCloseOthers === true)
+                    $allDropdowns.removeClass("open");
 
                 window.clearTimeout(timeout);
-                $parent.addClass('open');
+                $parent.addClass("open");
             });
 
             // handle submenus
-            $parent.find('.dropdown-submenu').each(function(){
+            $parent.find(".dropdown-submenu").each(function() {
                 var $this = $(this);
                 var subTimeout;
                 $this.hover(function() {
                     window.clearTimeout(subTimeout);
-                    $this.children('.dropdown-menu').show();
+                    $this.children(".dropdown-menu").show();
                     // always close submenu siblings instantly
-                    $this.siblings().children('.dropdown-menu').hide();
+                    $this.siblings().children(".dropdown-menu").hide();
                 }, function() {
-                    var $submenu = $this.children('.dropdown-menu');
+                    var $submenu = $this.children(".dropdown-menu");
                     subTimeout = window.setTimeout(function() {
                         $submenu.hide();
                     }, settings.delay);

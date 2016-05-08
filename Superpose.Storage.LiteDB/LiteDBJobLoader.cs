@@ -4,7 +4,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
 
-
 namespace Superpose.Storage.LiteDB
 {
     public class LiteDbJobLoader : IJobLoader
@@ -62,7 +61,7 @@ namespace Superpose.Storage.LiteDB
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
-                    .Find(x => x.JobTypeFullName == jobType.AssemblyQualifiedName && x.JobQueueName== queueName)
+                    .Find(x => x.JobTypeFullName == jobType.AssemblyQualifiedName && x.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Id)
@@ -78,7 +77,10 @@ namespace Superpose.Storage.LiteDB
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
-                    .Find(x => x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.JobQueueName == queueName)
+                    .Find(
+                        x =>
+                            x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
+                            x.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Id)
@@ -103,7 +105,8 @@ namespace Superpose.Storage.LiteDB
             return collection;
         }
 
-        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from, DateTime to,
+        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
+            DateTime to,
             int take, int skip)
         {
             List<string> collection = null;

@@ -1,20 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Models;
 
 namespace SuperposeLib.Core
 {
     public class JobRunner : IJobRunner, IDisposable
     {
-        private readonly IJobStorage _jobStorage;
         private readonly IJobConverter _jobConverter;
+        private readonly IJobStorage _jobStorage;
         private readonly ITime _time;
 
         public JobRunner(IJobStorage jobStorage, IJobConverter jobConverter, ITime time = null)
@@ -31,17 +29,16 @@ namespace SuperposeLib.Core
             Timer.Dispose();
         }
 
-       
+
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
-             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
+            JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             var queue = SuperposeGlobalConfiguration.JobQueue;
-                    
+
 
             try
             {
-
                 var jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
@@ -53,11 +50,11 @@ namespace SuperposeLib.Core
 
                 if (hasNoWorkToDo)
                 {
-                    Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval)).ContinueWith(c => Run(onRunning, runningCompleted));
+                    Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
+                        .ContinueWith(c => Run(onRunning, runningCompleted));
                 }
                 else
                 {
-                   
                     ParallelDoSomeWork(queue.WorkerPoolCount, onRunning, runningCompleted, jobsIds);
                     Run(onRunning, runningCompleted);
                 }
@@ -70,21 +67,19 @@ namespace SuperposeLib.Core
             }
         }
 
-        private void ParallelDoSomeWork(int maxDegreeOfParallelism,Action<string> onRunning, Action<string> runningCompleted, List<string> jobsIds)
+        public IJobFactory JobFactory { get; set; }
+
+        private void ParallelDoSomeWork(int maxDegreeOfParallelism, Action<string> onRunning,
+            Action<string> runningCompleted, List<string> jobsIds)
         {
-          
-            Parallel.ForEach( jobsIds, new ParallelOptions
+            Parallel.ForEach(jobsIds, new ParallelOptions
             {
                 MaxDegreeOfParallelism = maxDegreeOfParallelism
-            }, (jobsId) =>
-            {
-                DoSomeWork(onRunning, runningCompleted, jobsId);
-            });
+            }, jobsId => { DoSomeWork(onRunning, runningCompleted, jobsId); });
         }
 
         private void DoSomeWork(Action<string> onRunning, Action<string> runningCompleted, string jobsId)
         {
-
             try
             {
                 onRunning?.Invoke(jobsId);
@@ -104,7 +99,5 @@ namespace SuperposeLib.Core
                 //
             }
         }
-
-        public IJobFactory JobFactory { get; set; }
     }
 }

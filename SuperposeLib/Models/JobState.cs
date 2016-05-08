@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Superpose.StorageInterface;
-using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Models
 {

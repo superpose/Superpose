@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
-using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
 
 namespace SuperposeLib.Services.DefaultConverter

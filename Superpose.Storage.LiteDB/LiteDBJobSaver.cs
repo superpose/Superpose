@@ -3,7 +3,6 @@ using LiteDB;
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
 
-
 namespace Superpose.Storage.LiteDB
 {
     public class LiteDBJobSaver : IJobSaver

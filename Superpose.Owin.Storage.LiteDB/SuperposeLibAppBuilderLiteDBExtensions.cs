@@ -1,7 +1,6 @@
 using Owin;
 using Superpose.Storage.LiteDB;
 using Superpose.StorageInterface;
-using SuperposeLib.Owin;
 
 namespace Superpose.Owin.Storage.LiteDB
 {

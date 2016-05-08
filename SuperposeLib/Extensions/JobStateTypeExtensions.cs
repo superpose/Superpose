@@ -7,7 +7,7 @@ namespace SuperposeLib.Extensions
     {
         public static string GetJobStateTypeName(this JobStateType jobStateType)
         {
-            return Enum.GetName(typeof(JobStateType), jobStateType);
+            return Enum.GetName(typeof (JobStateType), jobStateType);
         }
     }
 }

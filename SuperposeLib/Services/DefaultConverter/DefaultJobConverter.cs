@@ -1,7 +1,6 @@
 ﻿using System;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
-using SuperposeLib.Interfaces.JobThings;
 
 namespace SuperposeLib.Services.DefaultConverter
 {

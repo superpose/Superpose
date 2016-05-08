@@ -1,7 +1,6 @@
 using Owin;
 using Superpose.Storage.InMemory;
 using Superpose.StorageInterface;
-using SuperposeLib.Owin;
 
 namespace Superpose.Owin.Storage.InMemory
 {

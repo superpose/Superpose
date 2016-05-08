@@ -5,7 +5,6 @@ using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Models;
 using SuperposeLib.Tests.Jobs;
 
 namespace SuperposeLib.Tests

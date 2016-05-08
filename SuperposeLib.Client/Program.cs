@@ -1,11 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Superpose.Storage.InMemory;
-using Superpose.StorageInterface;
-using SuperposeLib.Core;
-using SuperposeLib.Interfaces.JobThings;
+﻿using SuperposeLib.Core;
 using SuperposeLib.Owin;
-using SuperposeLib.Services.DefaultConverter;
 
 namespace SuperposeLib.Client
 {
@@ -13,7 +7,6 @@ namespace SuperposeLib.Client
     {
         private static void Main(string[] args)
         {
-           
             OwinServer.StartServer();
         }
     }

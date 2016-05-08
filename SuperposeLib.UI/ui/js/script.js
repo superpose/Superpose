@@ -6,7 +6,8 @@ app.config([
     "$routeProvider", function($routeProvider) {
         $routeProvider
             // Home
-            .when("/", { templateUrl: "partials/home.html" /*,controller: ""*/
+            .when("/", {
+                templateUrl: "partials/home.html" /*,controller: ""*/
             })
             // else 404
             .otherwise("/404", { templateUrl: "partials/404.html", controller: "PageCtrl" });
@@ -38,7 +39,7 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
     chat.client.processing = function(response) {
         $timeout(function() {
             $scope.jobExecuting = response;
-            
+
         });
     };
 
@@ -65,28 +66,28 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
         chat.server.queueSampleJob();
     };
 
-    chat.client.currentQueue = function (response) {
-        $timeout(function () {
+    chat.client.currentQueue = function(response) {
+        $timeout(function() {
             $scope.jobQueue = response;
             console.log(response);
         });
     };
-    $scope.getCurrentQueue = function () {
+    $scope.getCurrentQueue = function() {
         chat.server.getCurrentQueue();
     };
-    
-    $scope.setQueueMaxNumberOfJobsPerLoad = function () {
+
+    $scope.setQueueMaxNumberOfJobsPerLoad = function() {
         chat.server.setQueueMaxNumberOfJobsPerLoad($scope.jobQueue.MaxNumberOfJobsPerLoad);
     };
-    $scope.setQueueStorgePollSecondsInterval = function () {
+    $scope.setQueueStorgePollSecondsInterval = function() {
         chat.server.setQueueStorgePollSecondsInterval($scope.jobQueue.StorgePollSecondsInterval);
     };
-    $scope.setQueueWorkerPoolCount = function () {
+    $scope.setQueueWorkerPoolCount = function() {
         chat.server.setQueueWorkerPoolCount($scope.jobQueue.WorkerPoolCount);
     };
-    $scope.updateCurrentQueue=function() {
+    $scope.updateCurrentQueue = function() {
         $scope.setQueueWorkerPoolCount();
         $scope.setQueueStorgePollSecondsInterval();
         $scope.setQueueMaxNumberOfJobsPerLoad();
-    }
+    };
 });

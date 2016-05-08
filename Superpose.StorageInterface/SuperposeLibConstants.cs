@@ -10,6 +10,7 @@ namespace Superpose.StorageInterface
             MaxNumberOfJobsPerLoad = 100;
             StorgePollSecondsInterval = 1;
         }
+
         public int WorkerPoolCount { get; set; }
         public int MaxNumberOfJobsPerLoad { get; set; }
         public double StorgePollSecondsInterval { get; set; }

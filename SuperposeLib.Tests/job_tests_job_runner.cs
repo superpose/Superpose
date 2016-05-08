@@ -6,8 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Models;
-using SuperposeLib.Owin;
 using SuperposeLib.Services.DefaultConverter;
 using SuperposeLib.Tests.Jobs;
 
@@ -48,7 +46,6 @@ namespace SuperposeLib.Tests
                         }
                     }
                     Assert.IsTrue(passed);
-
                 }
             }
         }

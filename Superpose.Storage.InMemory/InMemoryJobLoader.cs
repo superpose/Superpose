@@ -60,7 +60,9 @@ namespace Superpose.Storage.InMemory
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
-                    x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.Value.JobQueueName == queueName)
+                    x =>
+                        x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
+                        x.Value.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Key)
@@ -77,21 +79,23 @@ namespace Superpose.Storage.InMemory
                 .ToList();
         }
 
-        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from, DateTime to,
+        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
+            DateTime to,
             int take, int skip)
         {
             return InMemoryJobStorageMemoryStore.MemoryStore
                 .Where(x =>
                     x.Value.TimeToRun >= @from
                     && x.Value.TimeToRun <= to &&
-                    x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.Value.JobQueueName == queueName)
+                    x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
+                    x.Value.JobQueueName == queueName)
                 .Skip(skip)
                 .Take(take)
                 .Select(x => x.Key)
                 .ToList();
         }
 
-        public List<string> LoadJobsByIds( List<string> ids)
+        public List<string> LoadJobsByIds(List<string> ids)
         {
             return ids.Select(LoadJobById).ToList();
         }

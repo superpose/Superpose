@@ -1,7 +1,5 @@
 using System.Linq;
 using Superpose.StorageInterface;
-using SuperposeLib.Interfaces.JobThings;
-using SuperposeLib.Models;
 
 namespace SuperposeLib.Extensions
 {

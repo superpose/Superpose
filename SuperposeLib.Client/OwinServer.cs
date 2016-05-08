@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Hosting;
-using SuperposeLib.Owin;
 
 namespace SuperposeLib.Client
 {
@@ -29,7 +26,7 @@ namespace SuperposeLib.Client
                 Console.WriteLine(response);
                 Console.WriteLine(response.Content.ReadAsStringAsync().Result);
 
-                 
+
                 RunAuthenticationSample();
 
                 Console.ReadLine();

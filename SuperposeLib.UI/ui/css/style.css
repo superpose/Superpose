@@ -1,50 +1,43 @@
-﻿      .NodeContent
-{
-	font-family:Verdana;
-	font-size:small;
+﻿.NodeContent {
+    font-family: Verdana;
+    font-size: small;
 }
 
-.Node 
-{
-	position:absolute;
-	background-color: #000;
-	border: 1px solid greenyellow;
-	text-align:center;
-	vertical-align:middle;
-	cursor:pointer;
-	overflow:hidden;
+.Node {
+    background-color: #000;
+    border: 1px solid greenyellow;
+    cursor: pointer;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.NodeHover
-{
-	position:absolute;
-	background-color: darkslategray;
-	border: 1px solid #5280FF;
-	text-align:center;
-	vertical-align:middle;
-	cursor:pointer;
-	overflow:hidden;
+.NodeHover {
+    background-color: darkslategray;
+    border: 1px solid #5280FF;
+    cursor: pointer;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.NodeCollapsed
-{
-	position:absolute;
-	/*background-color: #8FADFF;*/
-	border: 2px solid black;
-	text-align:center;
-	vertical-align:middle;
-	cursor:pointer;
-	overflow:hidden;
+.NodeCollapsed {
+    /*background-color: #8FADFF;*/
+    border: 2px solid black;
+    cursor: pointer;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
 }
 
 
-.NodeLine
-{
-	background-color: greenyellow;
-	position:absolute;
-	overflow:hidden;
+.NodeLine {
+    background-color: greenyellow;
+    overflow: hidden;
+    position: absolute;
 }
 
-#dvTreeContainer * {
-    color: #fff0f5;
-}
+#dvTreeContainer * { color: #fff0f5; }

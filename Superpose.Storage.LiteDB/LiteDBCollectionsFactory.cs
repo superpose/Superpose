@@ -2,7 +2,6 @@ using System;
 using LiteDB;
 using Superpose.StorageInterface;
 
-
 namespace Superpose.Storage.LiteDB
 {
     public class LiteDbCollectionsFactory

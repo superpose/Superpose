@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.Storage.InMemory;
 using Superpose.StorageInterface;
@@ -15,8 +16,6 @@ namespace SuperposeLib.Tests
         [TestInitialize]
         public void SetUpMethod()
         {
-
-            
             StorageFactory = new InMemoryJobStoragefactory();
             // StorageFactory = new LiteDBJobStoragefactory();
             ConverterFactory = new DefaultJobConverterFactory();
@@ -27,13 +26,14 @@ namespace SuperposeLib.Tests
         {
             StorageFactory.CreateJobStorage().JobStorageReseter.ReSet();
         }
+
         public void AssertAwait(Action action, int durationMilliseconds, int sleepIntervalMilliseconds = 50)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             var now = DateTime.Now;
             var passed = false;
             var lastException = new Exception();
-           
+
             while ((DateTime.Now - now).TotalMilliseconds <= durationMilliseconds)
             {
                 try
@@ -46,13 +46,12 @@ namespace SuperposeLib.Tests
                 {
                     lastException = e;
                 }
-                System.Threading.Thread.Sleep(sleepIntervalMilliseconds);
+                Thread.Sleep(sleepIntervalMilliseconds);
             }
             if (!passed)
             {
                 throw new Exception("Could not pass in " + durationMilliseconds + " ms ", lastException);
             }
-           
         }
     }
 }

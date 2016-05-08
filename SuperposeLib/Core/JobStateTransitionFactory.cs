@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Superpose.StorageInterface;
 using SuperposeLib.Extensions;
-using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
 
 namespace SuperposeLib.Core

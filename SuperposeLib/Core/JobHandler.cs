@@ -9,33 +9,35 @@ namespace SuperposeLib.Core
 {
     public class JobHandler
     {
-
-        public static string EnqueueJob(Expression<Action> operation,Func<JobContinuationHandler, string> continuation = null)
+        public static string EnqueueJob(Expression<Action> operation,
+            Func<JobContinuationHandler, string> continuation = null)
         {
             return EnqueueJob(null, operation, continuation);
-
         }
 
-        public static string EnqueueJob<T>( Expression<Action<T>> operation, Func<JobContinuationHandler, string> continuation = null)
+        public static string EnqueueJob<T>(Expression<Action<T>> operation,
+            Func<JobContinuationHandler, string> continuation = null)
         {
             return EnqueueJob(null, operation, continuation);
-
-        }
-        public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation, Func<JobContinuationHandler, string> continuation = null)
-        {
-            return EnqueueJob( operation, continuation);
-
         }
 
-        public static string EnqueueJob(JobQueue queue, Expression operation, Func<JobContinuationHandler, string> continuation = null)
+        public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
+            Func<JobContinuationHandler, string> continuation = null)
         {
-            var serializer = new ExpressionSerializer(new Serialize.Linq.Serializers.JsonSerializer());
-            
-            var serialized=serializer.SerializeText(operation);
+            return EnqueueJob(operation, continuation);
+        }
 
-          return  EnqueueJob<LinqJob, LinqJobCommand>(new LinqJobCommand() {ExpressionString = serialized, Context = null}, queue,
-                continuation);
+        public static string EnqueueJob(JobQueue queue, Expression operation,
+            Func<JobContinuationHandler, string> continuation = null)
+        {
+            var serializer = new ExpressionSerializer(new JsonSerializer());
 
+            var serialized = serializer.SerializeText(operation);
+
+            return
+                EnqueueJob<LinqJob, LinqJobCommand>(new LinqJobCommand {ExpressionString = serialized, Context = null},
+                    queue,
+                    continuation);
         }
 
         public static string EnqueueJob<T>(Func<JobContinuationHandler, string> continuation = null) where T : AJob
@@ -47,36 +49,39 @@ namespace SuperposeLib.Core
             Func<JobContinuationHandler, string> continuation = null) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
-            return EnqueueJob<T, TCommand>(command,new DefaultJobQueue(), continuation);
+            return EnqueueJob<T, TCommand>(command, new DefaultJobQueue(), continuation);
         }
 
-        public static string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, string> continuation=null) where T : AJob
+        public static string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, string> continuation = null)
+            where T : AJob
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
             {
                 var factory = GetJobFactory(storage);
-                
-                var jobId = factory.QueueJob(typeof(T),null, queue, continuation?.Invoke(new JobContinuationHandler()));
+
+                var jobId = factory.QueueJob(typeof (T), null, queue, continuation?.Invoke(new JobContinuationHandler()));
                 return jobId;
             }
         }
 
-        public static string EnqueueJob<T, TCommand>(TCommand command, JobQueue queue, Func<JobContinuationHandler, string> continuation=null) where T : AJob<TCommand> where TCommand : AJobCommand
+        public static string EnqueueJob<T, TCommand>(TCommand command, JobQueue queue,
+            Func<JobContinuationHandler, string> continuation = null) where T : AJob<TCommand>
+            where TCommand : AJobCommand
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
             {
                 var factory = GetJobFactory(storage);
-                var jobId = factory.QueueJob(typeof(T), command, queue, continuation?.Invoke(new JobContinuationHandler()));
+                var jobId = factory.QueueJob(typeof (T), command, queue,
+                    continuation?.Invoke(new JobContinuationHandler()));
                 return jobId;
             }
         }
-        
-        private static IJobFactory GetJobFactory(IJobStorage storage) 
+
+        private static IJobFactory GetJobFactory(IJobStorage storage)
         {
             var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
             IJobFactory factory = new JobFactory(storage, converter);
             return factory;
         }
-
     }
 }
