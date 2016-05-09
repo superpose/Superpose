@@ -6,7 +6,7 @@ using SuperposeLib.Core;
 
 namespace SuperposeLib.Owin
 {
-    // SuperposeGlobalConfiguration.JobQueue
+   
     public class MyHub : Hub
     {
         public void GetCurrentQueue()
@@ -14,6 +14,16 @@ namespace SuperposeLib.Owin
             Clients.All.currentQueue(SuperposeGlobalConfiguration.JobQueue);
         }
 
+        public void GetCurrentProcessingState()
+        {
+            Clients.All.currentQueue(SuperposeGlobalConfiguration.StopProcessing?"Not Processing": "Processing");
+        }
+
+        public void StopProcessing(bool shouldStop)
+        {
+            SuperposeGlobalConfiguration.StopProcessing = shouldStop;
+            GetCurrentQueue();
+        }
         public void SetQueueMaxNumberOfJobsPerLoad(int maxNumberOfJobsPerLoad)
         {
             SuperposeGlobalConfiguration.JobQueue.MaxNumberOfJobsPerLoad = maxNumberOfJobsPerLoad;

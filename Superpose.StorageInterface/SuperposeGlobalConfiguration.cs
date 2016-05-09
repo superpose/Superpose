@@ -8,5 +8,6 @@ namespace Superpose.StorageInterface
         public static IJobConverterFactory JobConverterFactory { set; get; }
 
         public static IJobStoragefactory StorageFactory { set; get; }
+        public static bool StopProcessing { get; set; }
     }
 }

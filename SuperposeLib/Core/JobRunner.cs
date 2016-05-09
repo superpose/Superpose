@@ -37,13 +37,16 @@ namespace SuperposeLib.Core
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             var queue = SuperposeGlobalConfiguration.JobQueue;
 
-            var hasNoWorkToDo = false;
+            var hasNoWorkToDo = true;
 
-            CancellationTokenSource cts = new CancellationTokenSource();
+          
             try
             {
-
-                var jobsIds = JobFactory
+                var jobsIds=new List<string>();
+                if (!SuperposeGlobalConfiguration.StopProcessing)
+                {
+                
+                      jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
                     .LoadJobsByJobStateTypeAndTimeToRun(queueName,
@@ -51,6 +54,8 @@ namespace SuperposeLib.Core
                         JobFactory.Time.MinValue,
                         JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
                 hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
+                }
+               
 
                 if (hasNoWorkToDo)
                 {
@@ -59,10 +64,12 @@ namespace SuperposeLib.Core
                 }
                 else
                 {
-
-                    ParallelOptions po = new ParallelOptions();
-                    po.CancellationToken = cts.Token;
-                    po.MaxDegreeOfParallelism = queue.WorkerPoolCount;
+                    var cts = new CancellationTokenSource();
+                    var po = new ParallelOptions
+                    {
+                        CancellationToken = cts.Token,
+                        MaxDegreeOfParallelism = queue.WorkerPoolCount
+                    };
                     ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
                     Run(onRunning, runningCompleted);
                 }
@@ -83,8 +90,11 @@ namespace SuperposeLib.Core
             try
             {
                 Parallel.ForEach(jobsIds, po, jobsId =>
-                 {
-                     DoSomeWork(onRunning, runningCompleted, jobsId);
+                {
+                    if (!SuperposeGlobalConfiguration.StopProcessing)
+                    {
+                        DoSomeWork(onRunning, runningCompleted, jobsId);
+                    }
                      po.CancellationToken.ThrowIfCancellationRequested();
                  });
 
