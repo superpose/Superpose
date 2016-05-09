@@ -30,15 +30,19 @@ namespace SuperposeLib.Core
         }
 
 
+
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             var queue = SuperposeGlobalConfiguration.JobQueue;
 
+            var hasNoWorkToDo = false;
 
+            CancellationTokenSource cts = new CancellationTokenSource();
             try
             {
+
                 var jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
@@ -46,7 +50,7 @@ namespace SuperposeLib.Core
                         JobStateType.Queued,
                         JobFactory.Time.MinValue,
                         JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
-                var hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
+                hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
 
                 if (hasNoWorkToDo)
                 {
@@ -55,7 +59,11 @@ namespace SuperposeLib.Core
                 }
                 else
                 {
-                    ParallelDoSomeWork(queue.WorkerPoolCount, onRunning, runningCompleted, jobsIds);
+
+                    ParallelOptions po = new ParallelOptions();
+                    po.CancellationToken = cts.Token;
+                    po.MaxDegreeOfParallelism = queue.WorkerPoolCount;
+                    ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
                     Run(onRunning, runningCompleted);
                 }
 
@@ -69,13 +77,27 @@ namespace SuperposeLib.Core
 
         public IJobFactory JobFactory { get; set; }
 
-        private void ParallelDoSomeWork(int maxDegreeOfParallelism, Action<string> onRunning,
-            Action<string> runningCompleted, List<string> jobsIds)
+        private void ParallelDoSomeWork(Action<string> onRunning, Action<string> runningCompleted, List<string> jobsIds, ParallelOptions po, CancellationTokenSource cts)
         {
-            Parallel.ForEach(jobsIds, new ParallelOptions
+
+            try
             {
-                MaxDegreeOfParallelism = maxDegreeOfParallelism
-            }, jobsId => { DoSomeWork(onRunning, runningCompleted, jobsId); });
+                Parallel.ForEach(jobsIds, po, jobsId =>
+                 {
+                     DoSomeWork(onRunning, runningCompleted, jobsId);
+                     po.CancellationToken.ThrowIfCancellationRequested();
+                 });
+
+
+            }
+            catch (OperationCanceledException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                cts.Dispose();
+            }
         }
 
         private void DoSomeWork(Action<string> onRunning, Action<string> runningCompleted, string jobsId)
