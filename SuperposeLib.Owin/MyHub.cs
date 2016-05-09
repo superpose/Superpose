@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
@@ -103,7 +104,7 @@ namespace SuperposeLib.Owin
       
         protected override void Execute()
         {
-         
+            Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(10)));
         }
     }
     public class TestJob : AJob
