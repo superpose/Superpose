@@ -71,7 +71,7 @@ namespace SuperposeLib.Core
                 var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
                 IJobFactory factory = new JobFactory(storage, converter);
                 return
-                    factory.PrepareScheduleJob(typeof (T), command, null, null,
+                    factory.PrepareScheduleJob(typeof (T), command, null, queue,
                         continuation?.Invoke(new JobContinuationHandler())).JobLoadString;
             }
         }

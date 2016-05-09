@@ -45,7 +45,7 @@ namespace SuperposeLib.Owin
             {
                 JobHandler.EnqueueJob((c) =>new List<string>()
                 {
-                     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
                      c.EnqueueJob(()=>Console.WriteLine("what up")),
                      c.EnqueueJob(()=>Console.WriteLine("what up")),
                      c.EnqueueJob(()=>Console.WriteLine("what up")),
