@@ -113,8 +113,8 @@ namespace SuperposeLib.Tests
 
                 IJobFactory factory = new JobFactory(storage, converter);
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
-                Assert.AreEqual(statistics.TotalNumberOfJobs, 6);
-                Assert.AreEqual(statistics.TotalSuccessfullJobs, 6);
+                Assert.AreEqual(statistics.TotalNumberOfJobs, 8);
+                Assert.AreEqual(statistics.TotalSuccessfullJobs, 8);
                 Assert.AreEqual(statistics.TotalFailedJobs, 0);
                 Assert.AreEqual(statistics.TotalProcessingJobs, 0);
             }
@@ -214,7 +214,7 @@ namespace SuperposeLib.Tests
 
             var existingResult = factory.GetJobLoad(jobId);
 
-            Assert.AreEqual(existingResult.JobTypeFullName, typeof (JobWithCommand).AssemblyQualifiedName);
+            Assert.AreEqual(existingResult.JobTypeFullName, typeof (PilotJob).AssemblyQualifiedName);
             Assert.AreEqual(existingResult.Id, jobId);
             Assert.IsNotNull(existingResult);
             Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 1);

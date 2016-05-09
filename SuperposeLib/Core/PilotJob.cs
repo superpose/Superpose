@@ -1,6 +1,6 @@
 namespace SuperposeLib.Core
 {
-    internal class PilotJob:AJob
+    public class PilotJob:AJob
     {
         protected override void Execute()
         {
