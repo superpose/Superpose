@@ -26,7 +26,7 @@
         .alert { margin: 0 auto 20px; }
     </style>
 </head>
-<body ng-app="tutorialWebApp" class="bootstrap-admin-without-padding">
+<body ng-app="superposeWebApp" class="bootstrap-admin-without-padding">
 <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">
         upgrade
@@ -65,13 +65,16 @@
                             <input class="form-control" type="text" ng-model="jobQueue.StorgePollSecondsInterval">
                         </div>
                         <button class="btn btn-lg btn-primary" ng-click="updateCurrentQueue()">Update</button>
+                        <button class="btn btn-lg btn-{{stop?'success':'danger'}} pull-right"  ng-click="stopProcessing(!stop);">{{stop?'Start':'Stop'}}</button>
                     </div>
 
                 </div>
             </div>
 
 
-            <div class="row">
+            <!--
+
+             <div class="row">
                 <div class="col-lg-12">
 
                     <form method="post" action="about.html" class="bootstrap-admin-login-form">
@@ -92,6 +95,7 @@
                     </form>
                 </div>
             </div>
+                -->
         </div>
     </div>
 

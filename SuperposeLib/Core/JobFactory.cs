@@ -81,6 +81,7 @@ namespace SuperposeLib.Core
                 JobQueueName = jobQueue.GetType().Name,
                 TimeToRun = scheduleTime ?? Time.UtcNow,
                 JobTypeFullName = jobType.AssemblyQualifiedName,
+                JobName = jobType.Name,
                 Id = jobId,
                 JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown)
             };

@@ -9,6 +9,7 @@ namespace Superpose.StorageInterface
         {
             NextCommand = new List<string>();
         }
+        public string JobName { get; set; }
         public string Queue { get; set; }
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }

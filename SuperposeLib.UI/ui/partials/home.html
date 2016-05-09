@@ -3,19 +3,23 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="text-muted bootstrap-admin-box-title">
-                    <span >Jobs List </span></div>
+                    <span >{{paging.stateType}} </span></div>
             </div>
             <div class="bootstrap-admin-panel-content">
-                <table class="table table-striped table-bordered" id="example" ng-show="jobList">
+                <table class="table table-striped table-bordered" id="example" ng-show="list.jobList">
                     <thead>
                     <tr>
-                        <th>Jobs</th>                      
+                        <th>Name</th>
+                        <th>Started</th>
+                        <th>Job Id</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="odd gradeX" ng-repeat="item in jobList">
-                        <td><pre>{{item}}</pre></td>
+                    <tr ng-show="list.jobList.length" class="odd gradeX" ng-repeat="item in list.jobList">
                         
+                        <td>{{item.JobName}}</td>
+                        <td>{{item.Started | date:'medium'}}</td>
+                        <td>{{item.Id }}</td>
                     </tr>
                     </tbody>
                 </table>

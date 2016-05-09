@@ -8,7 +8,55 @@ namespace Superpose.Storage.LiteDB
 {
     public class LiteDbJobLoader : IJobLoader
     {
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         public string LoadJobById(string jobId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JobStatistics GetJobStatistics()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> LoadJobIdsByJobType(string queueName, Type jobType, int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> LoadJobIdsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> LoadJobIdsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from, DateTime to,
+            int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> LoadJobsByIds(List<string> ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SerializableJobLoad> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*
+         
+         public string LoadJobById(string jobId)
         {
             SerializableJobLoad result = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
@@ -71,7 +119,7 @@ namespace Superpose.Storage.LiteDB
             return collection;
         }
 
-        public List<string> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        public List<string> LoadJobIdsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
         {
             List<string> collection = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
@@ -84,6 +132,24 @@ namespace Superpose.Storage.LiteDB
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Id)
+                    .ToList();
+            });
+
+            return collection;
+        }
+
+        public List<SerializableJobLoad> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        {
+            List<SerializableJobLoad> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            {
+                collection = jobLoadCollection
+                    .Find(
+                        x =>
+                            x.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType) &&
+                            x.JobQueueName == queueName)
+                    .Take(take)
+                    .Skip(skip)
                     .ToList();
             });
 
@@ -131,5 +197,6 @@ namespace Superpose.Storage.LiteDB
         public void Dispose()
         {
         }
+         */
     }
 }

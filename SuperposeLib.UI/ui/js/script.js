@@ -1,4 +1,4 @@
-﻿var app = angular.module("tutorialWebApp", [
+﻿var app = angular.module("superposeWebApp", [
     "ngRoute"
 ]);
 
@@ -15,7 +15,7 @@ app.config([
 ]);
 
 
-angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $rootScope, $http, $q, $timeout, $interval) {
+angular.module("superposeWebApp").controller("ActorsCtrl", function($scope, $rootScope, $http, $q, $timeout, $interval) {
     var endpoint = "/api/values/ActorSystemStates";
     var getThings = function(selection) {
         var deferred = $q.defer();
@@ -44,7 +44,11 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
             }, 1000);
         });
     };
-
+    $scope.paging = {};
+    $scope.paging.stateType = 'Queued';
+    $scope.paging.take = 10;
+    $scope.paging.skip = 0;
+    $scope.paging.queue = 'DefaultJobQueue';
     chat.client.jobStatisticsCompleted = function(response) {
         $timeout(function() {
             $scope.statictics = response || {
@@ -56,21 +60,31 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
                 TotalSuccessfullJobs: 0,
                 TotalUnknownJobs: 0
             };
+
+            $scope.getJobsByJobStateType($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
         });
     };
     // Start the connection.
-    $.connection.hub.start().done(function() {
+    $.connection.hub.start().done(function () {
+            $scope.getJobsByJobStateType($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
+
         chat.server.getJobStatistics();
         chat.server.getCurrentQueue();
+        chat.server.getCurrentProcessingState();
+   
     });
     $scope.jobQueue = {};
     $scope.queueSampleJob = function() {
         chat.server.queueSampleJob();
+        window.location.reload(false);
     };
 
     chat.client.currentQueue = function(response) {
-        $timeout(function() {
-            $scope.jobQueue = response;
+        $timeout(function () {
+            if (response) {
+                  $scope.jobQueue = response;
+            }
+           
           
         });
     };
@@ -93,15 +107,26 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
         $scope.setQueueMaxNumberOfJobsPerLoad();
     };
 
-
+    $scope.list = { jobList :[]};
     chat.client.jobsList = function (response) {
         $timeout(function () {
-            $scope.jobList = response;
+                $scope.list.jobList = response||[];
         });
     };
-
-    $scope.getJobsByJobStateType = function (stateType, take, keep, queue) {
-        chat.server.getJobsByJobStateType(stateType, take, keep, queue);
+    $scope.stopProcessing = function(d) {
+        chat.server.stopProcessing(d);
+    };
+    chat.client.currentProcessingState = function (response) {
+        $timeout(function () {
+            $scope.stop = response;
+        });
+    };
+    $scope.getJobsByJobStateType = function (stateType, take, skip, queue) {
+        $scope.paging.stateType = stateType;
+        $scope.paging.take = take;
+        $scope.paging.skip = skip;
+        $scope.paging.queue = queue;
+        chat.server.getJobsByJobStateType($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
     };
 
 

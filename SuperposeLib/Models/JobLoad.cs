@@ -13,6 +13,7 @@ namespace SuperposeLib.Models
         public string Queue { get; set; }
         public DateTime? TimeToRun { get; set; }
         public string JobTypeFullName { get; set; }
+        public string JobName { get; set; }
         public string Id { get; set; }
         public JobQueue JobQueue { get; set; }
         public string JobQueueName { get; set; }
