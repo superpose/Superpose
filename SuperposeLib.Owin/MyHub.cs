@@ -16,7 +16,7 @@ namespace SuperposeLib.Owin
 
         public void GetCurrentProcessingState()
         {
-            Clients.All.currentQueue(SuperposeGlobalConfiguration.StopProcessing?"Not Processing": "Processing");
+            Clients.All.currentProcessingState(SuperposeGlobalConfiguration.StopProcessing?"Not Processing": "Processing");
         }
 
         public void StopProcessing(bool shouldStop)
@@ -67,6 +67,14 @@ namespace SuperposeLib.Owin
             GetJobStatistics();
         }
 
+         public void GetJobsByJobStateType(string stateType, int take=20,int skip=0, string queue = null)
+        {
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            {
+                var jobs = storage.JobLoader.LoadJobIdsByJobStateType(queue?? typeof(DefaultJobQueue).Name, (JobStateType)Enum.Parse(typeof(JobStateType), stateType,true), take,skip);
+                Clients.All.jobsList(jobs);
+            }
+        }
         public void GetJobStatistics()
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())

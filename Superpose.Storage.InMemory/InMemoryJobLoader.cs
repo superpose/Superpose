@@ -45,7 +45,7 @@ namespace Superpose.Storage.InMemory
             };
         }
 
-        public List<string> LoadJobsByJobType(string queueName, Type jobType, int take, int skip)
+        public List<string> LoadJobIdsByJobType(string queueName, Type jobType, int take, int skip)
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
@@ -56,7 +56,7 @@ namespace Superpose.Storage.InMemory
                     .ToList();
         }
 
-        public List<string> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        public List<string> LoadJobIdsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
@@ -68,8 +68,20 @@ namespace Superpose.Storage.InMemory
                     .Select(x => x.Key)
                     .ToList();
         }
+        public List<SerializableJobLoad> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        {
+            return
+                InMemoryJobStorageMemoryStore.MemoryStore.Where(
+                    x =>
+                        x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType) &&
+                        x.Value.JobQueueName == queueName)
+                    .Take(take)
+                    .Skip(skip)
+                    .Select(x => x.Value)
+                    .ToList();
+        }
 
-        public List<string> LoadJobsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
+        public List<string> LoadJobIdsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
         {
             return InMemoryJobStorageMemoryStore.MemoryStore.Where
                 (x => x.Value.TimeToRun >= @from && x.Value.TimeToRun <= to && x.Value.JobQueueName == queueName)
@@ -79,7 +91,7 @@ namespace Superpose.Storage.InMemory
                 .ToList();
         }
 
-        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
+        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
             DateTime to,
             int take, int skip)
         {

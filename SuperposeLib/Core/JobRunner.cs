@@ -49,7 +49,7 @@ namespace SuperposeLib.Core
                       jobsIds = JobFactory
                     .JobStorage
                     .JobLoader
-                    .LoadJobsByJobStateTypeAndTimeToRun(queueName,
+                    .LoadJobIdsByJobStateTypeAndTimeToRun(queueName,
                         JobStateType.Queued,
                         JobFactory.Time.MinValue,
                         JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);

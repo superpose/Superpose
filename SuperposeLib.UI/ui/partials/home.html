@@ -6,32 +6,17 @@
                     <span >Jobs List </span></div>
             </div>
             <div class="bootstrap-admin-panel-content">
-                <table class="table table-striped table-bordered" id="example">
+                <table class="table table-striped table-bordered" id="example" ng-show="jobList">
                     <thead>
                     <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
+                        <th>Jobs</th>                      
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="odd gradeX">
-                        <td>Trident</td>
-                        <td>Internet Explorer 4.0</td>
-                        <td>Win 95+</td>
-                        <td class="center"> 4</td>
-                        <td class="center">X</td>
+                    <tr class="odd gradeX" ng-repeat="item in jobList">
+                        <td><pre>{{item}}</pre></td>
+                        
                     </tr>
-                    <tr class="even gradeC">
-                        <td>Trident</td>
-                        <td>Internet Explorer 5.0</td>
-                        <td>Win 95+</td>
-                        <td class="center">5</td>
-                        <td class="center">C</td>
-                    </tr>
-
                     </tbody>
                 </table>
             </div>

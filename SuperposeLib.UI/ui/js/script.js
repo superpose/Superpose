@@ -39,7 +39,9 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
     chat.client.processing = function(response) {
         $timeout(function() {
             $scope.jobExecuting = response;
-
+            $timeout(function () {
+                $scope.jobExecuting = "";
+            }, 1000);
         });
     };
 
@@ -69,7 +71,7 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
     chat.client.currentQueue = function(response) {
         $timeout(function() {
             $scope.jobQueue = response;
-            console.log(response);
+          
         });
     };
     $scope.getCurrentQueue = function() {
@@ -90,4 +92,17 @@ angular.module("tutorialWebApp").controller("ActorsCtrl", function($scope, $root
         $scope.setQueueStorgePollSecondsInterval();
         $scope.setQueueMaxNumberOfJobsPerLoad();
     };
+
+
+    chat.client.jobsList = function (response) {
+        $timeout(function () {
+            $scope.jobList = response;
+        });
+    };
+
+    $scope.getJobsByJobStateType = function (stateType, take, keep, queue) {
+        chat.server.getJobsByJobStateType(stateType, take, keep, queue);
+    };
+
+
 });
