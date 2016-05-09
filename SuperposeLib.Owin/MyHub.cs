@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNet.SignalR;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
@@ -38,11 +39,18 @@ namespace SuperposeLib.Owin
 
         public void QueueSampleJob()
         {
-            const int total = 1000000;
+            const int total = 1;
 
             for (var i = 0; i < total; i++)
             {
-                JobHandler.EnqueueJob(() => Console.WriteLine("what up"));
+                JobHandler.EnqueueJob((c) =>new List<string>()
+                {
+                     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                     c.EnqueueJob(()=>Console.WriteLine("what up"))
+                });
                 //JobHandler.EnqueueJob<TestJob>();
                 // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
             }
