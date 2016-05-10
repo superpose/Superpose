@@ -52,22 +52,18 @@ namespace SuperposeLib.Owin
         {
             Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
             {
-                const int total = 100;
-
-                for (var i = 0; i < total; i++)
+                const int total = 1000;
+               
+               
+ 
+                    JobHandler.EnqueueJob<TestJob2>((c) =>
+                    {var li = new List<string>();
+ for (var i = 0; i < total; i++)
                 {
-
-                    JobHandler.EnqueueJob<TestJob2>((c) => new List<string>()
-                {
-                    c.EnqueueJob<TestJob2>(),
-                    c.EnqueueJob<TestJob2>(),
-                    c.EnqueueJob<TestJob2>(),
-                    c.EnqueueJob<TestJob2>(),
-                    c.EnqueueJob<TestJob2>(),
-                    c.EnqueueJob<TestJob2>(),
-                    c.EnqueueJob<TestJob2>()
-
-                });
+                    li.Add(c.EnqueueJob<TestJob2>());
+                }
+                        return li;
+                    });
                     //JobHandler.EnqueueJob((c) =>new List<string>()
                     //{
                     //     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
@@ -78,7 +74,7 @@ namespace SuperposeLib.Owin
                     //});
                     //JobHandler.EnqueueJob<TestJob>();
                     // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
-                }
+             
                 // GetJobStatistics();
             });
         }

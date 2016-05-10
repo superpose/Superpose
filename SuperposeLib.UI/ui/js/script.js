@@ -1,9 +1,9 @@
 ﻿var app = angular.module("superposeWebApp", [
-    "ngRoute"
+    "ngRoute", "jsonFormatter"
 ]);
 
 app.config([
-    "$routeProvider", function($routeProvider) {
+    "$routeProvider", function ($routeProvider) {
         $routeProvider
             // Home
             .when("/", {
@@ -13,121 +13,154 @@ app.config([
             .otherwise("/404", { templateUrl: "partials/404.html", controller: "PageCtrl" });
     }
 ]);
-
-
-angular.module("superposeWebApp").controller("ActorsCtrl", function($scope, $rootScope, $http, $q, $timeout, $interval) {
-    var endpoint = "/api/values/ActorSystemStates";
-    var getThings = function(selection) {
+angular.module("superposeWebApp").factory("endpoints", function () {
+    return {
+        hub: "/signalr",
+        webApi: "/api/values/ActorSystemStates"
+    }
+});
+angular.module("superposeWebApp").service("service", function ($q, $http) {
+    this.POST = function (url, item) {
         var deferred = $q.defer();
-        $http.get(endpoint, JSON.stringify(selection), { headers: { 'Content-Type': "application/json" } }).success(deferred.resolve).error(deferred.reject);
+        var load = JSON.stringify(item);
+        $http.post(url, load, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).
+            success(deferred.resolve).
+            error(deferred.reject);
+        $rootScope.allCurrentHttpPromises.push(deferred.promise);
+        return deferred.promise;
 
+    };
+    this.GET = function (url) {
+
+        var deferred = $q.defer();
+        $http({
+            method: 'GET',
+            url: url
+        }).
+            success(deferred.resolve).
+            error(deferred.reject);
+        $rootScope.allCurrentHttpPromises.push(deferred.promise);
         return deferred.promise;
     };
-
-    $scope.statictics = {};
-
-    $scope.stringify = function(data) {
-        return JSON.stringify(data);
+});
+angular.module("superposeWebApp").factory("hub", function (endpoints, $timeout) {
+    $.connection.hub.url = endpoints.hub;
+    var chat = $.connection.superposeLibHub;
+    return {
+        ready: function (f) {
+            $.connection.hub.start().done(function () {
+                var arg = arguments;
+                $timeout(function () {
+                    f && f.apply(null, arg);
+                });
+            });
+        },
+        chat: chat,
+        server: chat.server,
+        client: function (name, f) {
+            chat.client[name] = function (response) {
+                var arg = arguments;
+                $timeout(function () {
+                    f && f.apply(null, arg);
+                });
+            };
+        }
     };
-    $scope.actors = [];
 
+});
 
-    $scope.actorState = { state: {} };
+angular.module("superposeWebApp").controller("ActorsCtrl", function ($scope, $rootScope, $http, $q, $timeout, hub) {
 
-    $.connection.hub.url = "http://localhost:8008/signalr";
-    var chat = $.connection.myHub;
-    chat.client.processing = function(response) {
-        $timeout(function() {
-            $scope.jobExecuting = response;
-            $timeout(function () {
-                $scope.jobExecuting = "";
-            }, 1000);
-        });
-    };
+    $scope.statistics = {};
     $scope.paging = {};
-    $scope.paging.stateType = 'Queued';
+    $scope.paging.stateType = "Queued";
     $scope.paging.take = 10;
     $scope.paging.skip = 0;
-    $scope.paging.queue = 'DefaultJobQueue';
-    chat.client.jobStatisticsCompleted = function(response) {
-        $timeout(function() {
-            $scope.statictics = response || {
-                TotalDeletedJobs: 0,
-                TotalFailedJobs: 0,
-                TotalNumberOfJobs: 0,
-                TotalProcessingJobs: 0,
-                TotalQueuedJobs: 0,
-                TotalSuccessfullJobs: 0,
-                TotalUnknownJobs: 0
-            };
-
-            $scope.getJobsByJobStateType($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
-        });
-    };
-    // Start the connection.
-    $.connection.hub.start().done(function () {
-            $scope.getJobsByJobStateType($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
-
-        chat.server.getJobStatistics();
-        chat.server.getCurrentQueue();
-        chat.server.getCurrentProcessingState();
-   
-    });
+    $scope.paging.queue = "DefaultJobQueue";
     $scope.jobQueue = {};
-    $scope.queueSampleJob = function() {
-        chat.server.queueSampleJob();
-        window.location.reload(false);
-    };
+    $scope.list = {};
 
-    chat.client.currentQueue = function(response) {
+    hub.client("processing", function (response) {
+        $scope.jobExecuting = response;
         $timeout(function () {
-            if (response) {
-                  $scope.jobQueue = response;
-            }
-           
-          
-        });
-    };
-    $scope.getCurrentQueue = function() {
-        chat.server.getCurrentQueue();
+            $scope.jobExecuting = "";
+        }, 1000);
+    });
+    hub.client("currentQueue", function (response) {
+        if (response) {
+            $scope.jobQueue = response;
+        }
+    });
+    hub.client("currentProcessingState", function (response) {
+        $scope.stop = response;
+    });
+    hub.client("jobsList", function (response) {
+        response = response || [];
+        $scope.list.jobList = [];
+        for (var i = 0; i < response.length; i++) {
+            $timeout((function (i) {
+                $scope.list.jobList[i] = response[i];
+            })(i),1000);
+        }
+    });
+    hub.client("jobStatisticsCompleted", function (response) {
+        $scope.statistics = response || {
+            TotalDeletedJobs: 0,
+            TotalFailedJobs: 0,
+            TotalNumberOfJobs: 0,
+            TotalProcessingJobs: 0,
+            TotalQueuedJobs: 0,
+            TotalSuccessfullJobs: 0,
+            TotalUnknownJobs: 0
+        };
+        //$scope.getJobs();
+    });
+    
+    $scope.queueSampleJob = function () {
+        hub.server.queueSampleJob();
     };
 
-    $scope.setQueueMaxNumberOfJobsPerLoad = function() {
-        chat.server.setQueueMaxNumberOfJobsPerLoad($scope.jobQueue.MaxNumberOfJobsPerLoad);
+    $scope.getCurrentQueue = function () {
+        hub.server.getCurrentQueue();
     };
-    $scope.setQueueStorgePollSecondsInterval = function() {
-        chat.server.setQueueStorgePollSecondsInterval($scope.jobQueue.StorgePollSecondsInterval);
+    $scope.setQueueMaxNumberOfJobsPerLoad = function () {
+        hub.server.setQueueMaxNumberOfJobsPerLoad($scope.jobQueue.MaxNumberOfJobsPerLoad);
     };
-    $scope.setQueueWorkerPoolCount = function() {
-        chat.server.setQueueWorkerPoolCount($scope.jobQueue.WorkerPoolCount);
+    $scope.setQueueStorgePollSecondsInterval = function () {
+        hub.server.setQueueStorgePollSecondsInterval($scope.jobQueue.StorgePollSecondsInterval);
     };
-    $scope.updateCurrentQueue = function() {
+    $scope.setQueueWorkerPoolCount = function () {
+        hub.server.setQueueWorkerPoolCount($scope.jobQueue.WorkerPoolCount);
+    };
+    $scope.stopProcessing = function (d) {
+        hub.server.stopProcessing(d);
+    };
+ 
+
+    $scope.getJobs = function (stateType, take, skip, queue) {
+        $scope.paging.stateType = stateType || $scope.paging.stateType;
+        $scope.paging.take = take || $scope.paging.take;
+        $scope.paging.skip = skip || $scope.paging.skip;
+        $scope.paging.queue = queue || $scope.paging.queue;
+
+        $scope.paging.stateType === "All" ?
+        hub.server.loadJobsByQueue($scope.paging.take, $scope.paging.skip, $scope.paging.queue) :
+        hub.server.loadJobsByJobStateTypeAndQueue($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
+
+    };
+    hub.ready(function () {
+        $scope.getJobs();
+        hub.server.getJobStatistics();
+        hub.server.getCurrentQueue();
+        hub.server.getCurrentProcessingState();
+    });
+    $scope.updateCurrentQueue = function () {
         $scope.setQueueWorkerPoolCount();
         $scope.setQueueStorgePollSecondsInterval();
         $scope.setQueueMaxNumberOfJobsPerLoad();
     };
-
-    $scope.list = { jobList :[]};
-    chat.client.jobsList = function (response) {
-        $timeout(function () {
-                $scope.list.jobList = response||[];
-        });
-    };
-    $scope.stopProcessing = function(d) {
-        chat.server.stopProcessing(d);
-    };
-    chat.client.currentProcessingState = function (response) {
-        $timeout(function () {
-            $scope.stop = response;
-        });
-    };
-    $scope.getJobsByJobStateType = function (stateType, take, skip, queue) {
-        $scope.paging.stateType = stateType;
-        $scope.paging.take = take;
-        $scope.paging.skip = skip;
-        $scope.paging.queue = queue;
-        chat.server.getJobsByJobStateType($scope.paging.stateType, $scope.paging.take, $scope.paging.skip, $scope.paging.queue);
-    };
-
-
 });
