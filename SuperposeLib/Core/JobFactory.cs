@@ -83,7 +83,11 @@ namespace SuperposeLib.Core
                 JobTypeFullName = jobType.AssemblyQualifiedName,
                 JobName = jobType.Name,
                 Id = jobId,
-                JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown)
+                JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown),
+                LastUpdated = Time.UtcNow,
+                QueuedAt = Time.UtcNow,
+                LastUpdatedOnServer = System.Environment.MachineName,
+                QueuedOnServer = System.Environment.MachineName
             };
             jobLoad = (JobLoad) JobStateTransitionFactory.GetNextState(jobLoad, SuperVisionDecision.Unknown);
             return new SerializedJobLoad
@@ -271,6 +275,9 @@ namespace SuperposeLib.Core
             try
             {
                 jobLoad.Job = null;
+                jobLoad.LastUpdated = Time.UtcNow;
+                jobLoad.LastUpdatedOnServer = System.Environment.MachineName;
+                
                 JobStorage.JobSaver.Update(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
                 canUpdate = true;
             }
@@ -291,6 +298,8 @@ namespace SuperposeLib.Core
             var updateStorageToProcessing = false;
             try
             {
+                jobLoad.LastUpdated = Time.UtcNow;
+                jobLoad.LastUpdatedOnServer = System.Environment.MachineName;
                 JobStorage.JobSaver.Update(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
                 updateStorageToProcessing = true;
             }

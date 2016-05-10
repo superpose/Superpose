@@ -49,7 +49,17 @@ namespace Superpose.Storage.LiteDB
             throw new NotImplementedException();
         }
 
-        public List<SerializableJobLoad> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
+        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType, int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SerializableJobLoad> LoadJobsByQueue(string queueName, int take, int skip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SerializableJobLoad> LoadJobs(int take, int skip)
         {
             throw new NotImplementedException();
         }

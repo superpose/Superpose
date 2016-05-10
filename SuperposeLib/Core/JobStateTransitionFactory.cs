@@ -95,7 +95,7 @@ namespace SuperposeLib.Core
             jobLoad = jobLoad ?? new JobLoad();
             jobLoad.PreviousJobExecutionStatusList = nextState.PreviousJobExecutionStatusList;
             jobLoad.Started = nextState.Started;
-            jobLoad.Ended = nextState.Ended;
+            jobLoad.LastUpdated = nextState.LastUpdated;
             jobLoad.JobStateTypeName = nextState.JobStateTypeName;
             return jobLoad;
         }

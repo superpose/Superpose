@@ -9,26 +9,26 @@
 
   
     <li>
-        <a style="cursor: pointer"  ng-click="getJobsByJobStateType('Queued',10,0,'DefaultJobQueue')"><span class="badge pull-right label-{{statictics.TotalQueuedJobs?'primary':'default'}}">{{statictics.TotalQueuedJobs}}</span> Queued</a>
+        <a style="cursor: pointer" ng-click="getJobs('Queued',10,0,'DefaultJobQueue')"><i class="fa fa-refresh"></i>&nbsp;<span class="badge pull-right label-{{statistics.TotalQueuedJobs?'primary':'default'}}">{{statistics.TotalQueuedJobs}}</span> Queued</a>
     </li>
     <li>
-        <a style="cursor: pointer"  ng-click="getJobsByJobStateType('Processing',10,0,'DefaultJobQueue')" ><span class="badge pull-right label-{{statictics.TotalProcessingJobs?'warning':'default'}}">{{statictics.TotalProcessingJobs}}</span> Processing</a>
+        <a style="cursor: pointer"  ng-click="getJobs('Processing',10,0,'DefaultJobQueue')" ><i class="fa fa-refresh"></i>&nbsp;<span class="badge pull-right label-{{statistics.TotalProcessingJobs?'warning':'default'}}">{{statistics.TotalProcessingJobs}}</span> Processing</a>
     </li>
 
     <li>
-        <a style="cursor: pointer"  ng-click="getJobsByJobStateType('Successfull',10,0,'DefaultJobQueue')" ><span class="badge pull-right label-{{statictics.TotalSuccessfullJobs?'success':'default'}}">{{statictics.TotalSuccessfullJobs}}</span> Successfull</a>
+        <a style="cursor: pointer"  ng-click="getJobs('Successfull',10,0,'DefaultJobQueue')" ><i class="fa fa-refresh"></i>&nbsp;<span class="badge pull-right label-{{statistics.TotalSuccessfullJobs?'success':'default'}}">{{statistics.TotalSuccessfullJobs}}</span> Successfull</a>
     </li>
     <li>
-        <a style="cursor: pointer"  ng-click="getJobsByJobStateType('Failed',10,0,'DefaultJobQueue')"><span class="badge  pull-right label-{{statictics.TotalFailedJobs?'danger':'default'}}">{{statictics.TotalFailedJobs}}</span> Failed</a>
+        <a style="cursor: pointer"  ng-click="getJobs('Failed',10,0,'DefaultJobQueue')"><i class="fa fa-refresh"></i>&nbsp;<span class="badge  pull-right label-{{statistics.TotalFailedJobs?'danger':'default'}}">{{statistics.TotalFailedJobs}}</span> Failed</a>
     </li>
     <li>
-        <a style="cursor: pointer"  ng-click="getJobsByJobStateType('Unknown',10,0,'DefaultJobQueue')" ><span class="badge pull-right label-{{statictics.TotalUnknownJobs?'warning':'default'}}">{{statictics.TotalUnknownJobs}}</span> Unknown</a>
+        <a style="cursor: pointer"  ng-click="getJobs('Unknown',10,0,'DefaultJobQueue')" ><i class="fa fa-refresh"></i>&nbsp;<span class="badge pull-right label-{{statistics.TotalUnknownJobs?'warning':'default'}}">{{statistics.TotalUnknownJobs}}</span> Unknown</a>
     </li>
     <li>
-        <a style="cursor: pointer" ng-click="getJobsByJobStateType('Deleted',10,0,'DefaultJobQueue')"><span class="badge pull-right label-{{statictics.TotalDeletedJobs?'warning':'default'}}">{{statictics.TotalDeletedJobs}}</span> Deleted</a>
+        <a style="cursor: pointer" ng-click="getJobs('Deleted',10,0,'DefaultJobQueue')"><i class="fa fa-refresh"></i>&nbsp;<span class="badge pull-right label-{{statistics.TotalDeletedJobs?'warning':'default'}}">{{statistics.TotalDeletedJobs}}</span> Deleted</a>
     </li>
     <li>
-        <a style="cursor: pointer" ng-click="getJobsByJobStateType('Queued',10,0,'DefaultJobQueue')"><span class="badge pull-right label-{{statictics.TotalNumberOfJobs?'info':'default'}}">{{statictics.TotalNumberOfJobs}}</span> Total</a>
+        <a style="cursor: pointer" ng-click="getJobs('All',10,0,'DefaultJobQueue')"><i class="fa fa-refresh"></i>&nbsp;<span class="badge pull-right label-{{statistics.TotalNumberOfJobs?'info':'default'}}">{{statistics.TotalNumberOfJobs}}</span> All</a>
     </li>
     <li class="active">
         <a style="cursor: pointer" ng-click="queueSampleJob()"><i class="glyphicon glyphicon-chevron-right"></i>Queue Sample Job</a>

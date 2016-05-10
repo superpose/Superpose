@@ -7,7 +7,7 @@ namespace Superpose.StorageInterface
     {
         string JobStateTypeName { set; get; }
         DateTime? Started { set; get; }
-        DateTime? Ended { set; get; }
+        DateTime? LastUpdated { set; get; }
 
         /// <summary>
         ///     updated in process

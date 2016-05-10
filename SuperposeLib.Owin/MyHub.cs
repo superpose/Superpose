@@ -8,7 +8,7 @@ using SuperposeLib.Core;
 namespace SuperposeLib.Owin
 {
    
-    public class MyHub : Hub
+    public class SuperposeLibHub : Hub
     {
         public void GetCurrentQueue()
         {
@@ -50,12 +50,14 @@ namespace SuperposeLib.Owin
 
         public void QueueSampleJob()
         {
-            const int total = 100000;
-
-            for (var i = 0; i < total; i++)
+            Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
             {
-                
-                JobHandler.EnqueueJob<TestJob2>((c) => new List<string>()
+                const int total = 100;
+
+                for (var i = 0; i < total; i++)
+                {
+
+                    JobHandler.EnqueueJob<TestJob2>((c) => new List<string>()
                 {
                     c.EnqueueJob<TestJob2>(),
                     c.EnqueueJob<TestJob2>(),
@@ -66,26 +68,35 @@ namespace SuperposeLib.Owin
                     c.EnqueueJob<TestJob2>()
 
                 });
-                //JobHandler.EnqueueJob((c) =>new List<string>()
-                //{
-                //     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up"))
-                //});
-                //JobHandler.EnqueueJob<TestJob>();
-                // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
-            }
-           // GetJobStatistics();
+                    //JobHandler.EnqueueJob((c) =>new List<string>()
+                    //{
+                    //     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
+                    //     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                    //     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                    //     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                    //     c.EnqueueJob(()=>Console.WriteLine("what up"))
+                    //});
+                    //JobHandler.EnqueueJob<TestJob>();
+                    // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
+                }
+                // GetJobStatistics();
+            });
         }
 
-         public void GetJobsByJobStateType(string stateType, int take=20,int skip=0, string queue = null)
+         public void LoadJobsByJobStateTypeAndQueue(string stateType, int take=20,int skip=0, string queue = null)
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
             {
-                var jobs = storage.JobLoader.LoadJobsByJobStateType(queue?? typeof(DefaultJobQueue).Name, (JobStateType)Enum.Parse(typeof(JobStateType), stateType,true), take,skip);
-                Clients.All.jobsList(jobs);
+                var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue?? typeof(DefaultJobQueue).Name, (JobStateType)Enum.Parse(typeof(JobStateType), stateType,true), take,skip);
+                Clients.All.jobsList(jobs?? new List<SerializableJobLoad>());
+            }
+        }
+        public void LoadJobsByQueue(int take = 20, int skip = 0, string queue = null)
+        {
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            {
+                var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof(DefaultJobQueue).Name, take, skip);
+                Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
             }
         }
         public void GetJobStatistics()
@@ -128,7 +139,7 @@ namespace SuperposeLib.Owin
     {
         public static IHubContext GetHubContext()
         {
-            return GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+            return GlobalHost.ConnectionManager.GetHubContext<SuperposeLibHub>();
         }
     }
 }

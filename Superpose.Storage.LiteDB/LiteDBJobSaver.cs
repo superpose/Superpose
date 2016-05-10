@@ -43,7 +43,7 @@ namespace Superpose.Storage.LiteDB
         private static void CreateIndexes(LiteCollection<SerializableJobLoad> jobLoadCollection)
         {
             jobLoadCollection.EnsureIndex(x => x.Id);
-            jobLoadCollection.EnsureIndex(x => x.Ended);
+            jobLoadCollection.EnsureIndex(x => x.LastUpdated);
             jobLoadCollection.EnsureIndex(x => x.JobStateTypeName);
             jobLoadCollection.EnsureIndex(x => x.JobTypeFullName);
             jobLoadCollection.EnsureIndex(x => x.Started);

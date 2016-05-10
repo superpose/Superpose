@@ -8,7 +8,7 @@ namespace SuperposeLib.Models
     {
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }
-        public DateTime? Ended { get; set; }
+        public DateTime? LastUpdated { get; set; }
         public List<JobExecutionStatus> PreviousJobExecutionStatusList { get; set; }
     }
 }

@@ -11,6 +11,9 @@ namespace SuperposeLib.Models
             NextCommand=new List<string>();
         }
         public string Queue { get; set; }
+        public string QueuedOnServer { get; set; }
+        public string LastUpdatedOnServer { get; set; }
+        public DateTime? QueuedAt { get; set; }
         public DateTime? TimeToRun { get; set; }
         public string JobTypeFullName { get; set; }
         public string JobName { get; set; }
@@ -22,7 +25,7 @@ namespace SuperposeLib.Models
         public List<string> NextCommand { get; set; }
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }
-        public DateTime? Ended { get; set; }
+        public DateTime? LastUpdated { get; set; }
         public List<JobExecutionStatus> PreviousJobExecutionStatusList { get; set; }
     }
 }

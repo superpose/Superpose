@@ -5,6 +5,9 @@ namespace Superpose.StorageInterface
 {
     public interface IJobLoad : IJobState
     {
+        string QueuedOnServer { get; set; }
+        string LastUpdatedOnServer { get; set; }
+        DateTime? QueuedAt { set; get; }
         DateTime? TimeToRun { set; get; }
         string JobTypeFullName { set; get; }
          string JobName { get; set; }

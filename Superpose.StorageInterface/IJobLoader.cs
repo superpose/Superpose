@@ -14,6 +14,8 @@ namespace Superpose.StorageInterface
 
         List<string> LoadJobsByIds(List<string> ids);
 
-        List<SerializableJobLoad> LoadJobsByJobStateType(string queueName, JobStateType stateType, int take, int skip);
+        List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType, int take, int skip);
+        List<SerializableJobLoad> LoadJobsByQueue(string queueName, int take, int skip);
+        List<SerializableJobLoad> LoadJobs(int take, int skip);
     }
 }
