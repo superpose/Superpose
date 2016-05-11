@@ -46,13 +46,14 @@ namespace SuperposeLib.Core
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
 
-        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null, List<string> nextJob = null)
+        public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null,
+            List<string> nextJob = null)
         {
             return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
 
         public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null,
-             List<string> nextJob = null)
+            List<string> nextJob = null)
         {
             var jobType = typeof (T);
             return ScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
@@ -86,8 +87,8 @@ namespace SuperposeLib.Core
                 JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown),
                 LastUpdated = Time.UtcNow,
                 QueuedAt = Time.UtcNow,
-                LastUpdatedOnServer = System.Environment.MachineName,
-                QueuedOnServer = System.Environment.MachineName
+                LastUpdatedOnServer = Environment.MachineName,
+                QueuedOnServer = Environment.MachineName
             };
             jobLoad = (JobLoad) JobStateTransitionFactory.GetNextState(jobLoad, SuperVisionDecision.Unknown);
             return new SerializedJobLoad
@@ -220,7 +221,8 @@ namespace SuperposeLib.Core
                 try
                 {
                     jobLoad.Job = InstantiateJobComponent(jobLoad).Job;
-                    result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception,jobLoad.HistoricFailureCount());
+                    result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception,
+                        jobLoad.HistoricFailureCount());
                 }
                 catch (Exception se)
                 {
@@ -230,27 +232,27 @@ namespace SuperposeLib.Core
             }
             jobLoad = (JobLoad) JobStateTransitionFactory.GetNextState(jobLoad, result.SuperVisionDecision);
 
-            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() && jobLoad.NextCommand!=null &&
+            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() &&
+                jobLoad.NextCommand != null &&
                 !string.IsNullOrEmpty(jobLoad.NextCommand.FirstOrDefault()))
             {
                 try
                 {
                     var head = jobLoad.NextCommand.FirstOrDefault();
                     var tail = jobLoad.NextCommand.Count > 1
-                        ? jobLoad.NextCommand.Skip(1).Take(jobLoad.NextCommand.Count - 1).ToList():null;
+                        ? jobLoad.NextCommand.Skip(1).Take(jobLoad.NextCommand.Count - 1).ToList()
+                        : null;
 
                     var nextJobLoad = JobConverter.JobParser.Execute(head);
                     if (!string.IsNullOrEmpty(nextJobLoad?.Id))
                     {
                         try
                         {
-                            
                             JobStorage.JobSaver.SaveNew(head, nextJobLoad.Id);
                             if (tail != null)
                             {
                                 JobHandler.EnqueueJob<PilotJob>(continuation => tail);
                             }
-                          
                         }
                         catch (Exception)
                         {
@@ -276,8 +278,8 @@ namespace SuperposeLib.Core
             {
                 jobLoad.Job = null;
                 jobLoad.LastUpdated = Time.UtcNow;
-                jobLoad.LastUpdatedOnServer = System.Environment.MachineName;
-                
+                jobLoad.LastUpdatedOnServer = Environment.MachineName;
+
                 JobStorage.JobSaver.Update(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
                 canUpdate = true;
             }
@@ -299,7 +301,7 @@ namespace SuperposeLib.Core
             try
             {
                 jobLoad.LastUpdated = Time.UtcNow;
-                jobLoad.LastUpdatedOnServer = System.Environment.MachineName;
+                jobLoad.LastUpdatedOnServer = Environment.MachineName;
                 JobStorage.JobSaver.Update(JobConverter.SerializeJobLoad(jobLoad), jobLoad.Id);
                 updateStorageToProcessing = true;
             }

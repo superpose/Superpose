@@ -10,7 +10,7 @@ namespace Superpose.StorageInterface
         DateTime? QueuedAt { set; get; }
         DateTime? TimeToRun { set; get; }
         string JobTypeFullName { set; get; }
-         string JobName { get; set; }
+        string JobName { get; set; }
         string Id { get; set; }
         JobQueue JobQueue { set; get; }
         string JobQueueName { set; get; }

@@ -8,8 +8,9 @@ namespace SuperposeLib.Models
     {
         public JobLoad()
         {
-            NextCommand=new List<string>();
+            NextCommand = new List<string>();
         }
+
         public string Queue { get; set; }
         public string QueuedOnServer { get; set; }
         public string LastUpdatedOnServer { get; set; }

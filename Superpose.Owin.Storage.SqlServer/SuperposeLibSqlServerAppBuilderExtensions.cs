@@ -1,0 +1,15 @@
+﻿using Owin;
+using Superpose.Storage.SqlServer;
+using Superpose.StorageInterface;
+
+namespace Superpose.Owin.Storage.SqlServer
+{
+    public static class SuperposeLibSqlServerAppBuilderExtensions
+    {
+        public static IAppBuilder UseSuperposeInMemoryStorage(this IAppBuilder app)
+        {
+            SuperposeGlobalConfiguration.StorageFactory = new SqlServerStoragefactory();
+            return app;
+        }
+    }
+}

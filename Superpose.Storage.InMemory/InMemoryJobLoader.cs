@@ -68,12 +68,14 @@ namespace Superpose.Storage.InMemory
                     .Select(x => x.Key)
                     .ToList();
         }
-        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType, int take, int skip)
+
+        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType,
+            int take, int skip)
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
                     x =>
-                        x.Value.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType) &&
+                        x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
                         x.Value.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
@@ -81,12 +83,12 @@ namespace Superpose.Storage.InMemory
                     .ToList();
         }
 
-        public List<SerializableJobLoad> LoadJobsByQueue(string queueName,  int take, int skip)
+        public List<SerializableJobLoad> LoadJobsByQueue(string queueName, int take, int skip)
         {
             return
                 InMemoryJobStorageMemoryStore.MemoryStore.Where(
                     x =>
-                    x.Value.JobQueueName == queueName)
+                        x.Value.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Value)
@@ -104,7 +106,6 @@ namespace Superpose.Storage.InMemory
         }
 
 
-
         public List<string> LoadJobIdsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
         {
             return InMemoryJobStorageMemoryStore.MemoryStore.Where
@@ -115,7 +116,8 @@ namespace Superpose.Storage.InMemory
                 .ToList();
         }
 
-        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
+        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType,
+            DateTime @from,
             DateTime to,
             int take, int skip)
         {

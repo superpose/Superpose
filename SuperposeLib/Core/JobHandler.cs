@@ -11,25 +11,25 @@ namespace SuperposeLib.Core
     public class JobHandler
     {
         public static string EnqueueJob(Expression<Action> operation,
-            Func<JobContinuationHandler, List<string>> continuation )
+            Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(null, operation, continuation);
         }
 
         public static string EnqueueJob<T>(Expression<Action<T>> operation,
-            Func<JobContinuationHandler, List<string>> continuation )
+            Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(null, operation, continuation);
         }
 
         public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
-            Func<JobContinuationHandler, List<string>> continuation )
+            Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(queue, operation, continuation);
         }
 
         public static string EnqueueJob(JobQueue queue, Expression<Action> operation,
-            Func<JobContinuationHandler, List<string>> continuation )
+            Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(queue, operation, continuation);
         }
@@ -60,7 +60,7 @@ namespace SuperposeLib.Core
         }
 
 
-        public static string EnqueueJob<T>(Func<JobContinuationHandler, List<string>> continuation )
+        public static string EnqueueJob<T>(Func<JobContinuationHandler, List<string>> continuation)
             where T : AJob
         {
             return EnqueueJob<T>(new DefaultJobQueue(), continuation);
@@ -74,15 +74,14 @@ namespace SuperposeLib.Core
         }
 
         public static string EnqueueJob(
-            Func<JobContinuationHandler, List<string>> continuation) 
+            Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob<PilotJob>(new DefaultJobQueue(), continuation);
         }
 
 
-
         public static string EnqueueJob<T, TCommand>(TCommand command,
-            Func<JobContinuationHandler, List<string>> continuation ) where T : AJob<TCommand>
+            Func<JobContinuationHandler, List<string>> continuation) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
             return EnqueueJob<T, TCommand>(command, new DefaultJobQueue(), continuation);
@@ -129,7 +128,7 @@ namespace SuperposeLib.Core
 
 
         protected static string EnqueueJob_(JobQueue queue, Expression operation,
-            Func<JobContinuationHandler, List<string>> continuation )
+            Func<JobContinuationHandler, List<string>> continuation)
         {
             var serializer = new ExpressionSerializer(new JsonSerializer());
 
@@ -161,7 +160,7 @@ namespace SuperposeLib.Core
 
 
         public static string EnqueueJob<T>(JobQueue queue,
-            Func<JobContinuationHandler, List<string>> continuation )
+            Func<JobContinuationHandler, List<string>> continuation)
             where T : AJob
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
@@ -193,7 +192,7 @@ namespace SuperposeLib.Core
 
 
         public static string EnqueueJob<T, TCommand>(TCommand command, JobQueue queue,
-            Func<JobContinuationHandler, List<string>> continuation ) where T : AJob<TCommand>
+            Func<JobContinuationHandler, List<string>> continuation) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())

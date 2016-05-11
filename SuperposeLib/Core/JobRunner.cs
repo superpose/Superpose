@@ -30,7 +30,6 @@ namespace SuperposeLib.Core
         }
 
 
-
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
@@ -39,23 +38,22 @@ namespace SuperposeLib.Core
 
             var hasNoWorkToDo = true;
 
-          
+
             try
             {
-                var jobsIds=new List<string>();
+                var jobsIds = new List<string>();
                 if (!SuperposeGlobalConfiguration.StopProcessing)
                 {
-                
-                      jobsIds = JobFactory
-                    .JobStorage
-                    .JobLoader
-                    .LoadJobIdsByJobStateTypeAndTimeToRun(queueName,
-                        JobStateType.Queued,
-                        JobFactory.Time.MinValue,
-                        JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
-                hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
+                    jobsIds = JobFactory
+                        .JobStorage
+                        .JobLoader
+                        .LoadJobIdsByJobStateTypeAndTimeToRun(queueName,
+                            JobStateType.Queued,
+                            JobFactory.Time.MinValue,
+                            JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
+                    hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
                 }
-               
+
 
                 if (hasNoWorkToDo)
                 {
@@ -84,9 +82,9 @@ namespace SuperposeLib.Core
 
         public IJobFactory JobFactory { get; set; }
 
-        private void ParallelDoSomeWork(Action<string> onRunning, Action<string> runningCompleted, List<string> jobsIds, ParallelOptions po, CancellationTokenSource cts)
+        private void ParallelDoSomeWork(Action<string> onRunning, Action<string> runningCompleted, List<string> jobsIds,
+            ParallelOptions po, CancellationTokenSource cts)
         {
-
             try
             {
                 Parallel.ForEach(jobsIds, po, jobsId =>
@@ -95,10 +93,8 @@ namespace SuperposeLib.Core
                     {
                         DoSomeWork(onRunning, runningCompleted, jobsId);
                     }
-                     po.CancellationToken.ThrowIfCancellationRequested();
-                 });
-
-
+                    po.CancellationToken.ThrowIfCancellationRequested();
+                });
             }
             catch (OperationCanceledException e)
             {

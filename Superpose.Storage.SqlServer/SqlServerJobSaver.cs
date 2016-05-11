@@ -4,9 +4,6 @@ using Superpose.StorageInterface;
 
 namespace Superpose.Storage.SqlServer
 {
-
-   
-
     public class SqlServerJobSaver : IJobSaver
     {
         public SqlServerJobSaver()
@@ -18,12 +15,11 @@ namespace Superpose.Storage.SqlServer
 
         public void Dispose()
         {
-          Db.Dispose();
+            Db.Dispose();
         }
 
         public void SaveNew(string data, string Id)
         {
-
             var jobLoad = JsonConvert.DeserializeObject<SerializableJobLoad>(data);
             Db.JobLoads.Add(jobLoad);
             Db.SaveChanges();

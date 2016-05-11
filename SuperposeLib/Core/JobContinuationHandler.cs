@@ -48,7 +48,7 @@ namespace SuperposeLib.Core
             return EnqueueJob<PilotJob>(queue, continuation);
         }
 
-        public string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, List<string>> continuation )
+        public string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, List<string>> continuation)
             where T : AJob
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
@@ -122,64 +122,54 @@ namespace SuperposeLib.Core
         }
 
 
-
-        public  string EnqueueJob(Expression<Action> operation,
-           Func<JobContinuationHandler, List<string>> continuation)
-        {
-            return EnqueueJob_(null, operation, continuation);
-        }
-
-        public  string EnqueueJob<T>(Expression<Action<T>> operation,
+        public string EnqueueJob(Expression<Action> operation,
             Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(null, operation, continuation);
         }
 
-        public  string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
+        public string EnqueueJob<T>(Expression<Action<T>> operation,
+            Func<JobContinuationHandler, List<string>> continuation)
+        {
+            return EnqueueJob_(null, operation, continuation);
+        }
+
+        public string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
             Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(queue, operation, continuation);
         }
 
-        public  string EnqueueJob(JobQueue queue, Expression<Action> operation,
+        public string EnqueueJob(JobQueue queue, Expression<Action> operation,
             Func<JobContinuationHandler, List<string>> continuation)
         {
             return EnqueueJob_(queue, operation, continuation);
         }
 
 
-        public  string EnqueueJob(Expression<Action> operation,
+        public string EnqueueJob(Expression<Action> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
             return EnqueueJob_(null, operation, continuation);
         }
 
-        public  string EnqueueJob<T>(Expression<Action<T>> operation,
+        public string EnqueueJob<T>(Expression<Action<T>> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
             return EnqueueJob_(null, operation, continuation);
         }
 
-        public  string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
+        public string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
             return EnqueueJob_(queue, operation, continuation);
         }
 
-        public  string EnqueueJob(JobQueue queue, Expression<Action> operation,
+        public string EnqueueJob(JobQueue queue, Expression<Action> operation,
             Func<JobContinuationHandler, string> continuation = null)
         {
             return EnqueueJob_(queue, operation, continuation);
         }
-
-
-
-
-
-
-
-
-
 
 
         protected string EnqueueJob_(JobQueue queue, Expression operation,

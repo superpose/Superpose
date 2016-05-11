@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using Superpose.StorageInterface;
 
 namespace Superpose.Storage.LiteDB
@@ -38,7 +36,8 @@ namespace Superpose.Storage.LiteDB
             throw new NotImplementedException();
         }
 
-        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from, DateTime to,
+        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType,
+            DateTime @from, DateTime to,
             int take, int skip)
         {
             throw new NotImplementedException();
@@ -49,7 +48,8 @@ namespace Superpose.Storage.LiteDB
             throw new NotImplementedException();
         }
 
-        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType, int take, int skip)
+        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType,
+            int take, int skip)
         {
             throw new NotImplementedException();
         }

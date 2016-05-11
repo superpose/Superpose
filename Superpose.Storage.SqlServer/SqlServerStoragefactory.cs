@@ -10,7 +10,8 @@ namespace Superpose.Storage.SqlServer
         {
             return JobStorage ??
                    (JobStorage =
-                       new SqlServerStorage(new SqlServerJobSaver(), new SqlServerJobLoader(), new SqlServerJobResetter()));
+                       new SqlServerStorage(new SqlServerJobSaver(), new SqlServerJobLoader(),
+                           new SqlServerJobResetter()));
         }
     }
 }

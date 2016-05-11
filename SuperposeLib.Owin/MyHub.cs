@@ -7,7 +7,6 @@ using SuperposeLib.Core;
 
 namespace SuperposeLib.Owin
 {
-   
     public class SuperposeLibHub : Hub
     {
         public void GetCurrentQueue()
@@ -25,6 +24,7 @@ namespace SuperposeLib.Owin
             SuperposeGlobalConfiguration.StopProcessing = shouldStop;
             GetCurrentProcessingState();
         }
+
         public void SetQueueMaxNumberOfJobsPerLoad(int maxNumberOfJobsPerLoad)
         {
             SuperposeGlobalConfiguration.JobQueue.MaxNumberOfJobsPerLoad = maxNumberOfJobsPerLoad;
@@ -43,58 +43,56 @@ namespace SuperposeLib.Owin
             GetCurrentQueue();
         }
 
-        public class MyQueue : JobQueue
-        {
-
-        }
-
         public void QueueSampleJob()
         {
             Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
             {
                 const int total = 1000;
-               
-               
- 
-                    JobHandler.EnqueueJob<TestJob2>((c) =>
-                    {var li = new List<string>();
- for (var i = 0; i < total; i++)
+
+
+                JobHandler.EnqueueJob<TestJob2>(c =>
                 {
-                    li.Add(c.EnqueueJob<TestJob2>());
-                }
-                        return li;
-                    });
-                    //JobHandler.EnqueueJob((c) =>new List<string>()
-                    //{
-                    //     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
-                    //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                    //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                    //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                    //     c.EnqueueJob(()=>Console.WriteLine("what up"))
-                    //});
-                    //JobHandler.EnqueueJob<TestJob>();
-                    // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
-             
+                    var li = new List<string>();
+                    for (var i = 0; i < total; i++)
+                    {
+                        li.Add(c.EnqueueJob<TestJob2>());
+                    }
+                    return li;
+                });
+                //JobHandler.EnqueueJob((c) =>new List<string>()
+                //{
+                //     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
+                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
+                //     c.EnqueueJob(()=>Console.WriteLine("what up"))
+                //});
+                //JobHandler.EnqueueJob<TestJob>();
+                // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
+
                 // GetJobStatistics();
             });
         }
 
-         public void LoadJobsByJobStateTypeAndQueue(string stateType, int take=20,int skip=0, string queue = null)
+        public void LoadJobsByJobStateTypeAndQueue(string stateType, int take = 20, int skip = 0, string queue = null)
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
             {
-                var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue?? typeof(DefaultJobQueue).Name, (JobStateType)Enum.Parse(typeof(JobStateType), stateType,true), take,skip);
-                Clients.All.jobsList(jobs?? new List<SerializableJobLoad>());
+                var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue ?? typeof (DefaultJobQueue).Name,
+                    (JobStateType) Enum.Parse(typeof (JobStateType), stateType, true), take, skip);
+                Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
             }
         }
+
         public void LoadJobsByQueue(int take = 20, int skip = 0, string queue = null)
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
             {
-                var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof(DefaultJobQueue).Name, take, skip);
+                var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof (DefaultJobQueue).Name, take, skip);
                 Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
             }
         }
+
         public void GetJobStatistics()
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
@@ -103,17 +101,21 @@ namespace SuperposeLib.Owin
                 Clients.All.jobStatisticsCompleted(jobStatistics);
             }
         }
+
+        public class MyQueue : JobQueue
+        {
+        }
     }
 
 
     public class TestJob2 : AJob
     {
-      
         protected override void Execute()
         {
             Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(10)));
         }
     }
+
     public class TestJob : AJob
     {
         public override SuperVisionDecision Supervision(Exception reaon, int totalNumberOfHistoricFailures)

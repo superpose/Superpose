@@ -51,14 +51,14 @@ namespace SuperposeLib.Tests
             using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
             {
                 Console.WriteLine("Server started");
-                var command1 = new TestCommand { MyName = "tester1" };
-                var command2 = new TestCommand { MyName = "tester2" };
-                var command3 = new TestCommand { MyName = "tester3" };
-                var command4 = new TestCommand { MyName = "tester4" };
+                var command1 = new TestCommand {MyName = "tester1"};
+                var command2 = new TestCommand {MyName = "tester2"};
+                var command3 = new TestCommand {MyName = "tester3"};
+                var command4 = new TestCommand {MyName = "tester4"};
 
 
                 var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(command1,
-                    (continuation) => new List<string>()
+                    continuation => new List<string>
                     {
                         continuation.EnqueueJob<JobWithCommand, TestCommand>(command2),
                         continuation.EnqueueJob<JobWithCommand, TestCommand>(command3),
@@ -82,7 +82,6 @@ namespace SuperposeLib.Tests
         }
 
 
-
         [TestMethod]
         public void test_using_owin_mulitple_continuation_job3()
         {
@@ -90,19 +89,19 @@ namespace SuperposeLib.Tests
             using (WebApp.Start<TestStartup>(new StartOptions(baseAddress)))
             {
                 Console.WriteLine("Server started");
-                var command1 = new TestCommand { MyName = "tester1" };
-                var command2 = new TestCommand { MyName = "tester2" };
-                var command3 = new TestCommand { MyName = "tester3" };
-                var command4 = new TestCommand { MyName = "tester4" };
+                var command1 = new TestCommand {MyName = "tester1"};
+                var command2 = new TestCommand {MyName = "tester2"};
+                var command3 = new TestCommand {MyName = "tester3"};
+                var command4 = new TestCommand {MyName = "tester4"};
 
 
-                var jobId = JobHandler.EnqueueJob((continuation) => new List<string>()
-                    {
-                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command1),
-                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command2),
-                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command3),
-                        continuation.EnqueueJob<JobWithCommand, TestCommand>(command4)
-                    });
+                var jobId = JobHandler.EnqueueJob(continuation => new List<string>
+                {
+                    continuation.EnqueueJob<JobWithCommand, TestCommand>(command1),
+                    continuation.EnqueueJob<JobWithCommand, TestCommand>(command2),
+                    continuation.EnqueueJob<JobWithCommand, TestCommand>(command3),
+                    continuation.EnqueueJob<JobWithCommand, TestCommand>(command4)
+                });
 
 
                 Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(15)));

@@ -12,70 +12,70 @@
                         <!--<th>Status</th>
                         <th>Name</th>-->
                         <th colspan="3">Scheduled</th>
-                      
+
                     </tr>
                     </thead>
                     <tbody ng-repeat="item in list.jobList">
-                        <tr ng-show="list.jobList" class="odd gradeX " ng-click="openDetails=!openDetails" style="cursor: pointer">
-                            <td>{{item.TimeToRun | date:'medium'}}</td>
-                            <td>{{item.JobName}}</td>
-                            <td class="animated fadeIn">
-                                <span ng-show="item.JobStateTypeName=='Queued'"
+                    <tr ng-show="list.jobList" class="odd gradeX " ng-click="openDetails=!openDetails" style="cursor: pointer">
+                        <td>{{item.TimeToRun | date:'medium'}}</td>
+                        <td>{{item.JobName}}</td>
+                        <td class="animated fadeIn">
+                            <span ng-show="item.JobStateTypeName=='Queued'"
                                       class="badge label-primary">
                                     {{item.JobStateTypeName}}
                                 </span>
-                                <span ng-show="item.JobStateTypeName=='Processing'"
+                            <span ng-show="item.JobStateTypeName=='Processing'"
                                       class="badge label-warning">
                                     {{item.JobStateTypeName}}
                                 </span>
-                                <span ng-show="item.JobStateTypeName=='Successfull'"
+                            <span ng-show="item.JobStateTypeName=='Successfull'"
                                       class="badge label-success">
                                     {{item.JobStateTypeName}}
                                 </span>
-                                <span ng-show="item.JobStateTypeName=='Failed'"
+                            <span ng-show="item.JobStateTypeName=='Failed'"
                                       class="badge label-danger">
                                     {{item.JobStateTypeName}}
                                 </span>
-                                <span ng-show="item.JobStateTypeName=='Unknown'"
+                            <span ng-show="item.JobStateTypeName=='Unknown'"
                                       class="badge label-default">
                                     {{item.JobStateTypeName}}
                                 </span>
-                                <span ng-show="item.JobStateTypeName=='Deleted'"
+                            <span ng-show="item.JobStateTypeName=='Deleted'"
                                       class="badge label-inverse">
                                     {{item.JobStateTypeName}}
                                 </span>
-                            </td>
+                        </td>
 
 
-                            <!--<td>{{item.Id }}</td>-->
-                        </tr>
-                        <tr class="odd gradeX " ng-show="openDetails">
-                            <td colspan="3" style="overflow: hidden;">
+                        <!--<td>{{item.Id }}</td>-->
+                    </tr>
+                    <tr class="odd gradeX " ng-show="openDetails">
+                        <td colspan="3" style="overflow: hidden;">
 
-                                <div class="container" style="width:500px">
-                                    <div class="row">
-                                        <div class="col-sm-12">
+                            <div class="container" style="width: 500px">
+                                <div class="row">
+                                    <div class="col-sm-12">
 
-                                            <ul class="list-group">
-                                                <li class="list-group-item"><strong>Queued At</strong>&nbsp;{{item.QueuedAt | date:'medium'}}</li>
-                                                <li class="list-group-item"><strong>Last Updated</strong>&nbsp;{{item.LastUpdated| date:'medium'}}</li>
-                                                <li class="list-group-item"><strong>Last Updated Server</strong>&nbsp;{{item.LastUpdatedOnServer }}</li>
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><strong>Queued At</strong>&nbsp;{{item.QueuedAt | date:'medium'}}</li>
+                                            <li class="list-group-item"><strong>Last Updated</strong>&nbsp;{{item.LastUpdated| date:'medium'}}</li>
+                                            <li class="list-group-item"><strong>Last Updated Server</strong>&nbsp;{{item.LastUpdatedOnServer }}</li>
 
-                                                <li class="list-group-item"><strong>Job Name</strong>&nbsp;{{item.JobName}}</li>
-                                                <li class="list-group-item"><strong>Id</strong>&nbsp;{{item.Id}}</li>
-                                                <li class="list-group-item"><strong>Queued On Server</strong>&nbsp;{{item.QueuedOnServer}}</li>
+                                            <li class="list-group-item"><strong>Job Name</strong>&nbsp;{{item.JobName}}</li>
+                                            <li class="list-group-item"><strong>Id</strong>&nbsp;{{item.Id}}</li>
+                                            <li class="list-group-item"><strong>Queued On Server</strong>&nbsp;{{item.QueuedOnServer}}</li>
 
-                                                <li class="list-group-item"><strong>Scheduled For</strong>&nbsp;{{item.TimeToRun| date:'medium'}}</li>
-                                                <li class="list-group-item"><strong>Started At</strong>&nbsp;{{item.Started | date:'medium'}}</li>
-                                                <li class="list-group-item"><strong>Job Queue Name</strong>&nbsp;{{item.JobQueueName}}</li>
-                                                <li class="list-group-item"><strong>Command</strong>&nbsp;{{item.Command}}</li>
-                                                <li class="list-group-item"><strong>Job State</strong>&nbsp;{{item.JobStateTypeName}}</li>
-                                            </ul>
-                                        </div>
+                                            <li class="list-group-item"><strong>Scheduled For</strong>&nbsp;{{item.TimeToRun| date:'medium'}}</li>
+                                            <li class="list-group-item"><strong>Started At</strong>&nbsp;{{item.Started | date:'medium'}}</li>
+                                            <li class="list-group-item"><strong>Job Queue Name</strong>&nbsp;{{item.JobQueueName}}</li>
+                                            <li class="list-group-item"><strong>Command</strong>&nbsp;{{item.Command}}</li>
+                                            <li class="list-group-item"><strong>Job State</strong>&nbsp;{{item.JobStateTypeName}}</li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Superpose.Storage.SqlServer")]
+[assembly: AssemblyTitle("Superpose.Owin.Storage.SqlServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Superpose.Storage.SqlServer")]
+[assembly: AssemblyProduct("Superpose.Owin.Storage.SqlServer")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("31f3b47c-d806-446b-a952-46f1790ffcc0")]
+[assembly: Guid("52a56a5c-a4b3-438b-bbb0-c664e131a1cc")]
 
 // Version information for an assembly consists of the following four values:
 //
