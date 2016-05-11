@@ -1,11 +1,11 @@
 using System;
 using Superpose.StorageInterface;
 
-namespace Superpose.Storage.InMemory
+namespace Superpose.Storage.SqlServer
 {
-    public class InMemoryJobStorage : IJobStorage
+    public class SqlServerStorage : IJobStorage
     {
-        public InMemoryJobStorage(IJobSaver jobSaver, IJobLoader jobLoader, IJobStorageReseter jobStorageReseter)
+        public SqlServerStorage(IJobSaver jobSaver, IJobLoader jobLoader, IJobStorageReseter jobStorageReseter)
         {
             if (jobSaver == null) throw new ArgumentNullException(nameof(jobSaver));
             if (jobLoader == null) throw new ArgumentNullException(nameof(jobLoader));
