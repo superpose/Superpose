@@ -6,7 +6,7 @@ namespace Superpose.Owin.Storage.SqlServer
 {
     public static class SuperposeLibSqlServerAppBuilderExtensions
     {
-        public static IAppBuilder UseSuperposeInMemoryStorage(this IAppBuilder app)
+        public static IAppBuilder UseSuperposeSqlServerStorage(this IAppBuilder app)
         {
             SuperposeGlobalConfiguration.StorageFactory = new SqlServerStoragefactory();
             return app;

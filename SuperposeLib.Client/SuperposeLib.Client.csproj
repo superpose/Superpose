@@ -142,6 +142,10 @@
       <Project>{2C8E94C8-7F0F-46ED-8F69-4D62CEC5B4DA}</Project>
       <Name>Superpose.Owin.Storage.LiteDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Superpose.Owin.Storage.SqlServer\Superpose.Owin.Storage.SqlServer.csproj">
+      <Project>{52A56A5C-A4B3-438B-BBB0-C664E131A1CC}</Project>
+      <Name>Superpose.Owin.Storage.SqlServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Superpose.Storage.InMemory\Superpose.Storage.InMemory.csproj">
       <Project>{F5125D06-954A-4875-A7C8-D67CA7ABFF65}</Project>
       <Name>Superpose.Storage.InMemory</Name>

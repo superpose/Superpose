@@ -111,6 +111,10 @@
       <Project>{8f209bdc-3879-4812-b074-801e417c8957}</Project>
       <Name>Superpose.Storage.LiteDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Superpose.Storage.SqlServer\Superpose.Storage.SqlServer.csproj">
+      <Project>{31F3B47C-D806-446B-A952-46F1790FFCC0}</Project>
+      <Name>Superpose.Storage.SqlServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
       <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
       <Name>Superpose.StorageInterface</Name>
