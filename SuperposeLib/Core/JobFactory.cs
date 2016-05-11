@@ -72,6 +72,7 @@ namespace SuperposeLib.Core
         {
             nextJob = nextJob ?? new List<string>();
             jobQueue = jobQueue ?? new DefaultJobQueue();
+            jobQueue.Id = Guid.NewGuid().ToString();
             var jobId = Guid.NewGuid().ToString();
             var jobLoad = new JobLoad
             {

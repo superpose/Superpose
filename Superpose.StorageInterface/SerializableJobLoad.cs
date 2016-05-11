@@ -8,6 +8,7 @@ namespace Superpose.StorageInterface
         public SerializableJobLoad()
         {
             NextCommand = new List<string>();
+            PreviousJobExecutionStatusList=new List<JobExecutionStatus>();
         }
 
         public string Queue { get; set; }

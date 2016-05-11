@@ -14,5 +14,6 @@ namespace Superpose.StorageInterface
         public int WorkerPoolCount { get; set; }
         public int MaxNumberOfJobsPerLoad { get; set; }
         public double StorgePollSecondsInterval { get; set; }
+        public string Id { set; get; }
     }
 }

@@ -47,7 +47,7 @@ namespace SuperposeLib.Owin
         {
             Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
             {
-                const int total = 1000;
+                const int total = 10;
 
 
                 JobHandler.EnqueueJob<TestJob2>(c =>
