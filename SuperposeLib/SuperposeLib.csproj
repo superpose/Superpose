@@ -68,14 +68,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ActorSystem\ASlimActor.cs" />
+    <Compile Include="Core\ActorSystem\MailBoxWatcher.cs" />
+    <Compile Include="Core\ActorSystem\SlimActor.cs" />
     <Compile Include="Core\AJob.cs" />
     <Compile Include="Core\JobContinuationHandler.cs" />
+    <Compile Include="Core\JobScheduleContainer.cs" />
     <Compile Include="Core\Jobs\CoreJobThatFails.cs" />
     <Compile Include="Core\IJobRunner.cs" />
     <Compile Include="Core\JobHandler.cs" />
-    <Compile Include="Core\JobRunner.cs" />
+    <Compile Include="Core\DefaultJobRunner.cs" />
     <Compile Include="Core\Jobs\LinqJob.cs" />
     <Compile Include="Core\PilotJob.cs" />
+    <Compile Include="Core\QueueJobRunner.cs" />
+    <Compile Include="Core\SerializedJobLoad.cs" />
     <Compile Include="Extensions\JobStateTypeExtensions.cs" />
     <Compile Include="Interfaces\ITime.cs" />
     <Compile Include="Core\RealTime.cs" />

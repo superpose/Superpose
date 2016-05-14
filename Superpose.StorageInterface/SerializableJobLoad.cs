@@ -16,7 +16,7 @@ namespace Superpose.StorageInterface
         public string JobStateTypeName { get; set; }
         public DateTime? Started { get; set; }
         public DateTime? LastUpdated { get; set; }
-        public List<JobExecutionStatus> PreviousJobExecutionStatusList { get; set; }
+        public IList<JobExecutionStatus> PreviousJobExecutionStatusList { get; set; }
         public string QueuedOnServer { get; set; }
         public string LastUpdatedOnServer { get; set; }
         public DateTime? QueuedAt { get; set; }

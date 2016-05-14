@@ -10,6 +10,13 @@ namespace SuperposeLib.Core
 {
     public class JobContinuationHandler
     {
+        public JobContinuationHandler(string instance)
+        {
+            Instance = instance;
+        }
+
+        protected string Instance { private set; get; }
+
         public string EnqueueJob<T>(Func<JobContinuationHandler, string> continuation = null) where T : AJob
         {
             return EnqueueJob<T>(new DefaultJobQueue(), continuation);
@@ -51,13 +58,13 @@ namespace SuperposeLib.Core
         public string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, List<string>> continuation)
             where T : AJob
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(Instance))
             {
                 var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
                 IJobFactory factory = new JobFactory(storage, converter);
                 return
                     factory.PrepareScheduleJob(typeof (T), null, null, null,
-                        continuation?.Invoke(new JobContinuationHandler())).JobLoadString;
+                        continuation?.Invoke(new JobContinuationHandler(Instance))).JobLoadString;
             }
         }
 
@@ -66,13 +73,13 @@ namespace SuperposeLib.Core
             Func<JobContinuationHandler, List<string>> continuation = null) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(Instance))
             {
                 var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
                 IJobFactory factory = new JobFactory(storage, converter);
                 return
                     factory.PrepareScheduleJob(typeof (T), command, null, queue,
-                        continuation?.Invoke(new JobContinuationHandler())).JobLoadString;
+                        continuation?.Invoke(new JobContinuationHandler(Instance))).JobLoadString;
             }
         }
 

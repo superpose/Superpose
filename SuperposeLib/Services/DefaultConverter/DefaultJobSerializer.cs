@@ -7,7 +7,8 @@ namespace SuperposeLib.Services.DefaultConverter
     {
         public string Execute(object jobLoad)
         {
-            return JsonConvert.SerializeObject(jobLoad);
+            var result= JsonConvert.SerializeObject(jobLoad);
+            return result;
         }
     }
 }

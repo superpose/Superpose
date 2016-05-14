@@ -8,7 +8,7 @@ namespace Superpose.Owin.Storage.LiteDB
     {
         public static IAppBuilder UseSuperposeLiteDbStorage(this IAppBuilder app)
         {
-            SuperposeGlobalConfiguration.StorageFactory = new LiteDBJobStoragefactory();
+            SuperposeGlobalConfiguration.StorageFactory = new LiteDbJobStoragefactory();
             return app;
         }
     }

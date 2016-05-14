@@ -1,21 +1,28 @@
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
 using SuperposeLib.Extensions;
-using SuperposeLib.Services.InMemoryStorage;
 
 namespace Superpose.Storage.InMemory
 {
     public class InMemoryJobSaver : IJobSaver
     {
+        protected string Instance { private set; get; }
+
+        public InMemoryJobSaver(string instance)
+        {
+            Instance = instance;
+            InMemoryJobStorageMemoryStore.InitializeStoreWithInstance(Instance);
+        }
+
         public void SaveNew(string data, string Id)
         {
-            InMemoryJobStorageMemoryStore.MemoryStore.GetOrAdd(Id,
+            InMemoryJobStorageMemoryStore.MemoryStore[Instance].GetOrAdd(Id,
                 JsonConvert.DeserializeObject<SerializableJobLoad>(data));
         }
 
         public void Update(string data, string Id)
         {
-            InMemoryJobStorageMemoryStore.MemoryStore.AddOrUpdate(Id,
+            InMemoryJobStorageMemoryStore.MemoryStore[Instance].AddOrUpdate(Id,
                 JsonConvert.DeserializeObject<SerializableJobLoad>(data));
         }
 

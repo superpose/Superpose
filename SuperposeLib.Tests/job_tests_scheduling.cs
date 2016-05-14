@@ -19,7 +19,7 @@ namespace SuperposeLib.Tests
             //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
             //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
             var converter = ConverterFactory.CretateConverter();
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.ScheduleJob(typeof (TestJob), null, DateTime.UtcNow.AddSeconds(3));
@@ -43,7 +43,7 @@ namespace SuperposeLib.Tests
             //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
             //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
             var converter = ConverterFactory.CretateConverter();
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.ScheduleJob(typeof (TestJob), null, DateTime.UtcNow.AddSeconds(3));
@@ -66,7 +66,7 @@ namespace SuperposeLib.Tests
             //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
             //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
             var converter = ConverterFactory.CretateConverter();
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter, new VirtualTime(DateTime.UtcNow.AddSeconds(4)));
                 var jobId = factory.ScheduleJob(typeof (TestJob), null, DateTime.UtcNow.AddSeconds(3));
@@ -90,7 +90,7 @@ namespace SuperposeLib.Tests
             //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
             //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
             var converter = ConverterFactory.CretateConverter();
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter, new VirtualTime(DateTime.UtcNow.AddYears(4)));
                 var jobId = factory.ScheduleJob(typeof (TestJob), null, DateTime.UtcNow.AddYears(3));

@@ -1,20 +1,27 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
-using SuperposeLib.Services.InMemoryStorage;
 
 namespace Superpose.Storage.InMemory
 {
     public class InMemoryJobLoader : IJobLoader
-    {
+    {   
+        protected string Instance { private set; get; }
+        public InMemoryJobLoader(string instance)
+        {
+            Instance = instance;
+            InMemoryJobStorageMemoryStore.InitializeStoreWithInstance(Instance);
+        }
+
         public string LoadJobById(string jobId)
         {
             SerializableJobLoad data = null;
-            if (InMemoryJobStorageMemoryStore.MemoryStore.ContainsKey(jobId))
+            if (InMemoryJobStorageMemoryStore.MemoryStore[Instance].ContainsKey(jobId))
             {
-                data = InMemoryJobStorageMemoryStore.MemoryStore[jobId];
+                data = InMemoryJobStorageMemoryStore.MemoryStore[Instance][jobId];
             }
             return data == null ? null : JsonConvert.SerializeObject(data);
         }
@@ -23,24 +30,24 @@ namespace Superpose.Storage.InMemory
         {
             return new JobStatistics
             {
-                TotalNumberOfJobs = InMemoryJobStorageMemoryStore.MemoryStore.Count,
+                TotalNumberOfJobs = InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count,
                 TotalQueuedJobs =
-                    InMemoryJobStorageMemoryStore.MemoryStore.Count(
+                    InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count(
                         x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Queued)),
                 TotalProcessingJobs =
-                    InMemoryJobStorageMemoryStore.MemoryStore.Count(
+                    InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count(
                         x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Processing)),
                 TotalDeletedJobs =
-                    InMemoryJobStorageMemoryStore.MemoryStore.Count(
+                    InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count(
                         x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Deleted)),
                 TotalSuccessfullJobs =
-                    InMemoryJobStorageMemoryStore.MemoryStore.Count(
+                    InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count(
                         x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Successfull)),
                 TotalFailedJobs =
-                    InMemoryJobStorageMemoryStore.MemoryStore.Count(
+                    InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count(
                         x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Failed)),
                 TotalUnknownJobs =
-                    InMemoryJobStorageMemoryStore.MemoryStore.Count(
+                    InMemoryJobStorageMemoryStore.MemoryStore[Instance].Count(
                         x => x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Unknown))
             };
         }
@@ -48,7 +55,7 @@ namespace Superpose.Storage.InMemory
         public List<string> LoadJobIdsByJobType(string queueName, Type jobType, int take, int skip)
         {
             return
-                InMemoryJobStorageMemoryStore.MemoryStore.Where(
+                InMemoryJobStorageMemoryStore.MemoryStore[Instance].Where(
                     x => x.Value.JobTypeFullName == jobType.AssemblyQualifiedName && x.Value.JobQueueName == queueName)
                     .Take(take)
                     .Skip(skip)
@@ -59,7 +66,7 @@ namespace Superpose.Storage.InMemory
         public List<string> LoadJobIdsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
         {
             return
-                InMemoryJobStorageMemoryStore.MemoryStore.Where(
+                InMemoryJobStorageMemoryStore.MemoryStore[Instance].Where(
                     x =>
                         x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
                         x.Value.JobQueueName == queueName)
@@ -73,7 +80,7 @@ namespace Superpose.Storage.InMemory
             int take, int skip)
         {
             return
-                InMemoryJobStorageMemoryStore.MemoryStore.Where(
+                InMemoryJobStorageMemoryStore.MemoryStore[Instance].Where(
                     x =>
                         x.Value.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
                         x.Value.JobQueueName == queueName)
@@ -86,7 +93,7 @@ namespace Superpose.Storage.InMemory
         public List<SerializableJobLoad> LoadJobsByQueue(string queueName, int take, int skip)
         {
             return
-                InMemoryJobStorageMemoryStore.MemoryStore.Where(
+                InMemoryJobStorageMemoryStore.MemoryStore[Instance].Where(
                     x =>
                         x.Value.JobQueueName == queueName)
                     .Take(take)
@@ -98,7 +105,7 @@ namespace Superpose.Storage.InMemory
         public List<SerializableJobLoad> LoadJobs(int take, int skip)
         {
             return
-                InMemoryJobStorageMemoryStore.MemoryStore
+                InMemoryJobStorageMemoryStore.MemoryStore[Instance]
                     .Take(take)
                     .Skip(skip)
                     .Select(x => x.Value)
@@ -108,7 +115,7 @@ namespace Superpose.Storage.InMemory
 
         public List<string> LoadJobIdsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
         {
-            return InMemoryJobStorageMemoryStore.MemoryStore.Where
+            return InMemoryJobStorageMemoryStore.MemoryStore[Instance].Where
                 (x => x.Value.TimeToRun >= @from && x.Value.TimeToRun <= to && x.Value.JobQueueName == queueName)
                 .Take(take)
                 .Skip(skip)
@@ -121,7 +128,7 @@ namespace Superpose.Storage.InMemory
             DateTime to,
             int take, int skip)
         {
-            return InMemoryJobStorageMemoryStore.MemoryStore
+            return InMemoryJobStorageMemoryStore.MemoryStore[Instance]
                 .Where(x =>
                     x.Value.TimeToRun >= @from
                     && x.Value.TimeToRun <= to &&

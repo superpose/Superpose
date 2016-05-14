@@ -47,36 +47,39 @@ namespace SuperposeLib.Owin
         {
             Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
             {
-                const int total = 10;
+                const int total = 1000;
 
-
-                JobHandler.EnqueueJob<TestJob2>(c =>
+                JobHandler.EnqueueJob<TestJob2>(co =>
                 {
+                    JobHandler.EnqueueJob(c => new List<string>
+                    {
+                        c.EnqueueJob(new MyQueue(), () => Console.WriteLine("what up")),
+                        c.EnqueueJob(() => Console.WriteLine("what up")),
+                        c.EnqueueJob(() => Console.WriteLine("what up")),
+                        c.EnqueueJob(() => Console.WriteLine("what up")),
+                        c.EnqueueJob(() => Console.WriteLine("what up"))
+                    });
+
                     var li = new List<string>();
                     for (var i = 0; i < total; i++)
                     {
-                        li.Add(c.EnqueueJob<TestJob2>());
+                        li.Add(co.EnqueueJob<TestJob2>());
                     }
                     return li;
                 });
-                //JobHandler.EnqueueJob((c) =>new List<string>()
-                //{
-                //     c.EnqueueJob(new MyQueue(), ()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up")),
-                //     c.EnqueueJob(()=>Console.WriteLine("what up"))
-                //});
-                //JobHandler.EnqueueJob<TestJob>();
-                // Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
 
-                // GetJobStatistics();
+                //JobHandler.EnqueueJob<TestJob>();
+                //Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
+                //GetJobStatistics();
             });
         }
 
         public void LoadJobsByJobStateTypeAndQueue(string stateType, int take = 20, int skip = 0, string queue = null)
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (
+                var storage =
+                    SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(
+                        SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
                 var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue ?? typeof (DefaultJobQueue).Name,
                     (JobStateType) Enum.Parse(typeof (JobStateType), stateType, true), take, skip);
@@ -86,7 +89,10 @@ namespace SuperposeLib.Owin
 
         public void LoadJobsByQueue(int take = 20, int skip = 0, string queue = null)
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (
+                var storage =
+                    SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(
+                        SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
                 var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof (DefaultJobQueue).Name, take, skip);
                 Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
@@ -95,7 +101,10 @@ namespace SuperposeLib.Owin
 
         public void GetJobStatistics()
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (
+                var storage =
+                    SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(
+                        SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
                 var jobStatistics = storage.JobLoader.GetJobStatistics();
                 Clients.All.jobStatisticsCompleted(jobStatistics);

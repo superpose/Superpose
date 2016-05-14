@@ -23,7 +23,9 @@ namespace SuperposeLib.Interfaces.JobThings
         JobResult InstantiateAndRunJob(IJobLoad jobLoad);
 
         string ScheduleJob(Type type, AJobCommand command = null, DateTime? scheduleTime = null,
-            JobQueue jobQueue = null, List<string> nextJob = null);
+           JobQueue jobQueue = null, List<string> nextJob = null);
+
+        string ScheduleJob(JobScheduleContainer container);
 
         SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,
             JobQueue jobQueue = null, List<string> nextJob = null);

@@ -29,7 +29,11 @@ namespace SuperposeLib.Core
             {
                 jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList ??
                                                          new List<JobExecutionStatus>();
-                nextState.PreviousJobExecutionStatusList.AddRange(jobLoad.PreviousJobExecutionStatusList);
+                foreach (var jobExecutionStatuse in jobLoad.PreviousJobExecutionStatusList)
+                {
+                    nextState.PreviousJobExecutionStatusList.Add(jobExecutionStatuse);
+                }
+               
 
                 {
                     if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Deleted))

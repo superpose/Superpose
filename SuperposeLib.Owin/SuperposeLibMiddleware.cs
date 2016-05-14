@@ -36,8 +36,8 @@ namespace SuperposeLib.Owin
             SuperposeGlobalConfiguration.JobConverterFactory = SuperposeGlobalConfiguration.JobConverterFactory ??
                                                                new DefaultJobConverterFactory();
             var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
-            Storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage();
-            Runner = new JobRunner(Storage, converter);
+            Storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance());
+            Runner = new DefaultJobRunner(Storage, converter);
             Runner.Run(UiNotifyer, UiNotifyer);
         }
 

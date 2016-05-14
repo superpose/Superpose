@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
+using SuperposeLib.Core.ActorSystem;
 using SuperposeLib.Core.Jobs;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
@@ -13,12 +15,6 @@ using SuperposeLib.Models;
 
 namespace SuperposeLib.Core
 {
-    public class SerializedJobLoad
-    {
-        public string JobLoadString { set; get; }
-        public JobLoad JobLoad { set; get; }
-    }
-
     public class JobFactory : IJobFactory
     {
         public JobFactory(IJobStorage jobStorage, IJobConverter jobConverter, ITime time = null)
@@ -43,27 +39,71 @@ namespace SuperposeLib.Core
         public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null, List<string> nextJob = null)
         {
             var jobType = typeof (T);
-            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
+            return ScheduleJob(new JobScheduleContainer
+            {
+                JobType = jobType,
+                Command = command,
+                ScheduleTime = Time.UtcNow,
+                JobQueue = jobQueue,
+                NextJob = nextJob
+            });
         }
 
         public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null,
             List<string> nextJob = null)
         {
-            return ScheduleJob(jobType, command, Time.UtcNow, jobQueue, nextJob);
+            return ScheduleJob(new JobScheduleContainer
+            {
+                JobType = jobType,
+                Command = command,
+                ScheduleTime = Time.UtcNow,
+                JobQueue = jobQueue,
+                NextJob = nextJob
+            }); //(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
 
         public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null,
             List<string> nextJob = null)
         {
             var jobType = typeof (T);
-            return ScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
+            return ScheduleJob(new JobScheduleContainer
+            {
+                JobType = jobType,
+                Command = command,
+                ScheduleTime = scheduleTime,
+                JobQueue = jobQueue,
+                NextJob = nextJob
+            });
         }
 
-        public string ScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,
+        public string ScheduleJob(Type type, AJobCommand command = null, DateTime? scheduleTime = null,
             JobQueue jobQueue = null, List<string> nextJob = null)
         {
-            var result = PrepareScheduleJob(jobType, command, scheduleTime, jobQueue, nextJob);
-            JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
+            return ScheduleJob(new JobScheduleContainer
+            {
+                JobType = type,
+                Command = command,
+                ScheduleTime = scheduleTime,
+                JobQueue = jobQueue,
+                NextJob = nextJob
+            })
+                ;
+        }
+
+        
+        public string ScheduleJob(JobScheduleContainer container)
+        {
+            //var actor = new SlimActor<JobScheduleContainer, string>(1);
+
+            //var task = actor.Ask(c, container =>
+            //{   return Task.FromResult(result.JobLoad.Id); }, null);
+
+            //Task.WaitAll(task);
+
+           // return task.Result;
+                var result = PrepareScheduleJob(container.JobType, container.Command, container.ScheduleTime, container.JobQueue, container.NextJob);
+                JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
+
             return result.JobLoad.Id;
         }
 
@@ -194,8 +234,11 @@ namespace SuperposeLib.Core
 
             var result = InstantiateAndRunJob(jobLoad);
 
-            if (!TryUpdateStorageAfterJobExecutionEnds(result, ref jobLoad))
+            if (!TryUpdateStorageAfterJobExecutionEnds(result, jobLoad))
                 return null;
+
+
+            var fdgdfgdg = GetJobLoad(jobId);
 
             return jobLoad;
         }
@@ -211,7 +254,7 @@ namespace SuperposeLib.Core
             return RunMethodName;
         }
 
-        private bool TryUpdateStorageAfterJobExecutionEnds(JobResult result, ref JobLoad jobLoad)
+        private bool TryUpdateStorageAfterJobExecutionEnds(JobResult result, JobLoad jobLoad)
         {
             jobLoad.PreviousJobExecutionStatusList.Add(result.IsSuccessfull
                 ? JobExecutionStatus.Passed

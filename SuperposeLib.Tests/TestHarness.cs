@@ -17,7 +17,9 @@ namespace SuperposeLib.Tests
         [TestInitialize]
         public void SetUpMethod()
         {
-            //StorageFactory = new SqlServerStoragefactory();
+            // StorageFactory = new SqlServerStoragefactory();
+
+           
             StorageFactory = new InMemoryJobStoragefactory();
             // StorageFactory = new LiteDBJobStoragefactory();
             ConverterFactory = new DefaultJobConverterFactory();
@@ -26,7 +28,7 @@ namespace SuperposeLib.Tests
         [TestCleanup]
         public void TeardownMethod()
         {
-            StorageFactory.CreateJobStorage().JobStorageReseter.ReSet();
+            StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()).JobStorageReseter.ReSet();
         }
 
         public void AssertAwait(Action action, int durationMilliseconds, int sleepIntervalMilliseconds = 50)

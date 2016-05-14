@@ -17,12 +17,12 @@ namespace SuperposeLib.Tests
         public void TES_METHOD()
         {
             var converter = ConverterFactory.CretateConverter();
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
-                var runner = new JobRunner(storage, converter);
+                var runner = new DefaultJobRunner(storage, converter);
                 var result = runner.Run(null, null);
 
                 Assert.IsTrue(result);
@@ -51,7 +51,7 @@ namespace SuperposeLib.Tests
         {
             var jobs = new List<string>();
             var converter = ConverterFactory.CretateConverter();
-            const int totalNumberOfJobs = 100000;
+            const int totalNumberOfJobs = 1000;
             PlaceJobs(totalNumberOfJobs, converter, jobs);
         }
 
@@ -83,7 +83,7 @@ namespace SuperposeLib.Tests
             Console.WriteLine(DateTime.Now);
             for (var i = 0; i < totalNumberOfJobs; i++)
             {
-                using (var storage = StorageFactory.CreateJobStorage())
+                using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
                 {
                     IJobFactory factory = new JobFactory(storage, converter);
                     var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
@@ -98,7 +98,7 @@ namespace SuperposeLib.Tests
         {
             Console.WriteLine("checking statisctics");
             Console.WriteLine(DateTime.Now);
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
@@ -115,7 +115,7 @@ namespace SuperposeLib.Tests
         {
             Console.WriteLine("validating jobs ");
             Console.WriteLine(DateTime.Now);
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
 
@@ -141,9 +141,9 @@ namespace SuperposeLib.Tests
         {
             Console.WriteLine("processing jobs");
             Console.WriteLine(DateTime.Now);
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
-                var runner = new JobRunner(storage, converter);
+                var runner = new DefaultJobRunner(storage, converter);
                 var result = runner.Run(null, null);
                 Assert.IsTrue(result);
             }

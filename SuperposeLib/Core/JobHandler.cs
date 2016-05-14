@@ -10,6 +10,9 @@ namespace SuperposeLib.Core
 {
     public class JobHandler
     {
+
+        public static string Instance { set; get; }
+
         public static string EnqueueJob(Expression<Action> operation,
             Func<JobContinuationHandler, List<string>> continuation)
         {
@@ -163,12 +166,12 @@ namespace SuperposeLib.Core
             Func<JobContinuationHandler, List<string>> continuation)
             where T : AJob
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(Instance))
             {
                 var factory = GetJobFactory(storage);
 
                 var jobId = factory.QueueJob(typeof (T), null, queue,
-                    continuation?.Invoke(new JobContinuationHandler()));
+                    continuation?.Invoke(new JobContinuationHandler(Instance)));
                 return jobId;
             }
         }
@@ -195,11 +198,11 @@ namespace SuperposeLib.Core
             Func<JobContinuationHandler, List<string>> continuation) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
-            using (var storage = SuperposeGlobalConfiguration.StorageFactory.CreateJobStorage())
+            using (var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(Instance))
             {
                 var factory = GetJobFactory(storage);
                 var jobId = factory.QueueJob(typeof (T), command, queue,
-                    continuation?.Invoke(new JobContinuationHandler()));
+                    continuation?.Invoke(new JobContinuationHandler(Instance)));
                 return jobId;
             }
         }

@@ -18,7 +18,7 @@ namespace SuperposeLib.Tests
             //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
             //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
             var converter = ConverterFactory.CretateConverter();
-            using (var storage = StorageFactory.CreateJobStorage())
+            using (var storage = StorageFactory.GetJobStorage(Guid.NewGuid().ToString()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 const int noOfJobs = 10;
