@@ -216,8 +216,8 @@ namespace SuperposeLib.Tests
           //  Assert.AreEqual(existingResult.JobTypeFullName, typeof (PilotJob).AssemblyQualifiedName);
             Assert.AreEqual(existingResult.Id, jobId);
             Assert.IsNotNull(existingResult);
-            Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 1);
-            Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Passed);
+            Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 1);
+            Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Passed.ToStringName());
             Assert.AreEqual(existingResult.JobStateTypeName, JobStateType.Successfull.GetJobStateTypeName());
         }
 
@@ -244,8 +244,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
                 Assert.AreEqual(
-                    existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 1);
-                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Passed);
+                    existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 1);
+                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Passed.ToStringName());
                 Assert.AreEqual(existingResult.JobStateTypeName, JobStateType.Successfull.GetJobStateTypeName());
 
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
@@ -276,8 +276,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
                 Assert.AreEqual(
-                    existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 1);
-                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Passed);
+                    existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 1);
+                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Passed.ToStringName());
                 Assert.AreEqual(existingResult.JobStateTypeName, JobStateType.Successfull.GetJobStateTypeName());
 
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();

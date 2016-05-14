@@ -12,6 +12,6 @@ namespace Superpose.StorageInterface
         /// <summary>
         ///     updated in process
         /// </summary>
-        IList<JobExecutionStatus> PreviousJobExecutionStatusList { set; get; }
+        string PreviousJobExecutionStatusList { set; get; }
     }
 }

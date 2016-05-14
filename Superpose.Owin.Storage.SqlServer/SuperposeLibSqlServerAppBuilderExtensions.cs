@@ -8,7 +8,7 @@ namespace Superpose.Owin.Storage.SqlServer
     {
         public static IAppBuilder UseSuperposeSqlServerStorage(this IAppBuilder app)
         {
-            SuperposeGlobalConfiguration.StorageFactory = new SqlServerStoragefactory(SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance());
+            SuperposeGlobalConfiguration.StorageFactory = new SqlServerStoragefactory();
             return app;
         }
     }

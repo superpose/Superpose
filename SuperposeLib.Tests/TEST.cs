@@ -33,8 +33,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
                 Assert.AreEqual(
-                    existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
-                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
+                    existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 0);
+                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Failed.ToStringName());
                 Assert.AreEqual(existingResult.JobStateTypeName,
                     Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
 
@@ -51,7 +51,7 @@ namespace SuperposeLib.Tests
         {
             var jobs = new List<string>();
             var converter = ConverterFactory.CretateConverter();
-            const int totalNumberOfJobs = 1000000;
+            const int totalNumberOfJobs = 10000;
             PlaceJobs(totalNumberOfJobs, converter, jobs);
         }
 
@@ -128,8 +128,8 @@ namespace SuperposeLib.Tests
                     Assert.AreEqual(existingResult.Id, jobId);
                     Assert.IsNotNull(existingResult);
                     Assert.AreEqual(
-                        existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
-                    Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
+                        existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 0);
+                    Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Failed.ToStringName());
                     Assert.AreEqual(existingResult.JobStateTypeName,
                         Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
                 }

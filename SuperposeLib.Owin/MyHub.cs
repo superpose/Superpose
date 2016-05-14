@@ -54,19 +54,17 @@ namespace SuperposeLib.Owin
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up"))
-                        },EnqueueStrategy.Queue);
+                        },EnqueueStrategy.Cpu);
                     
                     }
-            Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
-            {
-               
-              
-
-                //JobHandler.EnqueueJob<TestJob>();
-                //Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());
-                //GetJobStatistics();
-            });
+            
         }
 
         public void LoadJobsByJobStateTypeAndQueue(string stateType, int take = 20, int skip = 0, string queue = null)

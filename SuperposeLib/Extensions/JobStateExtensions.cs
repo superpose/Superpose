@@ -7,7 +7,8 @@ namespace SuperposeLib.Extensions
     {
         public static int HistoricFailureCount(this IJobState jobState)
         {
-            return jobState.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Failed);
+            var count= jobState.PreviousJobExecutionStatusList.Split(',').Count(x => x == JobExecutionStatus.Failed.ToStringName());
+            return count;
         }
     }
 }

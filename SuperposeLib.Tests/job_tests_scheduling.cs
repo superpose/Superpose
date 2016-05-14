@@ -16,8 +16,6 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_schedule_job()
         {
-            //IJobStoragefactory storageFactory = new InMemoryJobStoragefactory();
-            //IJobConverterFactory converterFactory = new DefaultJobConverterFactory();
             var converter = ConverterFactory.CretateConverter();
             using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
@@ -31,8 +29,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList?.Split(',').ToList().Count, 1);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList?.Split(',').ToList().First(), JobExecutionStatus.Passed.ToStringName());
                 Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
             }
         }
@@ -55,7 +53,7 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 0);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList,"");
                 Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Queued));
             }
         }
@@ -78,8 +76,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList?.Split(',').ToList().Count, 1);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList?.Split(',').ToList().First(), JobExecutionStatus.Passed.ToStringName());
                 Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
             }
         }
@@ -102,8 +100,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(result.Id, jobId);
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result.HistoricFailureCount(), 0);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.Count, 1);
-                Assert.AreEqual(result.PreviousJobExecutionStatusList.First(), JobExecutionStatus.Passed);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList?.Split(',').ToList().Count, 1);
+                Assert.AreEqual(result.PreviousJobExecutionStatusList?.Split(',').ToList().First(), JobExecutionStatus.Passed.ToStringName());
                 Assert.AreEqual(result.JobStateTypeName, Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
             }
         }

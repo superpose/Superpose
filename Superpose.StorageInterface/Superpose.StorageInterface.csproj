@@ -50,6 +50,7 @@
     <Compile Include="IJobLoad.cs" />
     <Compile Include="IJobState.cs" />
     <Compile Include="JobExecutionStatus.cs" />
+    <Compile Include="JobExecutionStatusExtension.cs" />
     <Compile Include="JobStateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableJobLoad.cs" />

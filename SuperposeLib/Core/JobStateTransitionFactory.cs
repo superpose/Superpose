@@ -14,26 +14,31 @@ namespace SuperposeLib.Core
             IJobState nextState = new JobState
             {
                 Started = DateTime.Now,
-                PreviousJobExecutionStatusList = new List<JobExecutionStatus>()
+                PreviousJobExecutionStatusList = ""
             };
             if (jobLoad == null)
             {
                 nextState = new JobState
                 {
                     JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown),
-                    PreviousJobExecutionStatusList = new List<JobExecutionStatus>()
+                    PreviousJobExecutionStatusList = ""
                 };
             }
 
             if (jobLoad != null)
             {
-                jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList ??
-                                                         new List<JobExecutionStatus>();
-                foreach (var jobExecutionStatuse in jobLoad.PreviousJobExecutionStatusList)
+                jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList ??"";
+                foreach (var jobExecutionStatuse in jobLoad.PreviousJobExecutionStatusList.Split(','))
                 {
-                    nextState.PreviousJobExecutionStatusList.Add(jobExecutionStatuse);
+                    
+                    {
+                    }
+                    else
+                    {
+                    }
+
                 }
-               
+
 
                 {
                     if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Deleted))
@@ -61,15 +66,15 @@ namespace SuperposeLib.Core
 
                     if (jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Processing))
                     {
-                        if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Unknown)
+                        if (string.IsNullOrEmpty(jobLoad.PreviousJobExecutionStatusList))
                         {
                             nextState.JobStateTypeName = JobStateType.Queued.GetJobStateTypeName();
                         }
-                        if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Passed)
+                        if (jobLoad.PreviousJobExecutionStatusList.Split(',').LastOrDefault() == JobExecutionStatus.Passed.ToStringName())
                         {
                             nextState.JobStateTypeName = JobStateType.Successfull.GetJobStateTypeName();
                         }
-                        if (jobLoad.PreviousJobExecutionStatusList.LastOrDefault() == JobExecutionStatus.Failed)
+                        if (jobLoad.PreviousJobExecutionStatusList.Split(',').LastOrDefault() == JobExecutionStatus.Failed.ToStringName())
                         {
                             if (superVisionDecision == SuperVisionDecision.Fail)
                             {

@@ -93,8 +93,8 @@ namespace SuperposeLib.Tests
                 Assert.AreEqual(existingResult.Id, jobId);
                 Assert.IsNotNull(existingResult);
                 Assert.AreEqual(
-                    existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
-                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
+                    existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 0);
+                Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Failed.ToStringName());
                 Assert.AreEqual(existingResult.JobStateTypeName,
                     Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
 
@@ -130,8 +130,8 @@ namespace SuperposeLib.Tests
                     Assert.AreEqual(existingResult.Id, jobId);
                     Assert.IsNotNull(existingResult);
                     Assert.AreEqual(
-                        existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
-                    Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
+                        existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 0);
+                    Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Failed.ToStringName());
                     Assert.AreEqual(existingResult.JobStateTypeName,
                         Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
 
@@ -171,8 +171,8 @@ namespace SuperposeLib.Tests
                         Assert.AreEqual(existingResult.Id, jobId);
                         Assert.IsNotNull(existingResult);
                         Assert.AreEqual(
-                            existingResult.PreviousJobExecutionStatusList.Count(x => x == JobExecutionStatus.Passed), 0);
-                        Assert.AreEqual(existingResult.PreviousJobExecutionStatusList.Last(), JobExecutionStatus.Failed);
+                            existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Count(x => x == JobExecutionStatus.Passed.ToStringName()), 0);
+                        Assert.AreEqual(existingResult.PreviousJobExecutionStatusList?.Split(',').ToList().Last(), JobExecutionStatus.Failed.ToStringName());
                         Assert.AreEqual(existingResult.JobStateTypeName,
                             Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
                     }
