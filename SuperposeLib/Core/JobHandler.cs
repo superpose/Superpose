@@ -14,98 +14,98 @@ namespace SuperposeLib.Core
         public static string Instance { set; get; }
 
         public static string EnqueueJob(Expression<Action> operation,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(null, operation, continuation);
+            return EnqueueJob_(null, operation, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob<T>(Expression<Action<T>> operation,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(null, operation, continuation);
+            return EnqueueJob_(null, operation, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(queue, operation, continuation);
+            return EnqueueJob_(queue, operation, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob(JobQueue queue, Expression<Action> operation,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(queue, operation, continuation);
+            return EnqueueJob_(queue, operation, continuation,enqueueStrategy);
         }
 
 
         public static string EnqueueJob(Expression<Action> operation,
-            Func<JobContinuationHandler, string> continuation = null)
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(null, operation, continuation);
+            return EnqueueJob_(null, operation, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob<T>(Expression<Action<T>> operation,
-            Func<JobContinuationHandler, string> continuation = null)
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(null, operation, continuation);
+            return EnqueueJob_(null, operation, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob<T>(JobQueue queue, Expression<Action<T>> operation,
-            Func<JobContinuationHandler, string> continuation = null)
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(queue, operation, continuation);
+            return EnqueueJob_(queue, operation, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob(JobQueue queue, Expression<Action> operation,
-            Func<JobContinuationHandler, string> continuation = null)
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob_(queue, operation, continuation);
+            return EnqueueJob_(queue, operation, continuation,enqueueStrategy);
         }
 
 
-        public static string EnqueueJob<T>(Func<JobContinuationHandler, List<string>> continuation)
+        public static string EnqueueJob<T>(Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
             where T : AJob
         {
-            return EnqueueJob<T>(new DefaultJobQueue(), continuation);
+            return EnqueueJob<T>(new DefaultJobQueue(), continuation,enqueueStrategy);
         }
 
 
         public static string EnqueueJob(JobQueue queue,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob<PilotJob>(queue, continuation);
+            return EnqueueJob<PilotJob>(queue, continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob(
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            return EnqueueJob<PilotJob>(new DefaultJobQueue(), continuation);
+            return EnqueueJob<PilotJob>(new DefaultJobQueue(), continuation,enqueueStrategy);
         }
 
 
         public static string EnqueueJob<T, TCommand>(TCommand command,
-            Func<JobContinuationHandler, List<string>> continuation) where T : AJob<TCommand>
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
-            return EnqueueJob<T, TCommand>(command, new DefaultJobQueue(), continuation);
+            return EnqueueJob<T, TCommand>(command, new DefaultJobQueue(), continuation,enqueueStrategy);
         }
 
 
-        public static string EnqueueJob<T>(Func<JobContinuationHandler, string> continuation = null) where T : AJob
+        public static string EnqueueJob<T>(Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown) where T : AJob
         {
-            return EnqueueJob<T>(new DefaultJobQueue(), continuation);
+            return EnqueueJob<T>(new DefaultJobQueue(), continuation,enqueueStrategy);
         }
 
         public static string EnqueueJob<T, TCommand>(TCommand command,
-            Func<JobContinuationHandler, string> continuation = null) where T : AJob<TCommand>
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
-            return EnqueueJob<T, TCommand>(command, new DefaultJobQueue(), continuation);
+            return EnqueueJob<T, TCommand>(command, new DefaultJobQueue(), continuation,enqueueStrategy);
         }
 
 
         protected static string EnqueueJob_(JobQueue queue, Expression operation,
-            Func<JobContinuationHandler, string> continuation = null)
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
             var serializer = new ExpressionSerializer(new JsonSerializer());
 
@@ -126,12 +126,12 @@ namespace SuperposeLib.Core
             return
                 EnqueueJob<LinqJob, LinqJobCommand>(new LinqJobCommand {ExpressionString = serialized, Context = null},
                     queue,
-                    fun);
+                    fun,enqueueStrategy);
         }
 
 
         protected static string EnqueueJob_(JobQueue queue, Expression operation,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
             var serializer = new ExpressionSerializer(new JsonSerializer());
 
@@ -140,11 +140,11 @@ namespace SuperposeLib.Core
             return
                 EnqueueJob<LinqJob, LinqJobCommand>(new LinqJobCommand {ExpressionString = serialized, Context = null},
                     queue,
-                    continuation);
+                    continuation,enqueueStrategy);
         }
 
 
-        public static string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, string> continuation = null)
+        public static string EnqueueJob<T>(JobQueue queue, Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
             where T : AJob
 
         {
@@ -158,12 +158,12 @@ namespace SuperposeLib.Core
             {
                 fun = j => new List<string> {continuation(j)};
             }
-            return EnqueueJob<T>(queue, fun);
+            return EnqueueJob<T>(queue, fun,enqueueStrategy);
         }
 
 
         public static string EnqueueJob<T>(JobQueue queue,
-            Func<JobContinuationHandler, List<string>> continuation)
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
             where T : AJob
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(Instance))
@@ -171,13 +171,13 @@ namespace SuperposeLib.Core
                 var factory = GetJobFactory(storage);
 
                 var jobId = factory.QueueJob(typeof (T), null, queue,
-                    continuation?.Invoke(new JobContinuationHandler(Instance)));
+                    continuation?.Invoke(new JobContinuationHandler(Instance)),enqueueStrategy);
                 return jobId;
             }
         }
 
         public static string EnqueueJob<T, TCommand>(TCommand command, JobQueue queue,
-            Func<JobContinuationHandler, string> continuation = null) where T : AJob<TCommand>
+            Func<JobContinuationHandler, string> continuation = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
             Func<JobContinuationHandler, List<string>> fun;
@@ -190,19 +190,19 @@ namespace SuperposeLib.Core
             {
                 fun = j => new List<string> {continuation(j)};
             }
-            return EnqueueJob<T, TCommand>(command, queue, fun);
+            return EnqueueJob<T, TCommand>(command, queue, fun,enqueueStrategy);
         }
 
 
         public static string EnqueueJob<T, TCommand>(TCommand command, JobQueue queue,
-            Func<JobContinuationHandler, List<string>> continuation) where T : AJob<TCommand>
+            Func<JobContinuationHandler, List<string>> continuation, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown) where T : AJob<TCommand>
             where TCommand : AJobCommand
         {
             using (var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(Instance))
             {
                 var factory = GetJobFactory(storage);
                 var jobId = factory.QueueJob(typeof (T), command, queue,
-                    continuation?.Invoke(new JobContinuationHandler(Instance)));
+                    continuation?.Invoke(new JobContinuationHandler(Instance)),enqueueStrategy);
                 return jobId;
             }
         }

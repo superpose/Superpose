@@ -7,6 +7,7 @@ namespace SuperposeLib.Core
 
     public class JobScheduleContainer
     {
+        public string JobId { set; get; }
         public Type JobType { set; get; }
         public AJobCommand Command { set; get; }
         public DateTime? ScheduleTime { set; get; }

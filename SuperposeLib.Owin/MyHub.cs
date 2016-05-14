@@ -45,28 +45,23 @@ namespace SuperposeLib.Owin
 
         public void QueueSampleJob()
         {
-            Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
-            {
-                const int total = 1000;
-
-                JobHandler.EnqueueJob<TestJob2>(co =>
-                {
-                    JobHandler.EnqueueJob(c => new List<string>
-                    {
-                        c.EnqueueJob(new MyQueue(), () => Console.WriteLine("what up")),
-                        c.EnqueueJob(() => Console.WriteLine("what up")),
-                        c.EnqueueJob(() => Console.WriteLine("what up")),
-                        c.EnqueueJob(() => Console.WriteLine("what up")),
-                        c.EnqueueJob(() => Console.WriteLine("what up"))
-                    });
-
-                    var li = new List<string>();
+                 const int total = 100000;
                     for (var i = 0; i < total; i++)
                     {
-                        li.Add(co.EnqueueJob<TestJob2>());
+                        JobHandler.EnqueueJob(c => new List<string>
+                        {
+                            c.EnqueueJob(new MyQueue(), () => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up")),
+                            c.EnqueueJob(() => Console.WriteLine("what up"))
+                        },EnqueueStrategy.Queue);
+                    
                     }
-                    return li;
-                });
+            Task.Delay(TimeSpan.FromMilliseconds(100)).ContinueWith(r =>
+            {
+               
+              
 
                 //JobHandler.EnqueueJob<TestJob>();
                 //Parallel.Invoke(() => JobHandler.EnqueueJob<TestJob>());

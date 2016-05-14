@@ -51,7 +51,7 @@ namespace SuperposeLib.Tests
         {
             var jobs = new List<string>();
             var converter = ConverterFactory.CretateConverter();
-            const int totalNumberOfJobs = 1000;
+            const int totalNumberOfJobs = 1000000;
             PlaceJobs(totalNumberOfJobs, converter, jobs);
         }
 
@@ -80,7 +80,7 @@ namespace SuperposeLib.Tests
         private void PlaceJobs(int totalNumberOfJobs, IJobConverter converter, List<string> jobs)
         {
             Console.WriteLine("placing jobs ... with " + totalNumberOfJobs + " jobs");
-            Console.WriteLine(DateTime.Now);
+            var start = DateTime.Now;
             for (var i = 0; i < totalNumberOfJobs; i++)
             {
                 using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
@@ -90,8 +90,9 @@ namespace SuperposeLib.Tests
                     jobs.Add(jobId);
                 }
             }
-            Console.WriteLine("Done! " + totalNumberOfJobs + " jobs");
-            Console.WriteLine(DateTime.Now);
+           // Console.WriteLine("Done! " + totalNumberOfJobs + " jobs");
+            var end = DateTime.Now;
+            Console.WriteLine((end - start).TotalMilliseconds+" ms");
         }
 
         private void ValidateStaistics(IJobConverter converter, int totalNumberOfJobs)
