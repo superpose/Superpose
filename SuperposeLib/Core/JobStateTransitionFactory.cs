@@ -31,10 +31,13 @@ namespace SuperposeLib.Core
                 foreach (var jobExecutionStatuse in jobLoad.PreviousJobExecutionStatusList.Split(','))
                 {
                     
+                    if (string.IsNullOrEmpty(nextState.PreviousJobExecutionStatusList) || string.IsNullOrEmpty(jobExecutionStatuse))
                     {
+                        nextState.PreviousJobExecutionStatusList = jobExecutionStatuse;
                     }
                     else
                     {
+                        nextState.PreviousJobExecutionStatusList = nextState.PreviousJobExecutionStatusList+ "," + jobExecutionStatuse;
                     }
 
                 }

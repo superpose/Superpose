@@ -5,11 +5,7 @@ namespace Superpose.Storage.SqlServer
 {
     public class SqlServerStoragefactory : IJobStoragefactory
     {
-        public SqlServerStoragefactory(string instanceId)
-        {
-            InstanceId = instanceId;
-        }
-
+       
         public string InstanceId { private set; get; }
         private IJobStorage JobStorage { set; get; }
 

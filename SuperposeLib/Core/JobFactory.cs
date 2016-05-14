@@ -33,10 +33,13 @@ namespace SuperposeLib.Core
         public IJobConverter JobConverter { set; get; }
 
         public static string RunMethodName { set; get; }
+
+        private static SlimActor<JobScheduleContainer, string> EnqueueActor { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
 
-        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null, List<string> nextJob = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
+        public string QueueJob<T>(AJobCommand command = null, JobQueue jobQueue = null, List<string> nextJob = null,
+            EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
             var jobType = typeof (T);
             return ScheduleJob(new JobScheduleContainer
@@ -46,7 +49,7 @@ namespace SuperposeLib.Core
                 ScheduleTime = Time.UtcNow,
                 JobQueue = jobQueue,
                 NextJob = nextJob
-            },  enqueueStrategy );
+            }, enqueueStrategy);
         }
 
         public string QueueJob(Type jobType, AJobCommand command = null, JobQueue jobQueue = null,
@@ -59,7 +62,7 @@ namespace SuperposeLib.Core
                 ScheduleTime = Time.UtcNow,
                 JobQueue = jobQueue,
                 NextJob = nextJob
-            },enqueueStrategy); //(jobType, command, Time.UtcNow, jobQueue, nextJob);
+            }, enqueueStrategy); //(jobType, command, Time.UtcNow, jobQueue, nextJob);
         }
 
         public string ScheduleJob<T>(AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null,
@@ -73,11 +76,12 @@ namespace SuperposeLib.Core
                 ScheduleTime = scheduleTime,
                 JobQueue = jobQueue,
                 NextJob = nextJob
-            },enqueueStrategy);
+            }, enqueueStrategy);
         }
 
         public string ScheduleJob(Type type, AJobCommand command = null, DateTime? scheduleTime = null,
-            JobQueue jobQueue = null, List<string> nextJob = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
+            JobQueue jobQueue = null, List<string> nextJob = null,
+            EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
             return ScheduleJob(new JobScheduleContainer
             {
@@ -86,27 +90,27 @@ namespace SuperposeLib.Core
                 ScheduleTime = scheduleTime,
                 JobQueue = jobQueue,
                 NextJob = nextJob
-            },enqueueStrategy)
+            }, enqueueStrategy)
                 ;
         }
 
-        private static SlimActor<JobScheduleContainer, string> EnqueueActor {set;get; }
-
-        public string ScheduleJob(JobScheduleContainer container,  EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
+        public string ScheduleJob(JobScheduleContainer container,
+            EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
             EnqueueActor = EnqueueActor ?? new SlimActor<JobScheduleContainer, string>(1);
 
-            container.JobId =  Guid.NewGuid().ToString();
+            container.JobId = Guid.NewGuid().ToString();
 
             if (enqueueStrategy == EnqueueStrategy.Unknown)
             {
-                enqueueStrategy  = EnqueueStrategy.Cpu;
+                enqueueStrategy = EnqueueStrategy.QueueCpu;
             }
 
             switch (enqueueStrategy)
             {
                 case EnqueueStrategy.Cpu:
-                    var result1 = PrepareScheduleJob(container.JobType, container.Command, container.ScheduleTime, container.JobQueue, container.NextJob);
+                    var result1 = PrepareScheduleJob(container.JobType, container.Command, container.ScheduleTime,
+                        container.JobQueue, container.NextJob);
                     JobStorage.JobSaver.SaveNew(result1.JobLoadString, result1.JobLoad.Id);
 
                     break;
@@ -114,7 +118,8 @@ namespace SuperposeLib.Core
 
                     var task1 = EnqueueActor.Tell(container, c =>
                     {
-                        var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob, container.JobId);
+                        var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
+                            container.JobId);
                         JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
 
                         return Task.FromResult(result.JobLoad.Id);
@@ -125,7 +130,8 @@ namespace SuperposeLib.Core
                 case EnqueueStrategy.QueueCpu:
                     var task = EnqueueActor.Ask(container, c =>
                     {
-                        var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob, container.JobId);
+                        var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
+                            container.JobId);
                         JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
 
                         return Task.FromResult(result.JobLoad.Id);
@@ -137,14 +143,13 @@ namespace SuperposeLib.Core
                     throw new ArgumentOutOfRangeException(nameof(enqueueStrategy), enqueueStrategy, null);
             }
 
-          
+
             return container.JobId;
-           
         }
 
-      
 
-        public SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null, JobQueue jobQueue = null, List<string> nextJob = null, string jobId = null)
+        public SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null,
+            DateTime? scheduleTime = null, JobQueue jobQueue = null, List<string> nextJob = null, string jobId = null)
         {
             nextJob = nextJob ?? new List<string>();
             jobQueue = jobQueue ?? new DefaultJobQueue();
@@ -152,12 +157,26 @@ namespace SuperposeLib.Core
             jobId = string.IsNullOrEmpty(jobId) ? Guid.NewGuid().ToString() : jobId;
             var jobLoad = new JobLoad
             {
-                JobCommandTypeFullName = command?.GetType().AssemblyQualifiedName, NextCommand = nextJob, Command = JobConverter.SerializeJobCommand(command), JobQueue = jobQueue, JobQueueName = jobQueue.GetType().Name, TimeToRun = scheduleTime ?? Time.UtcNow, JobTypeFullName = jobType.AssemblyQualifiedName, JobName = jobType.Name, Id = jobId, JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown), LastUpdated = Time.UtcNow, QueuedAt = Time.UtcNow, LastUpdatedOnServer = Environment.MachineName, QueuedOnServer = Environment.MachineName
+                JobCommandTypeFullName = command?.GetType().AssemblyQualifiedName,
+                NextCommand = nextJob,
+                Command = JobConverter.SerializeJobCommand(command),
+                JobQueue = jobQueue,
+                JobQueueName = jobQueue.GetType().Name,
+                TimeToRun = scheduleTime ?? Time.UtcNow,
+                JobTypeFullName = jobType.AssemblyQualifiedName,
+                JobName = jobType.Name,
+                Id = jobId,
+                JobStateTypeName = Enum.GetName(typeof (JobStateType), JobStateType.Unknown),
+                LastUpdated = Time.UtcNow,
+                QueuedAt = Time.UtcNow,
+                LastUpdatedOnServer = Environment.MachineName,
+                QueuedOnServer = Environment.MachineName
             };
             jobLoad = (JobLoad) JobStateTransitionFactory.GetNextState(jobLoad, SuperVisionDecision.Unknown);
             return new SerializedJobLoad
             {
-                JobLoadString = JobConverter.SerializeJobLoad(jobLoad), JobLoad = jobLoad
+                JobLoadString = JobConverter.SerializeJobLoad(jobLoad),
+                JobLoad = jobLoad
             };
         }
 
@@ -185,13 +204,17 @@ namespace SuperposeLib.Core
                 if (jobLoad?.JobTypeFullName != null)
                 {
                     var type = Type.GetType(jobLoad.JobTypeFullName);
-                    var commandType = string.IsNullOrEmpty(jobLoad.JobCommandTypeFullName) ? null : Type.GetType(jobLoad.JobCommandTypeFullName);
+                    var commandType = string.IsNullOrEmpty(jobLoad.JobCommandTypeFullName)
+                        ? null
+                        : Type.GetType(jobLoad.JobCommandTypeFullName);
                     if (type != null)
                     {
                         var method = type.GetMethod(GetRunJobMethodName());
                         if (commandType == null)
                         {
-                            result = (JobResult) method.Invoke(Activator.CreateInstance(type), new[] {new DefaultAJobCommand()});
+                            result =
+                                (JobResult)
+                                    method.Invoke(Activator.CreateInstance(type), new[] {new DefaultAJobCommand()});
                         }
                         else
                         {
@@ -223,7 +246,8 @@ namespace SuperposeLib.Core
 
                 if (jobLoad == null)
                 {
-                    throw new Exception("Unable to create jobLoad instance from raw job data : jobId - " + jobId + " : " + data);
+                    throw new Exception("Unable to create jobLoad instance from raw job data : jobId - " + jobId + " : " +
+                                        data);
                 }
 
                 if (jobLoad.JobTypeFullName == null)
@@ -254,8 +278,7 @@ namespace SuperposeLib.Core
             if (!TryUpdateStorageAfterJobExecutionEnds(result, jobLoad))
                 return null;
 
-
-            var fdgdfgdg = GetJobLoad(jobId);
+            var jobLoad2 = GetJobLoad(jobId);
 
             return jobLoad;
         }
@@ -273,14 +296,27 @@ namespace SuperposeLib.Core
 
         private bool TryUpdateStorageAfterJobExecutionEnds(JobResult result, JobLoad jobLoad)
         {
-            jobLoad.PreviousJobExecutionStatusList.Add(result.IsSuccessfull ? JobExecutionStatus.Passed : JobExecutionStatus.Failed);
+            var update = (result.IsSuccessfull
+                ? JobExecutionStatus.Passed
+                : JobExecutionStatus.Failed).ToStringName();
+            if (string.IsNullOrEmpty(jobLoad.PreviousJobExecutionStatusList))
+            {
+                jobLoad.PreviousJobExecutionStatusList = update;
+            }
+            else
+            {
+                jobLoad.PreviousJobExecutionStatusList = jobLoad.PreviousJobExecutionStatusList+"," + update;
+            }
+
+         
 
             if (!result.IsSuccessfull)
             {
                 try
                 {
                     jobLoad.Job = InstantiateJobComponent(jobLoad).Job;
-                    result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception, jobLoad.HistoricFailureCount());
+                    result.SuperVisionDecision = jobLoad.Job.Supervision(result.Exception,
+                        jobLoad.HistoricFailureCount());
                 }
                 catch (Exception se)
                 {
@@ -290,12 +326,15 @@ namespace SuperposeLib.Core
             }
             jobLoad = (JobLoad) JobStateTransitionFactory.GetNextState(jobLoad, result.SuperVisionDecision);
 
-            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() && jobLoad.NextCommand != null && !string.IsNullOrEmpty(jobLoad.NextCommand.FirstOrDefault()))
+            if (jobLoad.JobStateTypeName == JobStateType.Successfull.GetJobStateTypeName() &&
+                jobLoad.NextCommand != null && !string.IsNullOrEmpty(jobLoad.NextCommand.FirstOrDefault()))
             {
                 try
                 {
                     var head = jobLoad.NextCommand.FirstOrDefault();
-                    var tail = jobLoad.NextCommand.Count > 1 ? jobLoad.NextCommand.Skip(1).Take(jobLoad.NextCommand.Count - 1).ToList() : null;
+                    var tail = jobLoad.NextCommand.Count > 1
+                        ? jobLoad.NextCommand.Skip(1).Take(jobLoad.NextCommand.Count - 1).ToList()
+                        : null;
 
                     var nextJobLoad = JobConverter.JobParser.Execute(head);
                     if (!string.IsNullOrEmpty(nextJobLoad?.Id))
@@ -375,7 +414,11 @@ namespace SuperposeLib.Core
 
             var jobIsInQueue = jobLoad.JobStateTypeName == JobStateType.Queued.GetJobStateTypeName();
 
-            var canOverideCurrentlyProcessing = jobLoad.JobStateTypeName == Enum.GetName(typeof (JobStateType), JobStateType.Processing) && (jobLoad.Started == null || ((time.UtcNow - jobLoad.Started.Value).TotalMinutes > MaxWaitSecondsBeforeOverridingCurrentProcessingJob));
+            var canOverideCurrentlyProcessing = jobLoad.JobStateTypeName ==
+                                                Enum.GetName(typeof (JobStateType), JobStateType.Processing) &&
+                                                (jobLoad.Started == null ||
+                                                 ((time.UtcNow - jobLoad.Started.Value).TotalMinutes >
+                                                  MaxWaitSecondsBeforeOverridingCurrentProcessingJob));
 
             var canProcess = itsTimeToProcess && (jobIsInQueue || canOverideCurrentlyProcessing);
             return canProcess;
