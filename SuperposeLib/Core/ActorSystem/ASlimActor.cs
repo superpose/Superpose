@@ -40,7 +40,7 @@ namespace SuperposeLib.Core.ActorSystem
 
         private async Task Consume()
         {
-            await MailBoxWatcher<TCommand, TResponse>.Watch(_mailBox);
+            await new  MailBoxWatcher<TCommand, TResponse>().Watch(_mailBox);
         }
 
         #region IDisposable

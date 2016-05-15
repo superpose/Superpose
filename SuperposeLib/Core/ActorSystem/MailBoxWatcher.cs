@@ -27,7 +27,7 @@ namespace SuperposeLib.Core.ActorSystem
             }
         }
 
-        public static async Task Watch(BlockingCollection<MailMessage> queue)
+        public  async Task Watch(BlockingCollection<MailMessage> queue)
         {
             foreach (var workItem in queue.GetConsumingEnumerable())
             {

@@ -1,22 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
+using SuperposeLib.Core.ActorSystem;
 
 namespace SuperposeLib.Owin
 {
     public class SuperposeLibHub : Hub
     {
+     
+
+        private static SlimActor<object, bool> HubActor { set; get; }
+
+      
+        public void ClientsAll(object data, Action<object> opeartion )
+        {
+            //  opeartion(data);
+            HubActor = HubActor ?? new SlimActor<object, bool>();
+            Task.WaitAll(HubActor.Ask(data, (d) =>
+            {
+                try
+                {
+                    opeartion(d);
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+                return Task.FromResult(true);
+            }, null));
+        }
+
         public void GetCurrentQueue()
         {
-            Clients.All.currentQueue(SuperposeGlobalConfiguration.JobQueue);
+            ClientsAll(SuperposeGlobalConfiguration.JobQueue, (o) =>
+            {
+                Clients.All.currentQueue(o);
+            });
+            //  Clients.All.currentQueue(SuperposeGlobalConfiguration.JobQueue);
         }
 
         public void GetCurrentProcessingState()
         {
-            Clients.All.currentProcessingState(SuperposeGlobalConfiguration.StopProcessing);
+            ClientsAll(SuperposeGlobalConfiguration.StopProcessing, (o) =>
+            {
+                Clients.All.currentProcessingState(o);
+            });
+           
+          //  Clients.All.currentProcessingState(SuperposeGlobalConfiguration.StopProcessing);
         }
 
         public void StopProcessing(bool shouldStop)
@@ -76,7 +112,12 @@ namespace SuperposeLib.Owin
             {
                 var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue ?? typeof (DefaultJobQueue).Name,
                     (JobStateType) Enum.Parse(typeof (JobStateType), stateType, true), take, skip);
-                Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
+
+                ClientsAll(jobs ?? new List<SerializableJobLoad>(), (o) =>
+                {
+                    Clients.All.jobsList(o);
+                });
+               // Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
             }
         }
 
@@ -88,7 +129,11 @@ namespace SuperposeLib.Owin
                         SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
                 var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof (DefaultJobQueue).Name, take, skip);
-                Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
+                ClientsAll(jobs ?? new List<SerializableJobLoad>(), (o) =>
+                {
+                    Clients.All.jobsList(o);
+                });
+                // Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
             }
         }
 
@@ -100,7 +145,11 @@ namespace SuperposeLib.Owin
                         SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
                 var jobStatistics = storage.JobLoader.GetJobStatistics();
-                Clients.All.jobStatisticsCompleted(jobStatistics);
+                ClientsAll(jobStatistics, (o) =>
+                {
+                    Clients.All.jobStatisticsCompleted(o);
+                });
+                //  Clients.All.jobStatisticsCompleted(jobStatistics);
             }
         }
 
@@ -129,9 +178,7 @@ namespace SuperposeLib.Owin
         {
             if (DateTime.Now.Second%19 == 0)
                 throw new Exception();
-
-            //  Task.WaitAll(Task.Delay(TimeSpan.FromMilliseconds(10)));
-            // Console.WriteLine("woooo!");
+            
         }
     }
 

@@ -1,70 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using Superpose.StorageInterface;
 
 namespace Superpose.Storage.LiteDB
 {
     public class LiteDbJobLoader : IJobLoader
     {
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+    
 
-        public string LoadJobById(string jobId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public JobStatistics GetJobStatistics()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> LoadJobIdsByJobType(string queueName, Type jobType, int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> LoadJobIdsByJobStateType(string queueName, JobStateType stateType, int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> LoadJobIdsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType,
-            DateTime @from, DateTime to,
-            int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> LoadJobsByIds(List<string> ids)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType,
-            int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<SerializableJobLoad> LoadJobsByQueue(string queueName, int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<SerializableJobLoad> LoadJobs(int take, int skip)
-        {
-            throw new NotImplementedException();
-        }
-
-        /*
+     
          
          public string LoadJobById(string jobId)
         {
@@ -113,15 +59,14 @@ namespace Superpose.Storage.LiteDB
             return result;
         }
 
-        public List<string> LoadJobsByJobType(string queueName, Type jobType, int take, int skip)
+        public List<string> LoadJobIdsByJobType(string queueName, Type jobType, int take, int skip)
         {
             List<string> collection = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
                     .Find(x => x.JobTypeFullName == jobType.AssemblyQualifiedName && x.JobQueueName == queueName)
-                    .Take(take)
-                    .Skip(skip)
+                .OrderBy(x => x.Id).Skip(skip).Take(take)
                     .Select(x => x.Id)
                     .ToList();
             });
@@ -139,8 +84,7 @@ namespace Superpose.Storage.LiteDB
                         x =>
                             x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) &&
                             x.JobQueueName == queueName)
-                    .Take(take)
-                    .Skip(skip)
+                       .OrderBy(x => x.Id).Skip(skip).Take(take)
                     .Select(x => x.Id)
                     .ToList();
             });
@@ -158,30 +102,28 @@ namespace Superpose.Storage.LiteDB
                         x =>
                             x.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType) &&
                             x.JobQueueName == queueName)
-                    .Take(take)
-                    .Skip(skip)
+                      .OrderBy(x => x.Id).Skip(skip).Take(take)
                     .ToList();
             });
 
             return collection;
         }
 
-        public List<string> LoadJobsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
+        public List<string> LoadJobIdsByTimeToRun(string queueName, DateTime @from, DateTime to, int take, int skip)
         {
             List<string> collection = null;
             LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
             {
                 collection = jobLoadCollection
                     .Find(x => x.TimeToRun >= @from && x.TimeToRun <= to && x.JobQueueName == queueName)
-                    .Take(take)
-                    .Skip(skip)
+                     .OrderBy(x => x.Id).Skip(skip).Take(take)
                     .Select(x => x.Id)
                     .ToList();
             });
             return collection;
         }
 
-        public List<string> LoadJobsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
+        public List<string> LoadJobIdsByJobStateTypeAndTimeToRun(string queueName, JobStateType stateType, DateTime @from,
             DateTime to,
             int take, int skip)
         {
@@ -194,7 +136,7 @@ namespace Superpose.Storage.LiteDB
                             x.JobStateTypeName == Enum.GetName(typeof (JobStateType), stateType) && x.TimeToRun >= @from &&
                             x.TimeToRun <= to && x.JobQueueName == queueName);
 
-                collection = collectionTmp.Select(x => x.Id).Take(take).Skip(skip).ToList();
+                collection = collectionTmp .OrderBy(x=>x.Id).Skip(skip).Take(take).Select(x => x.Id)  .ToList();
             });
             return collection;
         }
@@ -204,9 +146,57 @@ namespace Superpose.Storage.LiteDB
             return ids.Select(LoadJobById).ToList();
         }
 
+        public List<SerializableJobLoad> LoadJobsByJobStateTypeAndQueue(string queueName, JobStateType stateType, int take, int skip)
+        {
+            List<SerializableJobLoad> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            {
+                collection = jobLoadCollection
+                    .Find(
+                        x =>
+                            x.JobStateTypeName == Enum.GetName(typeof(JobStateType), stateType) &&
+                            x.JobQueueName == queueName)
+                       .OrderBy(x => x.Id).Skip(skip).Take(take)
+                    .ToList();
+            });
+
+            return collection;
+        }
+
+        public List<SerializableJobLoad> LoadJobsByQueue(string queueName, int take, int skip)
+        {
+            List<SerializableJobLoad> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            {
+                collection = jobLoadCollection
+                    .Find(
+                        x =>
+                            x.JobQueueName == queueName)
+                     .OrderBy(x => x.Id).Skip(skip).Take(take)
+                    .ToList();
+            });
+
+            return collection;
+        }
+
+        public List<SerializableJobLoad> LoadJobs(int take, int skip)
+        {
+            List<SerializableJobLoad> collection = null;
+            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            {
+                collection = jobLoadCollection
+                    .FindAll()
+                   
+                       .OrderBy(x=>x.Id).Skip(skip) .Take(take)
+                    .ToList();
+            });
+
+            return collection;
+        }
+
         public void Dispose()
         {
         }
-         */
+        
     }
 }

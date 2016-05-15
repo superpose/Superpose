@@ -2,6 +2,7 @@
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.Storage.InMemory;
+using Superpose.Storage.LiteDB;
 using Superpose.Storage.SqlServer;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
@@ -17,11 +18,10 @@ namespace SuperposeLib.Tests
         [TestInitialize]
         public void SetUpMethod()
         {
-             StorageFactory = new SqlServerStoragefactory();
-
+            // StorageFactory = new SqlServerStoragefactory();
            
            // StorageFactory = new InMemoryJobStoragefactory();
-            // StorageFactory = new LiteDBJobStoragefactory();
+             StorageFactory = new LiteDbJobStoragefactory();
             ConverterFactory = new DefaultJobConverterFactory();
         }
 
