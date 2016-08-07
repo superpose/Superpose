@@ -19,6 +19,7 @@ namespace SuperposeLib.Tests
         [TestMethod]
         public void it_can_serialize_and_deserialize_job()
         {
+            
             IJobConverter converter = new DefaultJobConverter(new DefaultJobParser(), new DefaultJobSerializer());
             var serializedData =
                 converter.SerializeJobLoad(new JobLoad {JobTypeFullName = typeof (TestJob).AssemblyQualifiedName});

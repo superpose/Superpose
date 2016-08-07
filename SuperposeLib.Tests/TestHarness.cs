@@ -20,8 +20,8 @@ namespace SuperposeLib.Tests
         {
             // StorageFactory = new SqlServerStoragefactory();
            
-           // StorageFactory = new InMemoryJobStoragefactory();
-             StorageFactory = new LiteDbJobStoragefactory();
+            StorageFactory = new InMemoryJobStoragefactory();
+           //  StorageFactory = new LiteDbJobStoragefactory();
             ConverterFactory = new DefaultJobConverterFactory();
         }
 

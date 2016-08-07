@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Superpose.JobRunnerInterface;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Services.DefaultConverter;
@@ -37,7 +38,7 @@ namespace SuperposeLib.Owin
                                                                new DefaultJobConverterFactory();
             var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
             Storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance());
-            Runner = new DefaultJobRunner(Storage, converter);
+            Runner = new QueueJobRunner(Storage, converter);// new DefaultJobRunner(Storage, converter);
             Task.Delay(TimeSpan.FromMilliseconds(10)).ContinueWith(c =>
             {
                 Runner.Run(UiNotifyer, UiNotifyer);

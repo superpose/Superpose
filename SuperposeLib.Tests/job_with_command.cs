@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Owin;
+using Superpose.JobRunnerInterface;
 using Superpose.Owin.Storage.InMemory;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;

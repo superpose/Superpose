@@ -4,10 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
+using SuperposeLib.Core;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
 
-namespace SuperposeLib.Core
+namespace Superpose.JobRunnerInterface
 {
     public class DefaultJobRunner : IJobRunner, IDisposable
     {

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SuperposeLib.Core.ActorSystem
+namespace Superpose.SlimActorLib
 {
     public class MailBoxWatcher<TCommand, TResponse>
     {

@@ -1,4 +1,4 @@
-namespace SuperposeLib.Core.ActorSystem
+namespace Superpose.SlimActorLib
 {
     public class SlimActor<T, TR> : ASlimActor<T, TR>
     {

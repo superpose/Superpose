@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.Owin.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Superpose.JobRunnerInterface;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Interfaces.JobThings;

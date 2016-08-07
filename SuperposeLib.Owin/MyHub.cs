@@ -5,9 +5,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Superpose.SlimActorLib;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
-using SuperposeLib.Core.ActorSystem;
+
 
 namespace SuperposeLib.Owin
 {

@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Superpose.SlimActorLib;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
-using SuperposeLib.Core.ActorSystem;
+using SuperposeLib.Core;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
 
-namespace SuperposeLib.Core
+namespace Superpose.JobRunnerInterface
 {
-
     public class QueueJobRunner : IJobRunner, IDisposable
     {
         private readonly IJobConverter _jobConverter;
@@ -35,21 +35,28 @@ namespace SuperposeLib.Core
         private static SlimActor<TimeSpan, bool> ProcessActor { set; get; }
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
+
+
+
+
+
+
+
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             var queue = SuperposeGlobalConfiguration.JobQueue;
-           Task.WaitAll(ProcessActor.Tell(TimeSpan.FromSeconds(1), (s) =>
-           {
-               Task.Delay(s).ContinueWith(c =>
-               {
-                   ProcessActor.Tell(TimeSpan.FromSeconds(1), (y) =>
-                   {
-                       Run(onRunning, runningCompleted);
-                       return  Task.FromResult(true);
-                   }, null);
-               });
-               return Task.FromResult(true);
-           }, null));
+            Task.WaitAll(ProcessActor.Tell(TimeSpan.FromSeconds(1), (s) =>
+            {
+                Task.Delay(s).ContinueWith(c =>
+                {
+                    ProcessActor.Tell(TimeSpan.FromSeconds(1), (y) =>
+                    {
+                        Run(onRunning, runningCompleted);
+                        return Task.FromResult(true);
+                    }, null);
+                });
+                return Task.FromResult(true);
+            }, null));
 
 
             var hasNoWorkToDo = true;
@@ -73,8 +80,8 @@ namespace SuperposeLib.Core
 
                 if (hasNoWorkToDo)
                 {
-                    Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
-                        .ContinueWith(c => Run(onRunning, runningCompleted));
+                    //Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
+                    //    .ContinueWith(c => Run(onRunning, runningCompleted));
                 }
                 else
                 {
@@ -85,7 +92,7 @@ namespace SuperposeLib.Core
                         MaxDegreeOfParallelism = queue.WorkerPoolCount
                     };
                     ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
-                    Run(onRunning, runningCompleted);
+                   // Run(onRunning, runningCompleted);
                 }
 
                 return true;

@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Storage.SqlServer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.Owin.Storage.SqlServer", "Superpose.Owin.Storage.SqlServer\Superpose.Owin.Storage.SqlServer.csproj", "{52A56A5C-A4B3-438B-BBB0-C664E131A1CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.JobRunnerInterface", "Superpose.JobRunnerInterface\Superpose.JobRunnerInterface.csproj", "{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Superpose.SlimActorLib", "Superpose.SlimActorLib\Superpose.SlimActorLib.csproj", "{CBBA37DB-95B6-47E7-9102-359D0E60460D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,14 @@ Global
 		{52A56A5C-A4B3-438B-BBB0-C664E131A1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52A56A5C-A4B3-438B-BBB0-C664E131A1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52A56A5C-A4B3-438B-BBB0-C664E131A1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBBA37DB-95B6-47E7-9102-359D0E60460D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBA37DB-95B6-47E7-9102-359D0E60460D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBA37DB-95B6-47E7-9102-359D0E60460D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBA37DB-95B6-47E7-9102-359D0E60460D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

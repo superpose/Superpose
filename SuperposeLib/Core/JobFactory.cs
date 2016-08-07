@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Superpose.SlimActorLib;
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
-using SuperposeLib.Core.ActorSystem;
 using SuperposeLib.Core.Jobs;
 using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
@@ -103,7 +103,7 @@ namespace SuperposeLib.Core
 
             if (enqueueStrategy == EnqueueStrategy.Unknown)
             {
-                enqueueStrategy = EnqueueStrategy.QueueCpu;
+                enqueueStrategy = SuperposeGlobalConfiguration.DefaultEnqueueStrategy;
             }
 
             switch (enqueueStrategy)
@@ -138,6 +138,8 @@ namespace SuperposeLib.Core
                     }, null);
 
                     Task.WaitAll(task);
+                    break;
+                case EnqueueStrategy.Unknown:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(enqueueStrategy), enqueueStrategy, null);

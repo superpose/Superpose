@@ -126,6 +126,10 @@
     <Compile Include="TestHarness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Superpose.JobRunnerInterface\Superpose.JobRunnerInterface.csproj">
+      <Project>{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}</Project>
+      <Name>Superpose.JobRunnerInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Superpose.Owin.Storage.InMemory\Superpose.Owin.Storage.InMemory.csproj">
       <Project>{B9E28634-4A55-46B8-9AD7-AB28BEFE059F}</Project>
       <Name>Superpose.Owin.Storage.InMemory</Name>

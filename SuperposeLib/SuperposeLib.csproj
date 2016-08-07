@@ -68,20 +68,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ActorSystem\ASlimActor.cs" />
-    <Compile Include="Core\ActorSystem\MailBoxWatcher.cs" />
-    <Compile Include="Core\ActorSystem\SlimActor.cs" />
     <Compile Include="Core\AJob.cs" />
     <Compile Include="Core\EnqueueStrategy.cs" />
     <Compile Include="Core\JobContinuationHandler.cs" />
     <Compile Include="Core\JobScheduleContainer.cs" />
     <Compile Include="Core\Jobs\CoreJobThatFails.cs" />
-    <Compile Include="Core\IJobRunner.cs" />
     <Compile Include="Core\JobHandler.cs" />
-    <Compile Include="Core\DefaultJobRunner.cs" />
     <Compile Include="Core\Jobs\LinqJob.cs" />
     <Compile Include="Core\PilotJob.cs" />
-    <Compile Include="Core\QueueJobRunner.cs" />
     <Compile Include="Core\SerializedJobLoad.cs" />
     <Compile Include="Extensions\JobStateTypeExtensions.cs" />
     <Compile Include="Interfaces\ITime.cs" />
@@ -106,6 +100,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Superpose.SlimActorLib\Superpose.SlimActorLib.csproj">
+      <Project>{CBBA37DB-95B6-47E7-9102-359D0E60460D}</Project>
+      <Name>Superpose.SlimActorLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
       <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
       <Name>Superpose.StorageInterface</Name>
