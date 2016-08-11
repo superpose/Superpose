@@ -6,18 +6,10 @@ using SuperposeLib.Interfaces.JobThings;
 
 namespace Superpose.JobRunnerInterface
 {
-
-
-
     public interface IJobRunner
     {
         Timer Timer { set; get; }
         IJobFactory JobFactory { get; set; }
         bool Run(Action<string> onRunning, Action<string> runningCompleted);
-
-
-
-
-
     }
 }

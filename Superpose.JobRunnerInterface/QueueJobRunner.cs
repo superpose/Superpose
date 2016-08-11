@@ -35,32 +35,10 @@ namespace Superpose.JobRunnerInterface
         private static SlimActor<TimeSpan, bool> ProcessActor { set; get; }
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
-
-
-
-
-
-
-
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             var queue = SuperposeGlobalConfiguration.JobQueue;
-            Task.WaitAll(ProcessActor.Tell(TimeSpan.FromSeconds(1), (s) =>
-            {
-                Task.Delay(s).ContinueWith(c =>
-                {
-                    ProcessActor.Tell(TimeSpan.FromSeconds(1), (y) =>
-                    {
-                        Run(onRunning, runningCompleted);
-                        return Task.FromResult(true);
-                    }, null);
-                });
-                return Task.FromResult(true);
-            }, null));
-
-
             var hasNoWorkToDo = true;
-
 
             try
             {
@@ -78,12 +56,8 @@ namespace Superpose.JobRunnerInterface
                 }
 
 
-                if (hasNoWorkToDo)
-                {
-                    //Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
-                    //    .ContinueWith(c => Run(onRunning, runningCompleted));
-                }
-                else
+                if (!hasNoWorkToDo)
+              
                 {
                     var cts = new CancellationTokenSource();
                     var po = new ParallelOptions
@@ -92,9 +66,20 @@ namespace Superpose.JobRunnerInterface
                         MaxDegreeOfParallelism = queue.WorkerPoolCount
                     };
                     ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
-                   // Run(onRunning, runningCompleted);
+                    // Run(onRunning, runningCompleted);
                 }
-
+                Task.WaitAll(ProcessActor.Tell(TimeSpan.FromSeconds(1), (s) =>
+                            {
+                                Task.Delay(s).ContinueWith(c =>
+                                {
+                                    ProcessActor.Tell(TimeSpan.FromSeconds(1), (y) =>
+                                    {
+                                        Run(onRunning, runningCompleted);
+                                        return Task.FromResult(true);
+                                    }, null);
+                                });
+                                return Task.FromResult(true);
+                            }, null));
                 return true;
             }
             catch (Exception e)

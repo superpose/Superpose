@@ -67,7 +67,7 @@ namespace SuperposeLib.Tests
                     });
 
 
-                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(15)));
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(5)));
                 EnsureJobHasRun(jobId);
 
                 var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance());
@@ -105,7 +105,7 @@ namespace SuperposeLib.Tests
                 });
 
 
-                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(15)));
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(5)));
                 EnsureJobHasRun(jobId);
 
                 var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance());
@@ -141,7 +141,7 @@ namespace SuperposeLib.Tests
                             )
                         )
                     );
-                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(15)));
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(5)));
                 EnsureJobHasRun(jobId);
 
                 var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance());
@@ -169,8 +169,10 @@ namespace SuperposeLib.Tests
 
                 var jobId = JobHandler.EnqueueJob<JobWithCommand, TestCommand>(command1,
                     continuation => continuation.EnqueueJob<JobWithCommand, TestCommand>(command2));
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(5)));
+                EnsureJobHasRun(jobId);
 
-                AssertAwait(() => EnsureJobHasRun(jobId), 5000);
+
 
                 var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance());
                 var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
@@ -179,6 +181,8 @@ namespace SuperposeLib.Tests
                 var statistics = factory.JobStorage.JobLoader.GetJobStatistics();
                 Assert.AreEqual(statistics.TotalNumberOfJobs, 2);
                 Assert.AreEqual(statistics.TotalSuccessfullJobs, 2);
+              //  AssertAwait(() =>, 50000);
+
                 Assert.AreEqual(statistics.TotalFailedJobs, 0);
                 Assert.AreEqual(statistics.TotalProcessingJobs, 0);
             }
