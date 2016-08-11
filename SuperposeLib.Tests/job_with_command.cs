@@ -105,7 +105,7 @@ namespace SuperposeLib.Tests
                 });
 
 
-                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(5)));
+                Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(10)));
                 EnsureJobHasRun(jobId);
 
                 var storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance());
