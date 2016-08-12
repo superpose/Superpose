@@ -240,9 +240,9 @@ namespace SuperposeLib.Tests
                 var runner = new DefaultJobRunner(storage, converter);
                 IJobFactory factory = new JobFactory(storage, converter);
 
-                var result = runner.Run(null, null);
-
-                Assert.IsTrue(result);
+                var result = runner.RunAsync(null, null);
+                Task.WaitAll(result);
+                Assert.IsTrue(result.Result);
                 var existingResult = factory.GetJobLoad(jobId);
 
                 Assert.AreEqual(existingResult.JobTypeFullName, typeof (JobWithCommand).AssemblyQualifiedName);
@@ -272,9 +272,9 @@ namespace SuperposeLib.Tests
                 var jobId = factory.QueueJob<JobWithCommand>(new TestCommand {MyName = "tester"});
 
                 var runner = new DefaultJobRunner(storage, converter);
-                var result = runner.Run(null, null);
-
-                Assert.IsTrue(result);
+                var result = runner.RunAsync(null, null);
+                Task.WaitAll(result);
+                Assert.IsTrue(result.Result);
                 var existingResult = factory.GetJobLoad(jobId);
 
                 Assert.AreEqual(existingResult.JobTypeFullName, typeof (JobWithCommand).AssemblyQualifiedName);

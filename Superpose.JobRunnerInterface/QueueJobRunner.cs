@@ -1,4 +1,5 @@
-using System;
+/*
+ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Superpose.JobRunnerInterface
             _jobStorage = jobStorage;
             _jobConverter = jobConverter;
             _time = time;
-            ProcessActor = ProcessActor ?? new SlimActor<TimeSpan, bool>(1);
+         //   ProcessActor = ProcessActor ?? new SlimActor<TimeSpan, bool>(1);
         }
 
         public Timer Timer { set; get; }
@@ -32,7 +33,7 @@ namespace Superpose.JobRunnerInterface
             Timer.Dispose();
         }
 
-        private static SlimActor<TimeSpan, bool> ProcessActor { set; get; }
+       // private static SlimActor<TimeSpan, bool> ProcessActor { set; get; }
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
@@ -56,8 +57,12 @@ namespace Superpose.JobRunnerInterface
                 }
 
 
-                if (!hasNoWorkToDo)
-              
+                if (hasNoWorkToDo)
+                {
+                    Task.WaitAll(Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
+                         .ContinueWith(c => Run(onRunning, runningCompleted)));
+                }
+                else
                 {
                     var cts = new CancellationTokenSource();
                     var po = new ParallelOptions
@@ -66,20 +71,33 @@ namespace Superpose.JobRunnerInterface
                         MaxDegreeOfParallelism = queue.WorkerPoolCount
                     };
                     ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
-                    // Run(onRunning, runningCompleted);
+                    Run(onRunning, runningCompleted);
                 }
-                Task.WaitAll(ProcessActor.Tell(TimeSpan.FromSeconds(1), (s) =>
-                            {
-                                Task.Delay(s).ContinueWith(c =>
-                                {
-                                    ProcessActor.Tell(TimeSpan.FromSeconds(1), (y) =>
-                                    {
-                                        Run(onRunning, runningCompleted);
-                                        return Task.FromResult(true);
-                                    }, null);
-                                });
-                                return Task.FromResult(true);
-                            }, null));
+
+                //if (!hasNoWorkToDo)
+
+                //{
+                //    var cts = new CancellationTokenSource();
+                //    var po = new ParallelOptions
+                //    {
+                //        CancellationToken = cts.Token,
+                //        MaxDegreeOfParallelism = queue.WorkerPoolCount
+                //    };
+                //    ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
+                //    // Run(onRunning, runningCompleted);
+                //}
+                //Task.WaitAll(ProcessActor.Tell(TimeSpan.FromSeconds(1), async (s) =>
+                //            {
+                //              await  Task.Delay(s).ContinueWith( async c =>
+                //                {
+                //                   await ProcessActor.Tell(TimeSpan.FromSeconds(1), (y) =>
+                //                    {
+                //                        Run(onRunning, runningCompleted);
+                //                        return Task.FromResult(true);
+                //                    }, null);
+                //                });
+                //                return await Task.FromResult(true);
+                //            }, null));
                 return true;
             }
             catch (Exception e)
@@ -137,3 +155,4 @@ namespace Superpose.JobRunnerInterface
         }
     }
 }
+ */

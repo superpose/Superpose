@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.JobRunnerInterface;
 using Superpose.StorageInterface;
@@ -24,9 +25,9 @@ namespace SuperposeLib.Tests
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                 var runner = new DefaultJobRunner(storage, converter);
-                var result = runner.Run(null, null);
-
-                Assert.IsTrue(result);
+                var result = runner.RunAsync(null, null);
+                Task.WaitAll(result);
+                Assert.IsTrue(result.Result);
                 var existingResult = factory.GetJobLoad(jobId);
 
                 Assert.AreEqual(existingResult.JobTypeFullName,
@@ -146,8 +147,9 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.GetJobStorage(StorageFactory.GetCurrentExecutionInstance()))
             {
                 var runner = new DefaultJobRunner(storage, converter);
-                var result = runner.Run(null, null);
-                Assert.IsTrue(result);
+                var result = runner.RunAsync(null, null);
+                Task.WaitAll(result);
+                Assert.IsTrue(result.Result);
             }
             Console.WriteLine("Done!");
             Console.WriteLine(DateTime.Now);

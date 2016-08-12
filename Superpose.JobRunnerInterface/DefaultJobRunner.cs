@@ -31,7 +31,7 @@ namespace Superpose.JobRunnerInterface
         }
 
 
-        public bool Run(Action<string> onRunning, Action<string> runningCompleted)
+        public async Task<bool> RunAsync(Action<string> onRunning, Action<string> runningCompleted)
         {
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
@@ -58,8 +58,8 @@ namespace Superpose.JobRunnerInterface
 
                 if (hasNoWorkToDo)
                 {
-                    Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
-                        .ContinueWith(c => Run(onRunning, runningCompleted));
+                  await Task.Delay(TimeSpan.FromSeconds(queue.StorgePollSecondsInterval))
+                        .ContinueWith(c => RunAsync(onRunning, runningCompleted));
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace Superpose.JobRunnerInterface
                         MaxDegreeOfParallelism = queue.WorkerPoolCount
                     };
                     ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
-                    Run(onRunning, runningCompleted);
+                 await   RunAsync(onRunning, runningCompleted);
                 }
 
                 return true;

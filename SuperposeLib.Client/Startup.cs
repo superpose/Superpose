@@ -10,9 +10,9 @@ namespace SuperposeLib.Client
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseSuperposeSqlServerStorage();
-            // app.UseSuperposeLiteDbStorage();
-            //app.UseSuperposeInMemoryStorage();
+           // app.UseSuperposeSqlServerStorage();
+             //app.UseSuperposeLiteDbStorage();
+            app.UseSuperposeInMemoryStorage();
             app.UseSuperposeServer();
             app.UseSuperposeDashboard();
         }

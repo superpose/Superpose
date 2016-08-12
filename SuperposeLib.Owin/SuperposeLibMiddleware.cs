@@ -13,7 +13,7 @@ namespace SuperposeLib.Owin
     {
         public static string LastReportedProcessedJob;
 
-        public Action<string> UiNotifyer = jobId =>
+        public Action<string> UiNotifyer = async jobId =>
         {
             LastReportedProcessedJob = jobId;
 
@@ -22,13 +22,13 @@ namespace SuperposeLib.Owin
                 return;
             }
             ReportDelayInProgress = true;
-            Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(n =>
-            {
-                SuperposeSignalRContext.GetHubContext().Clients.All.Processing(LastReportedProcessedJob);
-                var jobStatistics = Storage.JobLoader.GetJobStatistics();
-                SuperposeSignalRContext.GetHubContext().Clients.All.jobStatisticsCompleted(jobStatistics);
-                ReportDelayInProgress = false;
-            });
+         await Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(n =>
+           {
+               SuperposeSignalRContext.GetHubContext().Clients.All.Processing(LastReportedProcessedJob);
+               var jobStatistics = Storage.JobLoader.GetJobStatistics();
+               SuperposeSignalRContext.GetHubContext().Clients.All.jobStatisticsCompleted(jobStatistics);
+               ReportDelayInProgress = false;
+           });
         };
 
         public SuperposeLibServerMiddleware(AppFunc next)
@@ -38,11 +38,8 @@ namespace SuperposeLib.Owin
                                                                new DefaultJobConverterFactory();
             var converter = SuperposeGlobalConfiguration.JobConverterFactory.CretateConverter();
             Storage = SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance());
-            Runner = new QueueJobRunner(Storage, converter);// new DefaultJobRunner(Storage, converter);
-            Task.Delay(TimeSpan.FromMilliseconds(10)).ContinueWith(c =>
-            {
-                Runner.Run(UiNotifyer, UiNotifyer);
-            });
+            Runner =  new DefaultJobRunner(Storage, converter);
+            Runner.RunAsync(UiNotifyer, UiNotifyer);
         }
 
         public static IJobStorage Storage { get; set; }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Superpose.JobRunnerInterface;
@@ -62,7 +63,7 @@ namespace SuperposeLib.Tests
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
                 IJobRunner runner = new DefaultJobRunner(storage, converter);
-                runner.Run(null, null);
+                runner.RunAsync(null, null);
                 var existingResult = factory.GetJobLoad(jobId);
                 Assert.AreEqual(existingResult.JobStateTypeName,
                     Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
@@ -84,9 +85,9 @@ namespace SuperposeLib.Tests
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                 var runner = new DefaultJobRunner(storage, converter);
-                var result = runner.Run(null, null);
-
-                Assert.IsTrue(result);
+                var result = runner.RunAsync(null, null);
+                Task.WaitAll(result);
+                Assert.IsTrue(result.Result);
                 var existingResult = factory.GetJobLoad(jobId);
 
                 Assert.AreEqual(existingResult.JobTypeFullName,
@@ -116,14 +117,15 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.GetJobStorage(Guid.NewGuid().ToString()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                const int noOfJobs = 10;
+                const int noOfJobs = 4;
                 for (var j = 1; j <= noOfJobs; j++)
                 {
                     var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
 
                     var runner = new DefaultJobRunner(storage, converter);
-                    var result = runner.Run(null, null);
-                    Assert.IsTrue(result);
+                    var result = runner.RunAsync(null, null);
+                    Task.WaitAll(result);
+                    Assert.IsTrue(result.Result);
                     var existingResult = factory.GetJobLoad(jobId);
 
                     Assert.AreEqual(existingResult.JobTypeFullName,
@@ -155,16 +157,17 @@ namespace SuperposeLib.Tests
             using (var storage = StorageFactory.GetJobStorage(Guid.NewGuid().ToString()))
             {
                 IJobFactory factory = new JobFactory(storage, converter);
-                const int noOfJobs = 10;
+                const int noOfJobs = 4;
                 for (var j = 1; j <= noOfJobs; j++)
                 {
                     var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
-                    const int noOfCircles = 10;
+                    const int noOfCircles = 4;
                     for (var i = 1; i <= noOfCircles; i++)
                     {
                         var runner = new DefaultJobRunner(storage, converter);
-                        var result = runner.Run(null, null);
-                        Assert.IsTrue(result);
+                        var result = runner.RunAsync(null, null);
+                        Task.WaitAll(result);
+                        Assert.IsTrue(result.Result);
                         var existingResult = factory.GetJobLoad(jobId);
 
                         Assert.AreEqual(existingResult.JobTypeFullName,

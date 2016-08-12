@@ -14,78 +14,75 @@ namespace SuperposeLib.Owin
 {
     public class SuperposeLibHub : Hub
     {
-     
-
         private static SlimActor<object, bool> HubActor { set; get; }
 
-      
-        public void ClientsAll(object data, Action<object> opeartion )
+        public async Task<bool> ClientsAll(object data, Action<object> opeartion)
         {
             //  opeartion(data);
             HubActor = HubActor ?? new SlimActor<object, bool>();
-            Task.WaitAll(HubActor.Ask(data, (d) =>
-            {
-                try
-                {
-                    opeartion(d);
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-                return Task.FromResult(true);
-            }, null));
+            return await HubActor.Ask(data, async (d) =>
+             {
+                 try
+                 {
+                     opeartion(d);
+                 }
+                 catch (Exception e)
+                 {
+                     throw;
+                 }
+                 return await Task.FromResult(true);
+             }, null);
         }
 
-        public void GetCurrentQueue()
+        public async Task<bool> GetCurrentQueue()
         {
-            ClientsAll(SuperposeGlobalConfiguration.JobQueue, (o) =>
-            {
-                Clients.All.currentQueue(o);
-            });
+            return await ClientsAll(SuperposeGlobalConfiguration.JobQueue, (o) =>
+             {
+                 Clients.All.currentQueue(o);
+             });
             //  Clients.All.currentQueue(SuperposeGlobalConfiguration.JobQueue);
         }
 
-        public void GetCurrentProcessingState()
+        public async Task<bool> GetCurrentProcessingState()
         {
-            ClientsAll(SuperposeGlobalConfiguration.StopProcessing, (o) =>
-            {
-                Clients.All.currentProcessingState(o);
-            });
-           
-          //  Clients.All.currentProcessingState(SuperposeGlobalConfiguration.StopProcessing);
+            return await ClientsAll(SuperposeGlobalConfiguration.StopProcessing, (o) =>
+             {
+                 Clients.All.currentProcessingState(o);
+             });
+
+            //  Clients.All.currentProcessingState(SuperposeGlobalConfiguration.StopProcessing);
         }
 
-        public void StopProcessing(bool shouldStop)
+        public async Task<bool> StopProcessing(bool shouldStop)
         {
             SuperposeGlobalConfiguration.StopProcessing = shouldStop;
-            GetCurrentProcessingState();
+            return await GetCurrentProcessingState();
         }
 
-        public void SetQueueMaxNumberOfJobsPerLoad(int maxNumberOfJobsPerLoad)
+        public async Task<bool> SetQueueMaxNumberOfJobsPerLoad(int maxNumberOfJobsPerLoad)
         {
             SuperposeGlobalConfiguration.JobQueue.MaxNumberOfJobsPerLoad = maxNumberOfJobsPerLoad;
-            GetCurrentQueue();
+            return await GetCurrentQueue();
         }
 
-        public void SetQueueStorgePollSecondsInterval(int storgePollSecondsInterval)
+        public async Task<bool> SetQueueStorgePollSecondsInterval(int storgePollSecondsInterval)
         {
             SuperposeGlobalConfiguration.JobQueue.StorgePollSecondsInterval = storgePollSecondsInterval;
-            GetCurrentQueue();
+            return await GetCurrentQueue();
         }
 
-        public void SetQueueWorkerPoolCount(int workerPoolCount)
+        public async Task<bool> SetQueueWorkerPoolCount(int workerPoolCount)
         {
             SuperposeGlobalConfiguration.JobQueue.WorkerPoolCount = workerPoolCount;
-            GetCurrentQueue();
+            return await GetCurrentQueue();
         }
 
         public void QueueSampleJob()
         {
-                 const int total = 100000;
-                    for (var i = 0; i < total; i++)
-                    {
-                        JobHandler.EnqueueJob(c => new List<string>
+            const int total = 100000;
+            for (var i = 0; i < total; i++)
+            {
+                JobHandler.EnqueueJob(c => new List<string>
                         {
                             c.EnqueueJob(new MyQueue(), () => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up")),
@@ -98,39 +95,39 @@ namespace SuperposeLib.Owin
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up"))
-                        },EnqueueStrategy.Cpu);
-                    
-                    }
-            
+                        }, EnqueueStrategy.Cpu);
+
+            }
+
         }
 
-        public void LoadJobsByJobStateTypeAndQueue(string stateType, int take = 20, int skip = 0, string queue = null)
+        public async Task<bool> LoadJobsByJobStateTypeAndQueue(string stateType, int take = 20, int skip = 0, string queue = null)
         {
             using (
                 var storage =
                     SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(
                         SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
-                var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue ?? typeof (DefaultJobQueue).Name,
-                    (JobStateType) Enum.Parse(typeof (JobStateType), stateType, true), take, skip);
+                var jobs = storage.JobLoader.LoadJobsByJobStateTypeAndQueue(queue ?? typeof(DefaultJobQueue).Name,
+                    (JobStateType)Enum.Parse(typeof(JobStateType), stateType, true), take, skip);
 
-                ClientsAll(jobs ?? new List<SerializableJobLoad>(), (o) =>
-                {
-                    Clients.All.jobsList(o);
-                });
-               // Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
+                return await ClientsAll(jobs ?? new List<SerializableJobLoad>(), (o) =>
+                 {
+                     Clients.All.jobsList(o);
+                 });
+                // Clients.All.jobsList(jobs ?? new List<SerializableJobLoad>());
             }
         }
 
-        public void LoadJobsByQueue(int take = 20, int skip = 0, string queue = null)
+        public async Task<bool> LoadJobsByQueue(int take = 20, int skip = 0, string queue = null)
         {
             using (
                 var storage =
                     SuperposeGlobalConfiguration.StorageFactory.GetJobStorage(
                         SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
-                var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof (DefaultJobQueue).Name, take, skip);
-                ClientsAll(jobs ?? new List<SerializableJobLoad>(), (o) =>
+                var jobs = storage.JobLoader.LoadJobsByQueue(queue ?? typeof(DefaultJobQueue).Name, take, skip);
+                return await ClientsAll(jobs ?? new List<SerializableJobLoad>(), (o) =>
                 {
                     Clients.All.jobsList(o);
                 });
@@ -138,7 +135,7 @@ namespace SuperposeLib.Owin
             }
         }
 
-        public void GetJobStatistics()
+        public async Task<bool> GetJobStatistics()
         {
             using (
                 var storage =
@@ -146,10 +143,10 @@ namespace SuperposeLib.Owin
                         SuperposeGlobalConfiguration.StorageFactory.GetCurrentExecutionInstance()))
             {
                 var jobStatistics = storage.JobLoader.GetJobStatistics();
-                ClientsAll(jobStatistics, (o) =>
-                {
-                    Clients.All.jobStatisticsCompleted(o);
-                });
+                return await ClientsAll(jobStatistics, (o) =>
+                 {
+                     Clients.All.jobStatisticsCompleted(o);
+                 });
                 //  Clients.All.jobStatisticsCompleted(jobStatistics);
             }
         }
@@ -177,9 +174,9 @@ namespace SuperposeLib.Owin
 
         protected override void Execute()
         {
-            if (DateTime.Now.Second%19 == 0)
+            if (DateTime.Now.Second % 19 == 0)
                 throw new Exception();
-            
+
         }
     }
 
