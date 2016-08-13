@@ -53,7 +53,7 @@ namespace SuperposeLib.Tests
         {
             var jobs = new List<string>();
             var converter = ConverterFactory.CretateConverter();
-            const int totalNumberOfJobs = 10000;
+            const int totalNumberOfJobs = 100;
             PlaceJobs(totalNumberOfJobs, converter, jobs);
         }
 
@@ -62,7 +62,7 @@ namespace SuperposeLib.Tests
         {
             var jobs = new List<string>();
             var converter = ConverterFactory.CretateConverter();
-            const int totalNumberOfJobs = 1000;
+            const int totalNumberOfJobs = 100;
             PlaceJobs(totalNumberOfJobs, converter, jobs);
             ProcessJobs(converter);
         }
@@ -72,7 +72,7 @@ namespace SuperposeLib.Tests
         {
             var jobs = new List<string>();
             var converter = ConverterFactory.CretateConverter();
-            const int totalNumberOfJobs = 1000;
+            const int totalNumberOfJobs = 100;
             PlaceJobs(totalNumberOfJobs, converter, jobs);
             ProcessJobs(converter);
             ValidatingJobs(converter, jobs);
