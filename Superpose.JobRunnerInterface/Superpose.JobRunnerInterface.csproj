@@ -46,10 +46,6 @@
     <Compile Include="QueueJobRunner.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Superpose.SlimActorLib\Superpose.SlimActorLib.csproj">
-      <Project>{CBBA37DB-95B6-47E7-9102-359D0E60460D}</Project>
-      <Name>Superpose.SlimActorLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
       <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>
       <Name>Superpose.StorageInterface</Name>

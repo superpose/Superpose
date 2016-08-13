@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Superpose.SlimActorLib;
+
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
 using SuperposeLib.Core;
@@ -23,7 +23,7 @@ namespace Superpose.JobRunnerInterface
             _jobStorage = jobStorage;
             _jobConverter = jobConverter;
             _time = time;
-         //   ProcessActor = ProcessActor ?? new SlimActor<TimeSpan, bool>(1);
+         //   ProcessActor = ProcessActor ?? new MiniActor<TimeSpan, bool>(1);
         }
 
         public Timer Timer { set; get; }
@@ -33,7 +33,7 @@ namespace Superpose.JobRunnerInterface
             Timer.Dispose();
         }
 
-       // private static SlimActor<TimeSpan, bool> ProcessActor { set; get; }
+       // private static MiniActor<TimeSpan, bool> ProcessActor { set; get; }
         public bool Run(Action<string> onRunning, Action<string> runningCompleted)
         {
             JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);

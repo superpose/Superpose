@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Superpose.SlimActorLib;
+
 using Superpose.StorageInterface;
 using Superpose.StorageInterface.Converters;
 using SuperposeLib.Core.Jobs;
@@ -12,6 +12,7 @@ using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
+using MiniActor;
 
 namespace SuperposeLib.Core
 {
@@ -34,7 +35,7 @@ namespace SuperposeLib.Core
 
         public static string RunMethodName { set; get; }
 
-        private static SlimActor<JobScheduleContainer, string> EnqueueActor { set; get; }
+        private static MiniActor<JobScheduleContainer, string> EnqueueActor { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
 
@@ -97,7 +98,7 @@ namespace SuperposeLib.Core
         public string ScheduleJob(JobScheduleContainer container,
             EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            EnqueueActor = EnqueueActor ?? new SlimActor<JobScheduleContainer, string>(1);
+            EnqueueActor = EnqueueActor ?? new MiniActor<JobScheduleContainer, string>(1);
 
             container.JobId = Guid.NewGuid().ToString();
 
@@ -116,25 +117,25 @@ namespace SuperposeLib.Core
                     break;
                 case EnqueueStrategy.Queue:
 
-                    var task1 = EnqueueActor.Tell(container, c =>
+                    var task1 =  EnqueueActor.Tell(container,async (c, stateHandler) =>
                     {
                         var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
-                            container.JobId);
+                            c.JobId);
                         JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
 
-                        return Task.FromResult(result.JobLoad.Id);
+                        return await Task.FromResult(result.JobLoad.Id);
                     }, null);
 
                     Task.WaitAll(task1);
                     break;
                 case EnqueueStrategy.QueueCpu:
-                    var task = EnqueueActor.Ask(container, c =>
+                    var task = EnqueueActor.Ask(container, async (c, stateHandler) =>
                     {
                         var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
-                            container.JobId);
+                            c.JobId);
                         JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
 
-                        return Task.FromResult(result.JobLoad.Id);
+                        return await Task.FromResult(result.JobLoad.Id);
                     }, null);
 
                     Task.WaitAll(task);

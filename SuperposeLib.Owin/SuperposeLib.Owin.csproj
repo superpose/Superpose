@@ -100,6 +100,10 @@
       <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MiniActor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MiniActor.0.0.1\lib\MiniActor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -165,10 +169,6 @@
     <ProjectReference Include="..\Superpose.JobRunnerInterface\Superpose.JobRunnerInterface.csproj">
       <Project>{7E7E56CB-713F-4888-AE72-C01FBED7B9EA}</Project>
       <Name>Superpose.JobRunnerInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Superpose.SlimActorLib\Superpose.SlimActorLib.csproj">
-      <Project>{CBBA37DB-95B6-47E7-9102-359D0E60460D}</Project>
-      <Name>Superpose.SlimActorLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Superpose.StorageInterface\Superpose.StorageInterface.csproj">
       <Project>{AC70DC92-0AF9-428A-8B5A-AAC3183172B9}</Project>

@@ -5,22 +5,22 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using Superpose.SlimActorLib;
+
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
-
+using MiniActor;
 
 namespace SuperposeLib.Owin
 {
     public class SuperposeLibHub : Hub
     {
-        private static SlimActor<object, bool> HubActor { set; get; }
+        private static MiniActor<object, bool> HubActor { set; get; }
 
         public async Task<bool> ClientsAll(object data, Action<object> opeartion)
         {
             //  opeartion(data);
-            HubActor = HubActor ?? new SlimActor<object, bool>();
-            return await HubActor.Ask(data, async (d) =>
+            HubActor = HubActor ?? new MiniActor<object, bool>();
+            return await HubActor.Ask(data, async (d,stateHandler) =>
              {
                  try
                  {

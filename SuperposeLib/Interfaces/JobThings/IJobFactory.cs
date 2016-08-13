@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
 using SuperposeLib.Models;
@@ -25,7 +26,7 @@ namespace SuperposeLib.Interfaces.JobThings
         string ScheduleJob(Type type, AJobCommand command = null, DateTime? scheduleTime = null,
            JobQueue jobQueue = null, List<string> nextJob = null, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown);
 
-        string ScheduleJob(JobScheduleContainer container, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown);
+       string ScheduleJob(JobScheduleContainer container, EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown);
 
         SerializedJobLoad PrepareScheduleJob(Type jobType, AJobCommand command = null, DateTime? scheduleTime = null,
             JobQueue jobQueue = null, List<string> nextJob = null, string jobId = null);
