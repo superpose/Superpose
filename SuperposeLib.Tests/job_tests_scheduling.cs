@@ -21,7 +21,7 @@ namespace SuperposeLib.Tests
             {
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.ScheduleJob(typeof (TestJob), null, DateTime.UtcNow.AddSeconds(3));
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 var result = factory.ProcessJob(jobId);
                 Assert.IsNotNull(result);
 

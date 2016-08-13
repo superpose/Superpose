@@ -10,6 +10,6 @@ namespace Superpose.StorageInterface
         public static IJobStoragefactory StorageFactory { set; get; }
         public static bool StopProcessing { get; set; }
 
-        public static EnqueueStrategy DefaultEnqueueStrategy = EnqueueStrategy.QueueCpu;
+        public static EnqueueStrategy DefaultEnqueueStrategy = EnqueueStrategy.WaitForResult;
     }
 }

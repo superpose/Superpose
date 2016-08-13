@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Superpose.StorageInterface;
@@ -7,6 +8,7 @@ using Superpose.StorageInterface.Converters;
 using SuperposeLib.Core;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
+using MiniActor;
 
 namespace Superpose.JobRunnerInterface
 {
@@ -15,12 +17,14 @@ namespace Superpose.JobRunnerInterface
         private readonly IJobConverter _jobConverter;
         private readonly IJobStorage _jobStorage;
         private readonly ITime _time;
-
+        private MiniActor<string, bool> RunActor = new MiniActor<string,bool>();
+        private MiniActor<string, List<string>> QueryActor = new MiniActor<string, List<string>>();
         public DefaultJobRunner(IJobStorage jobStorage, IJobConverter jobConverter, ITime time = null)
         {
             _jobStorage = jobStorage;
             _jobConverter = jobConverter;
             _time = time;
+            JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
         }
 
         public Timer Timer { set; get; }
@@ -33,7 +37,6 @@ namespace Superpose.JobRunnerInterface
 
         public async Task<bool> RunAsync(Action<string> onRunning, Action<string> runningCompleted)
         {
-            JobFactory = new JobFactory(_jobStorage, _jobConverter, _time);
             var queueName = SuperposeGlobalConfiguration.JobQueue.GetType().Name;
             var queue = SuperposeGlobalConfiguration.JobQueue;
 
@@ -45,14 +48,23 @@ namespace Superpose.JobRunnerInterface
                 var jobsIds = new List<string>();
                 if (!SuperposeGlobalConfiguration.StopProcessing)
                 {
-                    jobsIds = JobFactory
-                        .JobStorage
-                        .JobLoader
-                        .LoadJobIdsByJobStateTypeAndTimeToRun(queueName,
-                            JobStateType.Queued,
-                            JobFactory.Time.MinValue,
-                            JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
+
+                jobsIds =  await QueryActor.Ask(queueName,async (m) => await  Task.FromResult(JobFactory
+                    .JobStorage
+                    .JobLoader
+                    .LoadJobIdsByJobStateTypeAndTimeToRun(m,
+                        JobStateType.Queued,
+                        JobFactory.Time.MinValue,
+                        JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0)));
                     hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
+                    //jobsIds = JobFactory
+                    //    .JobStorage
+                    //    .JobLoader
+                    //    .LoadJobIdsByJobStateTypeAndTimeToRun(queueName,
+                    //        JobStateType.Queued,
+                    //        JobFactory.Time.MinValue,
+                    //        JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0);
+                    //hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
                 }
 
 
@@ -69,7 +81,16 @@ namespace Superpose.JobRunnerInterface
                         CancellationToken = cts.Token,
                         MaxDegreeOfParallelism = queue.WorkerPoolCount
                     };
-                    ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
+
+                    await Task.WhenAll(jobsIds.Select( x => RunActor.Ask(x, async (m) =>
+                    {
+                        if (!SuperposeGlobalConfiguration.StopProcessing)
+                        {
+                            DoSomeWork(onRunning, runningCompleted, m);
+                        }
+                        return await Task.FromResult(true);
+                    })));
+                   // ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
                  await   RunAsync(onRunning, runningCompleted);
                 }
 

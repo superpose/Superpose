@@ -4,10 +4,10 @@ namespace Superpose.StorageInterface
     {
         Unknown = 0,
         //inline
-        Cpu,
+       // Cpu,
         //tell
         Queue,
         //ask
-        QueueCpu
+        WaitForResult
     }
 }

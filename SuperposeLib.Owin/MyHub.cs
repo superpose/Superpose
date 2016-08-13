@@ -95,7 +95,7 @@ namespace SuperposeLib.Owin
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up"))
-                        }, EnqueueStrategy.Cpu);
+                        }, EnqueueStrategy.WaitForResult);
 
             }
 

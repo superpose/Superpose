@@ -28,6 +28,7 @@ namespace SuperposeLib.Core
             JobStorage = jobStorage;
 
             MaxWaitSecondsBeforeOverridingCurrentProcessingJob = 2*60;
+            EnqueueActor = new MiniActor<JobScheduleContainer, string>();
         }
 
         public int MaxWaitSecondsBeforeOverridingCurrentProcessingJob { set; get; }
@@ -98,8 +99,7 @@ namespace SuperposeLib.Core
         public string ScheduleJob(JobScheduleContainer container,
             EnqueueStrategy enqueueStrategy = EnqueueStrategy.Unknown)
         {
-            EnqueueActor = EnqueueActor ?? new MiniActor<JobScheduleContainer, string>(1);
-
+            
             container.JobId = Guid.NewGuid().ToString();
 
             if (enqueueStrategy == EnqueueStrategy.Unknown)
@@ -109,12 +109,12 @@ namespace SuperposeLib.Core
 
             switch (enqueueStrategy)
             {
-                case EnqueueStrategy.Cpu:
-                    var result1 = PrepareScheduleJob(container.JobType, container.Command, container.ScheduleTime,
-                        container.JobQueue, container.NextJob);
-                    JobStorage.JobSaver.SaveNew(result1.JobLoadString, result1.JobLoad.Id);
+                //case EnqueueStrategy.Cpu:
+                //    var result1 = PrepareScheduleJob(container.JobType, container.Command, container.ScheduleTime,
+                //        container.JobQueue, container.NextJob);
+                //    JobStorage.JobSaver.SaveNew(result1.JobLoadString, result1.JobLoad.Id);
 
-                    break;
+                //    break;
                 case EnqueueStrategy.Queue:
 
                     var task1 =  EnqueueActor.Tell(container,async (c, stateHandler) =>
@@ -128,7 +128,7 @@ namespace SuperposeLib.Core
 
                     Task.WaitAll(task1);
                     break;
-                case EnqueueStrategy.QueueCpu:
+                case EnqueueStrategy.WaitForResult:
                     var task = EnqueueActor.Ask(container, async (c, stateHandler) =>
                     {
                         var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,

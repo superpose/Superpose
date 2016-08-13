@@ -63,7 +63,7 @@ namespace SuperposeLib.Tests
                 IJobFactory factory = new JobFactory(storage, converter);
                 var jobId = factory.QueueJob(typeof (TestJobThatPassesAfter2Tryals));
                 IJobRunner runner = new DefaultJobRunner(storage, converter);
-                runner.RunAsync(null, null);
+                Task.WaitAll(runner.RunAsync(null, null));
                 var existingResult = factory.GetJobLoad(jobId);
                 Assert.AreEqual(existingResult.JobStateTypeName,
                     Enum.GetName(typeof (JobStateType), JobStateType.Successfull));
