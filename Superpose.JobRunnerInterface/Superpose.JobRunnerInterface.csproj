@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MiniActor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MiniActor.0.0.3\lib\MiniActor.dll</HintPath>
+      <HintPath>..\packages\MiniActor.0.1.0\lib\MiniActor.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
