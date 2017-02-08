@@ -4,9 +4,9 @@ namespace Superpose.Storage.LiteDB
 {
     public class LiteDBStorageResetter : IJobStorageReseter
     {
-        public void ReSet()
+        public void ReSet(string instanceId)
         {
-            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            LiteDbCollectionsFactory.UseLiteDatabase(instanceId, jobLoadCollection =>
             {
                 foreach (var jobLoadCollectionEntity in jobLoadCollection.FindAll())
                 {

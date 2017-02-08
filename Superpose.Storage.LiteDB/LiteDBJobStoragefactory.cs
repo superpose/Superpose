@@ -16,10 +16,10 @@ namespace Superpose.Storage.LiteDB
 
         public IJobStorage GetJobStorage(string instanceId = null)
         {
-            InstanceId = instanceId ?? Guid.Empty.ToString();
+            InstanceId = instanceId ?? Guid.NewGuid().ToString();
             return JobStorage ??
                    (JobStorage =
-                       new LiteDBJobStorage(new LiteDBJobSaver(), new LiteDbJobLoader(), new LiteDBStorageResetter()));
+                       new LiteDBJobStorage(new LiteDBJobSaver(InstanceId), new LiteDbJobLoader(InstanceId), new LiteDBStorageResetter()));
         }
     }
 }

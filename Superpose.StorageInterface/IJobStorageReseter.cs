@@ -2,6 +2,6 @@ namespace Superpose.StorageInterface
 {
     public interface IJobStorageReseter
     {
-        void ReSet();
+        void ReSet(string instanceId);
     }
 }

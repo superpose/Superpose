@@ -18,7 +18,7 @@ namespace Superpose.Storage.InMemory
 
         public IJobStorage GetJobStorage(string instanceId=null)
         {
-            InstanceId = instanceId ?? Guid.Empty.ToString();
+            InstanceId = instanceId ?? Guid.NewGuid().ToString();
             return JobStorage ??
                    (JobStorage =
                        new InMemoryJobStorage(new InMemoryJobSaver(InstanceId), new InMemoryJobLoader(InstanceId), new InMemoryJobResetter(InstanceId)));

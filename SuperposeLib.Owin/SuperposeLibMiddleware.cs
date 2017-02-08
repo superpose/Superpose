@@ -23,7 +23,7 @@ namespace SuperposeLib.Owin
             }
             ReportDelayInProgress = true;
          await Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(n =>
-           {
+           { 
                SuperposeSignalRContext.GetHubContext().Clients.All.Processing(LastReportedProcessedJob);
                var jobStatistics = Storage.JobLoader.GetJobStatistics();
                SuperposeSignalRContext.GetHubContext().Clients.All.jobStatisticsCompleted(jobStatistics);

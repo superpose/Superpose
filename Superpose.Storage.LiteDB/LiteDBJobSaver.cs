@@ -7,8 +7,12 @@ namespace Superpose.Storage.LiteDB
 {
     public class LiteDBJobSaver : IJobSaver
     {
-        public LiteDBJobSaver()
+        public string InstanceId { set; get; }
+
+       
+        public LiteDBJobSaver(string instanceId)
         {
+            InstanceId = instanceId;
             BsonMapper.Global.RegisterType(state => Enum.GetName(typeof (JobStateType), state),
                 bson => (JobStateType) Enum.Parse(typeof (JobStateType), bson)
                 );
@@ -20,7 +24,7 @@ namespace Superpose.Storage.LiteDB
 
         public void SaveNew(string data, string Id)
         {
-            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            LiteDbCollectionsFactory.UseLiteDatabase(InstanceId, jobLoadCollection =>
             {
                 var doc = JsonConvert.DeserializeObject<SerializableJobLoad>(data);
 
@@ -32,7 +36,7 @@ namespace Superpose.Storage.LiteDB
 
         public void Update(string data, string Id)
         {
-            LiteDbCollectionsFactory.UseLiteDatabase(jobLoadCollection =>
+            LiteDbCollectionsFactory.UseLiteDatabase(InstanceId, jobLoadCollection =>
             {
                 var doc = JsonConvert.DeserializeObject<SerializableJobLoad>(data);
                 jobLoadCollection.Update(doc);

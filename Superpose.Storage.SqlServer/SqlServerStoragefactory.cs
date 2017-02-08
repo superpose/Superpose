@@ -16,7 +16,7 @@ namespace Superpose.Storage.SqlServer
 
         public IJobStorage GetJobStorage(string instanceId = null)
         {
-            InstanceId = instanceId ?? Guid.Empty.ToString();
+            InstanceId = instanceId ?? Guid.NewGuid().ToString();
             return JobStorage ??
                    (JobStorage =
                        new SqlServerStorage(new SqlServerJobSaver(), new SqlServerJobLoader(),

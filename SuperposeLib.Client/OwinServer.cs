@@ -26,8 +26,8 @@ namespace SuperposeLib.Client
                 Console.WriteLine(response);
                 Console.WriteLine(response.Content.ReadAsStringAsync().Result);
 
-
-                RunAuthenticationSample();
+                //todo check this
+              //  RunAuthenticationSample();
 
                 Console.ReadLine();
             }

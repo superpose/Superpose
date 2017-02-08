@@ -12,9 +12,9 @@ namespace Superpose.Storage.InMemory
             Instance = instance;
             InMemoryJobStorageMemoryStore.InitializeStoreWithInstance(Instance);
         }
-        public void ReSet()
+        public void ReSet(string instanceId)
         {
-            InMemoryJobStorageMemoryStore.MemoryStore[Instance] = new ConcurrentDictionary<string, SerializableJobLoad>();
+            InMemoryJobStorageMemoryStore.MemoryStore[Instance] = null;// new ConcurrentDictionary<string, SerializableJobLoad>();
         }
     }
 }

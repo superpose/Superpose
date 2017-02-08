@@ -6,14 +6,14 @@ namespace Superpose.Storage.LiteDB
 {
     public class LiteDbCollectionsFactory
     {
-        public static void UseLiteDatabase(Action<LiteCollection<SerializableJobLoad>> dbOPeration)
+        public static void UseLiteDatabase(string instanceId,Action<LiteCollection<SerializableJobLoad>> dbOperation)
         {
-            if (dbOPeration == null) throw new ArgumentNullException(nameof(dbOPeration));
+            if (dbOperation == null) throw new ArgumentNullException(nameof(dbOperation));
 
-            using (var db = new LiteDatabase(@"LITEDB_SUPERPOSE_DB.db"))
+            using (var db = new LiteDatabase(@"LITEDB_SUPERPOSE_DB_"+ instanceId + ".db"))
             {
                 var jobLoadCollection = db.GetCollection<SerializableJobLoad>(typeof (SerializableJobLoad).Name);
-                dbOPeration(jobLoadCollection);
+                dbOperation(jobLoadCollection);
             }
         }
     }
