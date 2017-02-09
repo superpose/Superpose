@@ -8,30 +8,39 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 using Superpose.StorageInterface;
 using SuperposeLib.Core;
-using MiniActor;
+//using MiniActor;
 
 namespace SuperposeLib.Owin
 {
     public class SuperposeLibHub : Hub
     {
-        private static MiniActor<object, bool> HubActor { set; get; }
+        //private static MiniActor<object, bool> HubActor { set; get; }
 
         public async Task<bool> ClientsAll(object data, Action<object> opeartion)
         {
             //  opeartion(data);
-            HubActor = HubActor ?? new MiniActor<object, bool>();
-            return await HubActor.Ask(data, async (d,stateHandler) =>
-             {
-                 try
-                 {
-                     opeartion(d);
-                 }
-                 catch (Exception e)
-                 {
-                     throw;
-                 }
-                 return await Task.FromResult(true);
-             }, null);
+            // HubActor = HubActor ?? new MiniActor<object, bool>();
+            //return await HubActor.Ask(data, async (d,stateHandler) =>
+            // {
+            //     try
+            //     {
+            //         opeartion(d);
+            //     }
+            //     catch (Exception e)
+            //     {
+            //         throw;
+            //     }
+            //     return await Task.FromResult(true);
+            // }, null);
+            try
+            {
+                opeartion(data);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return await Task.FromResult(true);
         }
 
         public async Task<bool> GetCurrentQueue()
@@ -95,7 +104,7 @@ namespace SuperposeLib.Owin
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up")),
                             c.EnqueueJob(() => Console.WriteLine("what up"))
-                        }, EnqueueStrategy.WaitForResult);
+                        }, EnqueueStrategy.Cpu);
 
             }
 

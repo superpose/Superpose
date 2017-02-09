@@ -8,7 +8,7 @@ using Superpose.StorageInterface.Converters;
 using SuperposeLib.Core;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
-using MiniActor;
+//using MiniActor;
 
 namespace Superpose.JobRunnerInterface
 {
@@ -17,8 +17,8 @@ namespace Superpose.JobRunnerInterface
         private readonly IJobConverter _jobConverter;
         private readonly IJobStorage _jobStorage;
         private readonly ITime _time;
-        private MiniActor<string, bool> RunActor = new MiniActor<string,bool>();
-        private MiniActor<string, List<string>> QueryActor = new MiniActor<string, List<string>>();
+        //private MiniActor<string, bool> RunActor = new MiniActor<string,bool>();
+        //private MiniActor<string, List<string>> QueryActor = new MiniActor<string, List<string>>();
         public DefaultJobRunner(IJobStorage jobStorage, IJobConverter jobConverter, ITime time = null)
         {
             _jobStorage = jobStorage;
@@ -49,13 +49,21 @@ namespace Superpose.JobRunnerInterface
                 if (!SuperposeGlobalConfiguration.StopProcessing)
                 {
 
-                jobsIds =  await QueryActor.Ask(queueName,async (m) => await  Task.FromResult(JobFactory
-                    .JobStorage
-                    .JobLoader
-                    .LoadJobIdsByJobStateTypeAndTimeToRun(m,
-                        JobStateType.Queued,
-                        JobFactory.Time.MinValue,
-                        JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0)));
+                    //jobsIds =  await QueryActor.Ask(queueName,async (m) => await  Task.FromResult(JobFactory
+                    //    .JobStorage
+                    //    .JobLoader
+                    //    .LoadJobIdsByJobStateTypeAndTimeToRun(m,
+                    //        JobStateType.Queued,
+                    //        JobFactory.Time.MinValue,
+                    //        JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0)));
+                    jobsIds = await Task.Run(() => JobFactory
+                        .JobStorage
+                        .JobLoader
+                        .LoadJobIdsByJobStateTypeAndTimeToRun(queueName,
+                            JobStateType.Queued,
+                            JobFactory.Time.MinValue,
+                            JobFactory.Time.UtcNow.AddMinutes(1), queue.MaxNumberOfJobsPerLoad, 0));
+
                     hasNoWorkToDo = jobsIds == null || jobsIds.Count == 0;
                     //jobsIds = JobFactory
                     //    .JobStorage
@@ -82,16 +90,29 @@ namespace Superpose.JobRunnerInterface
                         MaxDegreeOfParallelism = queue.WorkerPoolCount
                     };
 
-                    await Task.WhenAll(jobsIds.Select( x => RunActor.Ask(x, async (m) =>
+                    //await Task.WhenAll(jobsIds.Select( x => RunActor.Ask(x, async (m) =>
+                    //{
+                    //    if (!SuperposeGlobalConfiguration.StopProcessing)
+                    //    {
+                    //        DoSomeWork(onRunning, runningCompleted, m);
+                    //    }
+                    //    return await Task.FromResult(true);
+                    //})));
+                    await Task.Run(() =>
                     {
-                        if (!SuperposeGlobalConfiguration.StopProcessing)
+
+                        jobsIds.ForEach(x =>
                         {
-                            DoSomeWork(onRunning, runningCompleted, m);
-                        }
-                        return await Task.FromResult(true);
-                    })));
-                   // ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
-                 await   RunAsync(onRunning, runningCompleted);
+                            if (!SuperposeGlobalConfiguration.StopProcessing)
+                            {
+                                DoSomeWork(onRunning, runningCompleted, x);
+                            }
+
+                        });
+
+                    });
+                    // ParallelDoSomeWork(onRunning, runningCompleted, jobsIds, po, cts);
+                    await   RunAsync(onRunning, runningCompleted);
                 }
 
                 return true;

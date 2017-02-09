@@ -8,6 +8,7 @@ namespace Superpose.StorageInterface
         //tell
         Queue,
         //ask
-        WaitForResult
+        WaitForResult,
+        Cpu
     }
 }

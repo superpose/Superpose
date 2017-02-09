@@ -12,7 +12,7 @@ using SuperposeLib.Extensions;
 using SuperposeLib.Interfaces;
 using SuperposeLib.Interfaces.JobThings;
 using SuperposeLib.Models;
-using MiniActor;
+//using MiniActor;
 
 namespace SuperposeLib.Core
 {
@@ -28,7 +28,7 @@ namespace SuperposeLib.Core
             JobStorage = jobStorage;
 
             MaxWaitSecondsBeforeOverridingCurrentProcessingJob = 2*60;
-            EnqueueActor = new MiniActor<JobScheduleContainer, string>();
+           // EnqueueActor = new MiniActor<JobScheduleContainer, string>();
         }
 
         public int MaxWaitSecondsBeforeOverridingCurrentProcessingJob { set; get; }
@@ -36,7 +36,7 @@ namespace SuperposeLib.Core
 
         public static string RunMethodName { set; get; }
 
-        private static MiniActor<JobScheduleContainer, string> EnqueueActor { set; get; }
+        //private static MiniActor<JobScheduleContainer, string> EnqueueActor { set; get; }
         public ITime Time { set; get; }
         public IJobStorage JobStorage { get; set; }
 
@@ -109,36 +109,32 @@ namespace SuperposeLib.Core
 
             switch (enqueueStrategy)
             {
-                //case EnqueueStrategy.Cpu:
-                //    var result1 = PrepareScheduleJob(container.JobType, container.Command, container.ScheduleTime,
-                //        container.JobQueue, container.NextJob);
-                //    JobStorage.JobSaver.SaveNew(result1.JobLoadString, result1.JobLoad.Id);
+                case EnqueueStrategy.Cpu:
+                    var result = PrepareScheduleJobAndSaveNew(container);
 
-                //    break;
+                    break;
                 case EnqueueStrategy.Queue:
 
-                    var task1 =  EnqueueActor.Tell(container,async (c, stateHandler) =>
-                    {
-                        var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
-                            c.JobId);
-                        JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
+                    //var task1 =  EnqueueActor.Tell(container,async (c, stateHandler) =>
+                    //{
+                    //    var result1 = PrepareScheduleJobAndSaveNew(c);
 
-                        return await Task.FromResult(result.JobLoad.Id);
-                    }, null);
-
-                    Task.WaitAll(task1);
+                    //    return await Task.FromResult(result1.JobLoad.Id);
+                    //}, null);
+                    // Task.WaitAll(task1);
+                    Task.Run(() => PrepareScheduleJobAndSaveNew(container));
+                   
                     break;
                 case EnqueueStrategy.WaitForResult:
-                    var task = EnqueueActor.Ask(container, async (c, stateHandler) =>
-                    {
-                        var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
-                            c.JobId);
-                        JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
+                    //var task = EnqueueActor.Ask(container, async (c, stateHandler) =>
+                    //{
+                    //    var result2 = PrepareScheduleJobAndSaveNew(c);
 
-                        return await Task.FromResult(result.JobLoad.Id);
-                    }, null);
+                    //    return await Task.FromResult(result2.JobLoad.Id);
+                    //}, null);
 
-                    Task.WaitAll(task);
+                    //Task.WaitAll(task);
+                    Task.WaitAll(Task.Run(() => PrepareScheduleJobAndSaveNew(container)));
                     break;
                 case EnqueueStrategy.Unknown:
                     break;
@@ -148,6 +144,14 @@ namespace SuperposeLib.Core
 
 
             return container.JobId;
+        }
+
+        private SerializedJobLoad PrepareScheduleJobAndSaveNew(JobScheduleContainer c)
+        {
+            var result = PrepareScheduleJob(c.JobType, c.Command, c.ScheduleTime, c.JobQueue, c.NextJob,
+                c.JobId);
+            JobStorage.JobSaver.SaveNew(result.JobLoadString, result.JobLoad.Id);
+            return result;
         }
 
 
